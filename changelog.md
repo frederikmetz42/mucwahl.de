@@ -1,5 +1,31 @@
 # Changelog
 
+## v4.9.8 — 2026-03-03
+### Reddit-Feedback
+- Kompass: Hinweis ergänzt, dass Kompass-Nähe und Prozent-Rangliste verschiedene Dinge messen
+- Background-Texte: 5 asymmetrische Parteiennennungen neutralisiert (T4, T12, T19, T21, T22)
+- 6 Positionen umkodiert (val 1→0): CSU T15, Grüne T7, Volt T22, München-Liste T24, SPD T7, SPD T10 ("prüfen"/"vorbereiten"/"gezielt" ≠ Zustimmung)
+- Methodik-Seite: Limitation der "auch wenn"-Klauseln ehrlich dokumentiert (Framing-Bias durch Preiswahl)
+- 7 fehlende "auch wenn"-Klauseln ergänzt: T2, T10, T11, T14, T19, T22, T23 (jetzt 25/25)
+
+## v4.9.7 — 2026-03-03
+### Datenlücken + Polish
+- Bayernpartei: 12 fehlende Thesen ergänzt (T1, T3, T5, T7, T8, T10, T11, T12, T13, T14, T15, T22), jetzt alle 25 Thesen abgedeckt
+- Bündnis Kultur: `partial`-Flag + "unvollständig"-Badge in Ergebnis-Liste und Modal (kein Wahlprogramm veröffentlicht, nur 5 Thesen)
+- 4 leere Zitate ergänzt: SPD T20 (Gendersprache), Die PARTEI T2 (Autofreie Altstadt), Rosa Liste T20 (Gendersprache), München-Liste T24 (Bezahlkarte)
+- Share-Sheet: Focus-Trap für Tab-Navigation (gleiche Logik wie Modal)
+- trapFocus() generisch umgebaut (nutzt event.currentTarget statt hardcoded Modal-ID)
+- Surprise-Card: Emoji-Lightbulb durch Canvas-Stern ersetzt (plattformunabhängig)
+- embed.html: Version 4.3 → 4.9.7
+
+## v4.9.6 — 2026-03-02
+### Cockpit: Google Ads Day-by-Day
+- Cockpit: Colour-coded Day-by-Day Performance table (5 Tage, Feb 26 - Mar 2)
+- CTR/CPC farbcodiert (grün/gelb/rot nach Schwellenwerten)
+- Spend-Balken proportional zum Tagesbudget (€30)
+- Mar 1 hervorgehoben: 3.5x Budget Badge (€104.60), Gradient-Bar
+- Legende mit Schwellenwerten + Budget-Referenz
+
 ## v4.9.5 — 2026-03-02
 ### Methodik-Seite + Grüne-Outreach
 - T20 (Gendersprache): Neues Statement "geschlechtergerechte Sprache nutzen, auch wenn nicht den amtlichen Rechtschreibregeln entspricht" + Background (Bayern-Verbot, München gendert weiter)

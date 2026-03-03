@@ -28,7 +28,7 @@ window.WAHLOMAT_DATA = {
       "id": 11,
       "topic": "Bauen, Klima & Stadtplanung",
       "short_title": "SEM/Neubaugebiete",
-      "statement": "Die Stadt soll am Stadtrand (Feldmoching/Daglfing) Ackerflächen für den Bau Tausender neuer Wohnungen nutzen.",
+      "statement": "Die Stadt soll am Stadtrand (Feldmoching/Daglfing) Ackerflächen für den Bau Tausender neuer Wohnungen nutzen, auch wenn dabei die letzten landwirtschaftlichen Flächen im Stadtgebiet dauerhaft versiegelt werden.",
       "background": "Die SEM Nordost (600 Hektar bei Daglfing) soll ab den 2030ern Platz für ca. 30.000 Bewohner und 10.000 Arbeitsplätze schaffen. Die SEM Nord (Feldmoching) ist ebenfalls in Planung. Befürworter sehen dringend benötigten Wohnraum. Kritiker (darunter Landwirte und Naturschützer) warnen vor Flächenversiegelung und dem Verlust der letzten Ackerflächen im Stadtgebiet.",
       "axes": {
         "x": 0.5,
@@ -65,7 +65,7 @@ window.WAHLOMAT_DATA = {
       "topic": "Gesellschaft, Migration & Sicherheit",
       "short_title": "Videoüberwachung",
       "statement": "An Kriminalitätsschwerpunkten (z.B. Hauptbahnhof) soll die Stadt verstärkt Videoüberwachung einsetzen, auch wenn dabei KI-gestützte Auswertung und Gesichtserkennung zum Einsatz kommen könnten.",
-      "background": "Am Hauptbahnhof gibt es bereits Bundespolizei-Kameras sowie seit 2025 mobile Videotürme mit 360°-Panorama. Befürworter fordern gezielt mehr Kameras an Brennpunkten. Kritiker warnen vor dem Schritt zu automatisierter Gesichtserkennung und KI-Massenüberwachung im öffentlichen Raum. Die Grüne und Volt lehnen das explizit ab.",
+      "background": "Am Hauptbahnhof gibt es bereits Bundespolizei-Kameras sowie seit 2025 mobile Videotürme mit 360°-Panorama. Befürworter fordern gezielt mehr Kameras an Brennpunkten. Kritiker warnen vor dem Schritt zu automatisierter Gesichtserkennung und KI-Massenüberwachung im öffentlichen Raum.",
       "axes": {
         "x": 0,
         "y": 1
@@ -76,7 +76,7 @@ window.WAHLOMAT_DATA = {
       "id": 2,
       "topic": "Mobilität & Verkehr",
       "short_title": "Autofreie Altstadt",
-      "statement": "Der private Autoverkehr innerhalb des Altstadtrings soll stark eingeschränkt werden.",
+      "statement": "Der private Autoverkehr innerhalb des Altstadtrings soll stark eingeschränkt werden, auch wenn Anwohner, Handwerksbetriebe und Lieferverkehr dadurch deutlich eingeschränkt werden.",
       "background": "Der Altstadtring umschließt das historische Zentrum Münchens (Marienplatz, Viktualienmarkt, Residenz). Die Fußgängerzone ist bereits autofrei, aber auf umliegenden Straßen fließt regulärer Autoverkehr. Befürworter wollen mehr Platz für Fußgänger und Gastronomie. Gegner warnen vor Erreichbarkeitsproblemen für Anwohner, Handwerk und Lieferverkehr.",
       "axes": {
         "x": 0,
@@ -88,7 +88,7 @@ window.WAHLOMAT_DATA = {
       "id": 14,
       "topic": "Bauen, Klima & Stadtplanung",
       "short_title": "Klima-Vorrang",
-      "statement": "Wenn die Stadt baut oder plant, soll der Klimaschutz im Zweifel wichtiger sein als die Kosten.",
+      "statement": "Wenn die Stadt baut oder plant, soll der Klimaschutz im Zweifel wichtiger sein als die Kosten, auch wenn dadurch städtische Bauprojekte deutlich teurer werden.",
       "background": "München hat eine Klimaschutzprüfung für alle städtischen Vorhaben eingeführt. In der Praxis entstehen dadurch Zielkonflikte: klimafreundlichere Bauweisen oder Materialien kosten oft mehr. Die Frage ist, ob Klimaschutz bei Zielkonflikten automatisch Vorrang vor dem Budget haben soll oder ob eine Einzelfallabwägung reicht.",
       "axes": {
         "x": -0.6,
@@ -112,7 +112,7 @@ window.WAHLOMAT_DATA = {
       "id": 10,
       "topic": "Wohnen & Mietmarkt",
       "short_title": "Nachverdichtung",
-      "statement": "In Vierteln mit Einfamilienhäusern und Gärten soll der Bau zusätzlicher Wohnungen Vorrang vor dem Erhalt von Grünflächen haben.",
+      "statement": "In Vierteln mit Einfamilienhäusern und Gärten soll der Bau zusätzlicher Wohnungen Vorrang vor dem Erhalt von Grünflächen haben, auch wenn dadurch der Charakter gewachsener Gartenstadtviertel dauerhaft verändert wird.",
       "background": "Viele Münchner Viertel (z.B. Solln, Obermenzing, Trudering) haben Gartenstadtcharakter mit Einfamilienhäusern und viel Grün. Angesichts des Wohnungsmangels wird diskutiert, ob dort nachverdichtet werden soll. Befürworter sehen brachliegendes Potenzial in der teuersten Stadt Deutschlands. Anwohner verteidigen den Charakter ihrer Viertel und warnen vor Überlastung der Infrastruktur.",
       "axes": {
         "x": 0,
@@ -137,7 +137,7 @@ window.WAHLOMAT_DATA = {
       "topic": "Mobilität & Verkehr",
       "short_title": "Tempo 30",
       "statement": "Innerhalb des Mittleren Rings soll Tempo 30 auf deutlich mehr Straßen gelten, auch wenn dies längere Fahrzeiten bedeutet.",
-      "background": "Befürworter fordern Tempo 30 vor allem an Schulwegen, sozialen Einrichtungen und in Wohngebieten (Grüne, SPD, ÖDP). Die Linke will Tempo 30 sogar als Regelgeschwindigkeit, nimmt aber Hauptverkehrsstraßen explizit aus. An der Landshuter Allee gilt bereits gerichtlich angeordnetes Tempo 30 wegen Stickstoffdioxid-Belastung. Kritiker sehen längere Fahrzeiten und Stau-Verlagerung in Wohnstraßen.",
+      "background": "An der Landshuter Allee gilt seit einem Gerichtsurteil Tempo 30 wegen überschrittener Stickstoffdioxid-Grenzwerte. In der Debatte über eine Ausweitung wird Tempo 30 vor allem für Schulwege, soziale Einrichtungen und Wohngebiete gefordert; einzelne Parteien sprechen sich für Tempo 30 als stadtweite Regelgeschwindigkeit aus. Kritiker sehen längere Fahrzeiten und eine Verlagerung des Staus in Wohnstraßen.",
       "axes": {
         "x": 0,
         "y": -0.8
@@ -149,7 +149,7 @@ window.WAHLOMAT_DATA = {
       "topic": "Bauen, Klima & Stadtplanung",
       "short_title": "Hochhäuser",
       "statement": "München soll Büro- und Hotelhochhäuser über 100 Meter (Höhe der Frauenkirche) erlauben, auch wenn dies das Stadtbild verändert.",
-      "background": "Ein Bürgerentscheid 2004 begrenzte Gebäude auf 100 m. Die Bindung ist formell ausgelaufen, wirkt aber als Leitlinie. Betroffen sind vor allem Bürotürme und Prestigeprojekte (z.B. Highlight Towers: 126 m, Büro/Hotel), nicht normale Wohnblöcke (typisch 30-40 m). Linke und ÖDP fordern sogar eine strengere 60-Meter-Grenze. 2023 beschloss der Stadtrat eine Hochhausstudie, die Hochhäuser nach Einzelfallprüfung zulassen soll.",
+      "background": "Ein Bürgerentscheid 2004 begrenzte Gebäude auf 100 m. Die Bindung ist formell ausgelaufen, wirkt aber als Leitlinie. Betroffen sind vor allem Bürotürme und Prestigeprojekte (z.B. Highlight Towers: 126 m, Büro/Hotel), nicht normale Wohnblöcke (typisch 30-40 m). Einige Parteien fordern sogar eine strengere 60-Meter-Grenze. 2023 beschloss der Stadtrat eine Hochhausstudie, die Hochhäuser nach Einzelfallprüfung zulassen soll.",
       "axes": {
         "x": 0.7,
         "y": -0.3
@@ -184,7 +184,7 @@ window.WAHLOMAT_DATA = {
       "id": 23,
       "topic": "Gesellschaft, Migration & Sicherheit",
       "short_title": "Ordnung im öffentlichen Raum",
-      "statement": "Bei Drogenszene und Vermüllung soll die Stadt stärker auf Kontrolle und Ordnungskräfte setzen als auf Sozialarbeit und Hilfsangebote.",
+      "statement": "Bei Drogenszene und Vermüllung soll die Stadt stärker auf Kontrolle und Ordnungskräfte setzen als auf Sozialarbeit und Hilfsangebote, auch wenn Verdrängung die Probleme in andere Viertel verlagern kann.",
       "background": "Rund um den Hauptbahnhof und den Alten Botanischen Garten klagen Anwohner und Gewerbetreibende über Drogenkonsum, Vermüllung und Belästigung. Der Kommunale Außendienst (KAD) patrouilliert seit 2024 dort. Befürworter fordern erweiterte Befugnisse (Platzverweise, Bußgelder) und mehr Präsenz. Gegner argumentieren, dass Obdachlosigkeit und Sucht soziale Probleme sind, die durch Verdrängung nicht gelöst, sondern nur verlagert werden.",
       "axes": {
         "x": 0,
@@ -244,8 +244,8 @@ window.WAHLOMAT_DATA = {
       "id": 22,
       "topic": "Gesellschaft, Migration & Sicherheit",
       "short_title": "Drogenkonsumräume",
-      "statement": "In München sollen staatlich kontrollierte Drogenkonsumräume für Abhängige eingerichtet werden.",
-      "background": "Drogenkonsumräume existieren in Frankfurt, Hamburg und Berlin, aber nicht in Bayern. Die CSU-geführte Landesregierung lehnt sie ab und hat im Mai 2025 ihren restriktiven Kurs bestätigt. München fordert seit 2018 eine Erlaubnis vom Freistaat. Befürworter verweisen auf weniger Drogentote und weniger Spritzen im öffentlichen Raum. Gegner befürchten Signalwirkung und Anlaufstellen für die Szene.",
+      "statement": "In München sollen staatlich kontrollierte Drogenkonsumräume für Abhängige eingerichtet werden, auch wenn dies die Drogenszene in der Umgebung sichtbarer machen könnte.",
+      "background": "Drogenkonsumräume existieren in Frankfurt, Hamburg und Berlin, aber nicht in Bayern. Die bayerische Landesregierung lehnt sie ab und hat im Mai 2025 ihren restriktiven Kurs bestätigt. München fordert seit 2018 eine Erlaubnis vom Freistaat. Befürworter verweisen auf weniger Drogentote und weniger Spritzen im öffentlichen Raum. Gegner befürchten Signalwirkung und Anlaufstellen für die Szene.",
       "axes": {
         "x": 0,
         "y": -0.9
@@ -268,8 +268,8 @@ window.WAHLOMAT_DATA = {
       "id": 19,
       "topic": "Wirtschaft & Finanzen",
       "short_title": "Referate abschaffen",
-      "statement": "Das Mobilitätsreferat und das Klimaschutzreferat sollen wieder abgeschafft und in bestehende Referate integriert werden.",
-      "background": "Die grün-rote Stadtregierung hat 2020/2021 das Mobilitätsreferat und das Referat für Klima- und Umweltschutz neu geschaffen. Befürworter der Abschaffung sehen Doppelstrukturen, zusätzliche Bürokratie und unnötige Personalkosten. Gegner argumentieren, dass eigene Referate Mobilität und Klimaschutz als Querschnittsaufgaben sichtbarer machen und politisch aufwerten, was ohne sie in größeren Referaten untergehen würde.",
+      "statement": "Das Mobilitätsreferat und das Klimaschutzreferat sollen wieder abgeschafft und in bestehende Referate integriert werden, auch wenn Mobilität und Klimaschutz damit als politische Prioritäten an Sichtbarkeit verlieren.",
+      "background": "Der Stadtrat hat 2020/2021 das Mobilitätsreferat und das Referat für Klima- und Umweltschutz neu geschaffen. Befürworter der Abschaffung sehen Doppelstrukturen, zusätzliche Bürokratie und unnötige Personalkosten. Gegner argumentieren, dass eigene Referate Mobilität und Klimaschutz als Querschnittsaufgaben sichtbarer machen und politisch aufwerten, was ohne sie in größeren Referaten untergehen würde.",
       "axes": {
         "x": 0.8,
         "y": 0.6
@@ -365,7 +365,7 @@ window.WAHLOMAT_DATA = {
           "quote": "Die zwingende Klimaschutzprüfung aller städtischen Aktivitäten und Pläne schaffen wir wieder ab und führen diese Prüfung nur aus begründetem Anlass im Einzelfall durch."
         },
         "15": {
-          "val": 1,
+          "val": 0,
           "quote": "Wir prüfen eine moderate Senkung, wenn sie Ansiedlungen und das Gesamtaufkommen stärkt."
         },
         "16": {
@@ -441,7 +441,7 @@ window.WAHLOMAT_DATA = {
           "quote": "Verdopplung der geschützten Radwege... Statt in teure Autotunnel investieren wir in sichere Fuß- und Radwege."
         },
         "7": {
-          "val": 1,
+          "val": 0,
           "quote": "Prüfung weitergehender kommunaler Maßnahmen wie Baugebote oder Rückkaufoptionen."
         },
         "8": {
@@ -549,7 +549,7 @@ window.WAHLOMAT_DATA = {
           "quote": "Wir stehen für eine Umverteilung des städtischen Raumes zu Gunsten des Umweltverbundes... Infrastruktur für zu Fuss Gehende und Radfahrende ausbauen."
         },
         "7": {
-          "val": 1,
+          "val": 0,
           "quote": "Wir nutzen jedes Instrument, das wir als Stadt zur Verfügung haben, um Mieterinnen und Mieter zu schützen."
         },
         "8": {
@@ -561,7 +561,7 @@ window.WAHLOMAT_DATA = {
           "quote": "München bleibt eine offene Stadt für Arbeitnehmer. Wir müssen die Infrastruktur anpassen, nicht Mauern bauen."
         },
         "10": {
-          "val": 1,
+          "val": 0,
           "quote": "Wir müssen auch die vorhandenen Wohnraumpotentiale im Bestand gezielt nutzen."
         },
         "11": {
@@ -602,7 +602,7 @@ window.WAHLOMAT_DATA = {
         },
         "20": {
           "val": 1,
-          "quote": ""
+          "quote": "Wir stärken Gleichstellungsstrukturen und schaffen echte Teilhabe für Mädchen und Frauen in allen Lebensbereichen."
         },
         "21": {
           "val": -1,
@@ -1137,7 +1137,7 @@ window.WAHLOMAT_DATA = {
           "quote": "Passive, deeskalierende Polizeipräsenz."
         },
         "22": {
-          "val": 1,
+          "val": 0,
           "quote": "Einrichtung von Konsumräumen vorbereiten."
         },
         "23": {
@@ -1162,7 +1162,7 @@ window.WAHLOMAT_DATA = {
       "positions": {
         "2": {
           "val": 1,
-          "quote": ""
+          "quote": "50 % Autobahn und 50 % Parkplatz sind 100% Erfolg!"
         },
         "6": {
           "val": -1,
@@ -1206,7 +1206,7 @@ window.WAHLOMAT_DATA = {
         },
         "20": {
           "val": 1,
-          "quote": ""
+          "quote": "Ziel: eine geschlechtergerechte Stadtgesellschaft verwirklichen."
         },
         "21": {
           "val": -1,
@@ -1261,8 +1261,8 @@ window.WAHLOMAT_DATA = {
           "quote": "In die Höhe zu bauen stellt keine Lösung der grundlegenden strukturellen Probleme dar."
         },
         "24": {
-          "val": 1,
-          "quote": ""
+          "val": 0,
+          "quote": "In Zeiten knapper Kassen müssen alle Leistungen auf den Prüfstand."
         }
       }
     },
@@ -1272,21 +1272,65 @@ window.WAHLOMAT_DATA = {
       "long_name": "Bayernpartei",
       "color": "#4298C2",
       "positions": {
+        "1": {
+          "val": 1,
+          "quote": "Der Tunnel ist die optimale Lösung für die Tram, den Autoverkehr und Millionen Parkbesucher."
+        },
         "2": {
           "val": -1,
           "quote": "Innenstadt für Autos unzugänglich machen... Ideologie."
+        },
+        "3": {
+          "val": -1,
+          "quote": "Gehwegparken dort erlauben, wo Sicherheit und Platz es zulassen."
         },
         "4": {
           "val": -1,
           "quote": "Begrüßung der Aufhebung von Tempo 30 auf der Landshuter Allee."
         },
+        "5": {
+          "val": 0,
+          "quote": "Fokus auf Qualität, Zuverlässigkeit und Netzausbau statt auf kurzfristige Preis- oder Prestigeprojekte."
+        },
         "6": {
           "val": 1,
           "quote": "Ideologiefreie und vernünftige Verkehrspolitik... statt einseitiger 'Radl-Dogmatik'."
         },
+        "7": {
+          "val": -1,
+          "quote": "Keine Vorkaufsrechte mehr ausüben. Der Ankauf von Wohnhäusern mit Steuergeldern muss aufhören."
+        },
+        "8": {
+          "val": -1,
+          "quote": "Mehr Wohnraum entsteht nur, wenn Bauen einfacher und günstiger wird, nicht durch Regulierung und Blockade."
+        },
         "9": {
           "val": 1,
           "quote": "München muss Münchnern dienen, nicht unkontrolliertem Wachstum. Charakter der Stadtviertel erhalten."
+        },
+        "10": {
+          "val": -1,
+          "quote": "München muss seinen Charakter bewahren und darf keine gesichtslose Großstadt werden."
+        },
+        "11": {
+          "val": -1,
+          "quote": "Mit der Bayernpartei wird es keine Städtebauliche Entwicklungsmaßnahme (SEM) geben, und erst recht keine Enteignungen."
+        },
+        "12": {
+          "val": 1,
+          "quote": "Unser Stadtbild wird ergänzt um zwei ikonografisch gelungene Hochhäuser."
+        },
+        "13": {
+          "val": 1,
+          "quote": "Abbau von Vorschriften und Bürokratie, die Baukosten unnötig in die Höhe treiben."
+        },
+        "14": {
+          "val": -1,
+          "quote": "Umwelt- und Klimaschutz muss praktisch wirksam sein, bezahlbar bleiben und breite Akzeptanz finden."
+        },
+        "15": {
+          "val": 1,
+          "quote": "Senkung der Gewerbesteuer zur Stärkung des Wirtschaftsstandorts München."
         },
         "16": {
           "val": 1,
@@ -1312,6 +1356,10 @@ window.WAHLOMAT_DATA = {
           "val": -1,
           "quote": "Eine personell gut ausgestattete Polizei kann besser arbeiten als flächendeckende Kameraüberwachung."
         },
+        "22": {
+          "val": -1,
+          "quote": "Öffentliche Räume gehören allen. Sicherheit und Ordnung sind Voraussetzung für Lebensqualität."
+        },
         "23": {
           "val": 1,
           "quote": "Sauberkeit und Ordnung durch mehr Befugnisse für den Kommunalen Außendienst."
@@ -1331,6 +1379,7 @@ window.WAHLOMAT_DATA = {
       "name": "Bündnis Kultur",
       "long_name": "Bündnis Kultur",
       "color": "#000000",
+      "partial": true,
       "positions": {
         "2": {
           "val": 1,

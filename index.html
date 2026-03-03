@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MUCwahl München 2026 – Welche Partei passt zu mir?</title>
-    <meta name="version" content="4.9">
+    <meta name="version" content="4.9.8">
     <meta name="description" content="25 Thesen, 14 Parteien: Finde heraus, welche Partei deine Interessen im Münchner Stadtrat vertritt. Unabhängig, werbefrei, ohne Tracking.">
     <meta name="theme-color" content="#ffffff">
     <meta property="og:title" content="MUCwahl München 2026 – Welche Partei passt zu mir?">
@@ -507,6 +507,7 @@
 
                     <p class="text-[10px] text-slate-400 mt-3 text-center leading-relaxed">Nähe im Kompass bedeutet inhaltliche Übereinstimmung, keine politische Empfehlung. Basiert auf deinen Antworten zu 25 Thesen.</p>
                     <p class="text-[10px] text-slate-400 mt-1 text-center leading-relaxed">Die meisten Parteien liegen auf einer Diagonale (links-progressiv bis rechts-konservativ). Das ist typisch für westliche Parteiensysteme, nicht ein Fehler der Darstellung.</p>
+                    <p class="text-[10px] text-slate-400 mt-1 text-center leading-relaxed">Der Kompass zeigt deine politische Grundrichtung auf zwei Achsen. Die Prozentzahl in der Rangliste misst dagegen, wie oft du bei konkreten Thesen mit einer Partei übereinstimmst — deshalb können Reihenfolge und Kompass-Nähe voneinander abweichen.</p>
                     <p class="text-[10px] text-center mt-2"><a href="methodik.html" class="text-blue-500 hover:text-blue-700 hover:underline transition-colors">Wie wird das berechnet? →</a></p>
                 </div>
             </div>
@@ -548,7 +549,7 @@
                              @click="openModal(party.id)">
                             <div class="w-8 text-center text-slate-400 font-mono text-xs mr-4" x-text="index + 1"></div>
                             <div class="flex-1 z-10">
-                                <div class="flex justify-between items-center mb-2"><span class="font-bold text-slate-900" x-text="party.name"></span><span class="font-mono text-sm font-medium" x-text="Math.round(party.matchPercentage) + '%'"></span></div>
+                                <div class="flex justify-between items-center mb-2"><span class="font-bold text-slate-900" x-text="party.name"></span><span x-show="party.partial" class="ml-1.5 text-[9px] font-semibold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded-full">unvollständig</span><span class="font-mono text-sm font-medium" x-text="Math.round(party.matchPercentage) + '%'"></span></div>
                                 <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden"><div class="h-full rounded-full transition-all duration-500" :style="`width: ${party.matchPercentage}%; background-color: ${getPartyColor(party.id)}`"></div></div>
                             </div>
                             <div class="ml-4 text-slate-300 group-hover:text-slate-600 transition-colors z-10"><svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></div>
@@ -718,7 +719,7 @@
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" x-show="shareSheetOpen" x-transition.opacity @click="closeShareSheet()"></div>
         <div role="dialog" aria-modal="true" aria-label="Ergebnis teilen"
              class="bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl relative transform transition-all max-h-[90vh] overflow-y-auto"
-             x-show="shareSheetOpen"
+             x-show="shareSheetOpen" @keydown.tab="trapFocus($event)"
              x-transition:enter="ease-out duration-300"
              x-transition:enter-start="opacity-0 translate-y-8"
              x-transition:enter-end="opacity-100 translate-y-0"
@@ -788,7 +789,7 @@
         <div id="party-detail-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" class="bg-white w-full max-w-2xl h-full sm:h-auto sm:max-h-[90vh] sm:rounded-2xl shadow-2xl overflow-hidden flex flex-col relative transform transition-all" x-show="modalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4" @keydown.tab="trapFocus($event)">
             <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex-shrink-0">
                 <div class="flex justify-between items-start">
-                    <div><h3 id="modal-title" class="font-bold text-2xl" x-text="getSelectedParty()?.name"></h3><p class="text-slate-500 text-sm mt-1" x-text="getSelectedParty()?.long_name"></p></div>
+                    <div><h3 id="modal-title" class="font-bold text-2xl" x-text="getSelectedParty()?.name"></h3><p class="text-slate-500 text-sm mt-1" x-text="getSelectedParty()?.long_name"></p><p x-show="getSelectedParty()?.partial" class="text-xs text-amber-600 mt-1">Daten unvollständig (kein umfassendes Wahlprogramm veröffentlicht)</p></div>
                     <button id="modal-close-btn" @click="closeModal()" class="text-slate-400 hover:text-slate-600 bg-slate-100 rounded-full p-2" aria-label="Dialog schließen"><svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
                 </div>
                 <div class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">

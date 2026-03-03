@@ -677,8 +677,7 @@ function wahlomatApp() {
         },
 
         trapFocus(event) {
-            if (!this.modalOpen) return;
-            const modal = document.getElementById('party-detail-modal');
+            const modal = event.currentTarget;
             if (!modal) return;
             const focusable = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
             if (focusable.length === 0) return;
@@ -1399,11 +1398,19 @@ function wahlomatApp() {
             ctx.fillStyle = '#f59e0b';
             ctx.fillRect(0, 0, W, 8);
 
-            // Lightbulb icon area
+            // Lightbulb icon area — drawn as star shape (avoids platform-dependent emoji rendering)
             ctx.fillStyle = '#fbbf24';
-            ctx.font = '120px Inter, system-ui, sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('💡', W / 2, 260);
+            ctx.save();
+            ctx.translate(W / 2, 210);
+            ctx.beginPath();
+            for (let i = 0; i < 5; i++) {
+                const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
+                ctx[i === 0 ? 'moveTo' : 'lineTo'](Math.cos(angle) * 50, Math.sin(angle) * 50);
+            }
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
 
             // Title
             ctx.fillStyle = '#92400e';

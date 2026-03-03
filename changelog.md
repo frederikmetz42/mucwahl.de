@@ -1,5 +1,9 @@
 # Changelog
 
+## v4.9.10 — 2026-03-04
+### CSU-Korrektur Drogenkonsumräume
+- CSU T22 Drogenkonsumräume: val -1→1, neues Zitat (CSU-Stadtratsfraktion + OB-Kandidat Baumgärtner fordern Modellversuch, Quelle: t-online 19.02.2026)
+
 ## v4.9.9 — 2026-03-03
 ### Reddit-Feedback + SPD-Direktfeedback
 - SPD T12 Hochhäuser: val 0→1, neues Zitat (SPD-Direktfeedback: Ja mit Bedingung bezahlbares Wohnen)

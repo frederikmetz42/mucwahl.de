@@ -393,8 +393,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Gezielte städtische Videoüberwachung an Kriminalitäts- und Verwahrlosungsschwerpunkten."
         },
         "22": {
-          "val": -1,
-          "quote": "Null-Toleranz-Politik an definierten Brennpunkten... Konsequente Anwendung von Aufenthalts- und Alkoholregelungen."
+          "val": 1,
+          "quote": "Drogenkonsumräume könnten die unmittelbaren Risiken des Drogenkonsums reduzieren und zur Stabilisierung und Prävention betäubungsmittelabhängiger Menschen beitragen."
         },
         "23": {
           "val": 1,

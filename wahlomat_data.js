@@ -4,7 +4,7 @@ window.WAHLOMAT_DATA = {
       "id": 1,
       "topic": "Mobilität & Verkehr",
       "short_title": "Straßentunnel",
-      "statement": "Die Stadt München soll neue Straßentunnel (z.B. am Englischen Garten oder der Landshuter Allee) bauen, auch wenn dies Milliarden kostet und Jahre dauert.",
+      "statement": "Die Stadt München soll neue Straßentunnel (z.B. am Englischen Garten oder der Landshuter Allee) bauen, auch wenn dies Milliarden kostet.",
       "background": "Gemeint sind v.a. der Englischer-Garten-Tunnel (ca. 240 Mio. Euro laut Machbarkeitsstudie 2024) und ein möglicher Tunnel an der Landshuter Allee. Befürworter sehen Entlastung für Anwohner und neue Freiflächen an der Oberfläche. Kritiker verweisen auf jahrelange Bauzeiten und Kostenexplosionen: Der Luise-Kiesselbach-Tunnel (fertig 2015) wurde deutlich teurer als geplant.",
       "axes": {
         "x": 0,
@@ -16,7 +16,7 @@ window.WAHLOMAT_DATA = {
       "id": 20,
       "topic": "Gesellschaft, Migration & Sicherheit",
       "short_title": "Gendersprache",
-      "statement": "Die Stadtverwaltung soll geschlechtergerechte Sprache nutzen, auch wenn diese nicht den amtlichen Rechtschreibregeln entspricht.",
+      "statement": "Die Stadtverwaltung soll geschlechtergerechte Sprache nutzen, auch wenn diese von den amtlichen Rechtschreibregeln abweicht.",
       "background": "München verwendet seit 1991 geschlechtergerechte Sprache in der Verwaltung. 2024 verbot Bayern Sonderzeichen (Gender-Stern, Doppelpunkt) in Landesbehörden und Schulen — das Verbot gilt aber nicht für Kommunen. München gendert bewusst weiter. Befürworter sehen darin ein Zeichen für Gleichberechtigung und Sichtbarkeit. Kritiker verweisen auf den Rat für deutsche Rechtschreibung, der Sonderzeichen im amtlichen Gebrauch nicht empfiehlt.",
       "axes": {
         "x": 0,
@@ -28,7 +28,7 @@ window.WAHLOMAT_DATA = {
       "id": 11,
       "topic": "Bauen, Klima & Stadtplanung",
       "short_title": "SEM/Neubaugebiete",
-      "statement": "Die Stadt soll am Stadtrand (Feldmoching/Daglfing) Ackerflächen für den Bau Tausender neuer Wohnungen nutzen, auch wenn dabei die letzten landwirtschaftlichen Flächen im Stadtgebiet dauerhaft versiegelt werden.",
+      "statement": "Die Stadt soll am Stadtrand (Feldmoching/Daglfing) Ackerflächen für den Bau Tausender neuer Wohnungen nutzen, auch wenn dabei landwirtschaftliche Flächen im Stadtgebiet versiegelt werden.",
       "background": "Die SEM Nordost (600 Hektar bei Daglfing) soll ab den 2030ern Platz für ca. 30.000 Bewohner und 10.000 Arbeitsplätze schaffen. Die SEM Nord (Feldmoching) ist ebenfalls in Planung. Befürworter sehen dringend benötigten Wohnraum. Kritiker (darunter Landwirte und Naturschützer) warnen vor Flächenversiegelung und dem Verlust der letzten Ackerflächen im Stadtgebiet.",
       "axes": {
         "x": 0.5,
@@ -52,7 +52,7 @@ window.WAHLOMAT_DATA = {
       "id": 7,
       "topic": "Wohnen & Mietmarkt",
       "short_title": "Wohnungs-Rückkauf",
-      "statement": "Die Stadt soll Wohnungen großer Immobilienkonzerne zurückkaufen, um die Mieten dauerhaft zu kontrollieren, auch wenn dies den städtischen Haushalt erheblich belastet.",
+      "statement": "Die Stadt soll Wohnungen großer Immobilienkonzerne zurückkaufen, um die Mieten dauerhaft zu kontrollieren, auch wenn dies den städtischen Haushalt belastet.",
       "background": "Große Wohnungsunternehmen wie Vonovia und Dawonia besitzen Tausende Wohnungen in München. Einige Parteien fordern den Rückkauf durch die Stadt, um Mieten dauerhaft kontrollieren zu können. Befürworter sehen darin langfristigen Mieterschutz. Kritiker verweisen auf die hohen Kaufpreise (Münchner Immobilienmarkt) und die bereits angespannte Haushaltslage der Stadt.",
       "axes": {
         "x": -1,
@@ -64,7 +64,7 @@ window.WAHLOMAT_DATA = {
       "id": 21,
       "topic": "Gesellschaft, Migration & Sicherheit",
       "short_title": "Videoüberwachung",
-      "statement": "An Kriminalitätsschwerpunkten (z.B. Hauptbahnhof) soll die Stadt verstärkt Videoüberwachung einsetzen, auch wenn dabei KI-gestützte Auswertung und Gesichtserkennung zum Einsatz kommen könnten.",
+      "statement": "An Kriminalitätsschwerpunkten (z.B. Hauptbahnhof) soll die Stadt verstärkt Videoüberwachung einsetzen, auch wenn dies den öffentlichen Raum stärker überwacht.",
       "background": "Am Hauptbahnhof gibt es bereits Bundespolizei-Kameras sowie seit 2025 mobile Videotürme mit 360°-Panorama. Befürworter fordern gezielt mehr Kameras an Brennpunkten. Kritiker warnen vor dem Schritt zu automatisierter Gesichtserkennung und KI-Massenüberwachung im öffentlichen Raum.",
       "axes": {
         "x": 0,
@@ -76,7 +76,7 @@ window.WAHLOMAT_DATA = {
       "id": 2,
       "topic": "Mobilität & Verkehr",
       "short_title": "Autofreie Altstadt",
-      "statement": "Der private Autoverkehr innerhalb des Altstadtrings soll stark eingeschränkt werden, auch wenn Anwohner, Handwerksbetriebe und Lieferverkehr dadurch deutlich eingeschränkt werden.",
+      "statement": "Der private Autoverkehr innerhalb des Altstadtrings soll stark eingeschränkt werden, auch wenn Anwohner und Gewerbetreibende dadurch eingeschränkt werden.",
       "background": "Der Altstadtring umschließt das historische Zentrum Münchens (Marienplatz, Viktualienmarkt, Residenz). Die Fußgängerzone ist bereits autofrei, aber auf umliegenden Straßen fließt regulärer Autoverkehr. Befürworter wollen mehr Platz für Fußgänger und Gastronomie. Gegner warnen vor Erreichbarkeitsproblemen für Anwohner, Handwerk und Lieferverkehr.",
       "axes": {
         "x": 0,
@@ -112,7 +112,7 @@ window.WAHLOMAT_DATA = {
       "id": 10,
       "topic": "Wohnen & Mietmarkt",
       "short_title": "Nachverdichtung",
-      "statement": "In Vierteln mit Einfamilienhäusern und Gärten soll der Bau zusätzlicher Wohnungen Vorrang vor dem Erhalt von Grünflächen haben, auch wenn dadurch der Charakter gewachsener Gartenstadtviertel dauerhaft verändert wird.",
+      "statement": "In Vierteln mit Einfamilienhäusern und Gärten soll der Bau zusätzlicher Wohnungen Vorrang vor dem Erhalt von Grünflächen haben, auch wenn dadurch der Charakter bestehender Gartenstadtviertel verändert wird.",
       "background": "Viele Münchner Viertel (z.B. Solln, Obermenzing, Trudering) haben Gartenstadtcharakter mit Einfamilienhäusern und viel Grün. Angesichts des Wohnungsmangels wird diskutiert, ob dort nachverdichtet werden soll. Befürworter sehen brachliegendes Potenzial in der teuersten Stadt Deutschlands. Anwohner verteidigen den Charakter ihrer Viertel und warnen vor Überlastung der Infrastruktur.",
       "axes": {
         "x": 0,
@@ -124,7 +124,7 @@ window.WAHLOMAT_DATA = {
       "id": 24,
       "topic": "Gesellschaft, Migration & Sicherheit",
       "short_title": "Bezahlkarte",
-      "statement": "Asylbewerber sollen eine Bezahlkarte statt Bargeld erhalten, auch wenn sie damit nicht frei über ihr Geld verfügen können.",
+      "statement": "Asylbewerber sollen eine Bezahlkarte statt Bargeld erhalten, auch wenn dies ihre Wahlfreiheit beim Einkaufen einschränkt.",
       "background": "Die Bezahlkarte ist in Bayern seit 2024 im Einsatz, über 70.000 Karten wurden ausgegeben (Stand März 2025). Empfänger können damit bei Mastercard-Akzeptanzstellen einkaufen und bis zu 50 Euro/Monat bar abheben. Überweisungen sind nicht möglich. Befürworter sehen weniger Missbrauch und geringere Verwaltungskosten. Kritiker warnen vor Stigmatisierung und Einschränkungen im Alltag.",
       "axes": {
         "x": 0.3,
@@ -184,7 +184,7 @@ window.WAHLOMAT_DATA = {
       "id": 23,
       "topic": "Gesellschaft, Migration & Sicherheit",
       "short_title": "Ordnung im öffentlichen Raum",
-      "statement": "Bei Drogenszene und Vermüllung soll die Stadt stärker auf Kontrolle und Ordnungskräfte setzen als auf Sozialarbeit und Hilfsangebote, auch wenn Verdrängung die Probleme in andere Viertel verlagern kann.",
+      "statement": "Bei Drogenszene und Vermüllung soll die Stadt stärker auf Kontrolle und Ordnungskräfte setzen als auf Sozialarbeit und Hilfsangebote, auch wenn sich die Szene dadurch in andere Viertel verlagern kann.",
       "background": "Rund um den Hauptbahnhof und den Alten Botanischen Garten klagen Anwohner und Gewerbetreibende über Drogenkonsum, Vermüllung und Belästigung. Der Kommunale Außendienst (KAD) patrouilliert seit 2024 dort. Befürworter fordern erweiterte Befugnisse (Platzverweise, Bußgelder) und mehr Präsenz. Gegner argumentieren, dass Obdachlosigkeit und Sucht soziale Probleme sind, die durch Verdrängung nicht gelöst, sondern nur verlagert werden.",
       "axes": {
         "x": 0,
@@ -196,7 +196,7 @@ window.WAHLOMAT_DATA = {
       "id": 5,
       "topic": "Mobilität & Verkehr",
       "short_title": "ÖPNV-Preise",
-      "statement": "Die Ticketpreise für Bus und Bahn sollen deutlich gesenkt werden, auch wenn dafür an anderer Stelle im Haushalt gespart werden muss.",
+      "statement": "Die Ticketpreise für Bus und Bahn sollen deutlich gesenkt werden, auch wenn dies den städtischen Haushalt belastet.",
       "background": "Das Deutschlandticket kostet seit Januar 2026 monatlich 63 Euro (vorher 58 Euro, zum Start 2023: 49 Euro). München bezuschusst den ÖPNV bereits mit über 300 Mio. Euro jährlich. Günstigere Tickets könnten mehr Fahrgäste anziehen und Autoverkehr reduzieren, müssten aber durch Einsparungen oder Einnahmen an anderer Stelle gegenfinanziert werden.",
       "axes": {
         "x": -0.8,
@@ -208,7 +208,7 @@ window.WAHLOMAT_DATA = {
       "id": 13,
       "topic": "Bauen, Klima & Stadtplanung",
       "short_title": "Solarpflicht",
-      "statement": "Die bestehende Solarpflicht für Neubauten und Dachsanierungen soll abgeschafft werden, auch wenn Solaranlagen langfristig die Stromkosten senken.",
+      "statement": "Die bestehende Solarpflicht für Neubauten und Dachsanierungen soll abgeschafft werden, auch wenn dies den Ausbau erneuerbarer Energien bremst.",
       "background": "Bayern hat seit 2023 eine Solarpflicht für Gewerbeneubauten. Seit Januar 2025 gilt eine Soll-Vorschrift auch für neue Wohngebäude und Dachsanierungen, mit Ermessensspielraum für Behörden. Befürworter der Pflicht sehen ungenutztes Potenzial auf Münchens Dächern. Kritiker warnen vor Mehrkosten (ca. 10.000–20.000 Euro) und Eingriffen in die Eigentumsfreiheit.",
       "axes": {
         "x": 0.4,
@@ -244,7 +244,7 @@ window.WAHLOMAT_DATA = {
       "id": 22,
       "topic": "Gesellschaft, Migration & Sicherheit",
       "short_title": "Drogenkonsumräume",
-      "statement": "In München sollen staatlich kontrollierte Drogenkonsumräume für Abhängige eingerichtet werden, auch wenn dies die Drogenszene in der Umgebung sichtbarer machen könnte.",
+      "statement": "In München sollen staatlich kontrollierte Drogenkonsumräume für Abhängige eingerichtet werden, auch wenn Anwohner Bedenken wegen der Drogenszene in der Nähe haben.",
       "background": "Drogenkonsumräume existieren in Frankfurt, Hamburg und Berlin, aber nicht in Bayern. Die bayerische Landesregierung lehnt sie ab und hat im Mai 2025 ihren restriktiven Kurs bestätigt. München fordert seit 2018 eine Erlaubnis vom Freistaat. Befürworter verweisen auf weniger Drogentote und weniger Spritzen im öffentlichen Raum. Gegner befürchten Signalwirkung und Anlaufstellen für die Szene.",
       "axes": {
         "x": 0,
@@ -254,21 +254,21 @@ window.WAHLOMAT_DATA = {
     },
     {
       "id": 3,
-      "topic": "Mobilität & Verkehr",
-      "short_title": "Parkplätze",
-      "statement": "Straßenparkplätze sollen für Radwege, Grünflächen und Außengastronomie umgewandelt werden, auch wenn Anwohner und Gewerbetreibende dadurch Stellplätze verlieren.",
-      "background": "München hat rund 300.000 öffentliche Parkplätze am Straßenrand. In vielen Vierteln werden diese zunehmend in Radwege, Grünflächen oder Außengastronomie umgewandelt. Befürworter des Umbaus sehen mehr Lebensqualität und Verkehrssicherheit. Anwohner und Gewerbetreibende befürchten Parkplatzmangel und längere Anfahrtswege.",
+      "topic": "Gesellschaft, Migration & Sicherheit",
+      "short_title": "Schulen & Kita",
+      "statement": "Die Stadt soll den Ausbau von Ganztagsschulen und Kita-Plätzen Vorrang vor anderen Bauprojekten geben, auch wenn andere Investitionen dafür warten müssen.",
+      "background": "Ab 2026 gilt ein Rechtsanspruch auf ganztägige Betreuung für Grundschulkinder. München investiert über 9 Milliarden Euro in Schulbau und plant 8.500 neue Kita-Plätze. Die Wartelisten sind lang, der Fachkräftemangel gravierend. Befürworter sehen Bildung als Grundlage für Chancengleichheit. Kritiker fragen, ob der Vorrang eines Bereichs andere dringende Projekte gefährdet.",
       "axes": {
-        "x": 0,
-        "y": -0.7
+        "x": 0.1,
+        "y": 0.2
       },
-      "tradeoff": "Radverkehr vs. Stellplätze"
+      "tradeoff": "Bildungspriorität vs. Investitionsbreite"
     },
     {
       "id": 19,
       "topic": "Wirtschaft & Finanzen",
       "short_title": "Referate abschaffen",
-      "statement": "Das Mobilitätsreferat und das Klimaschutzreferat sollen wieder abgeschafft und in bestehende Referate integriert werden, auch wenn Mobilität und Klimaschutz damit als politische Prioritäten an Sichtbarkeit verlieren.",
+      "statement": "Das Mobilitätsreferat und das Klimaschutzreferat sollen wieder abgeschafft und in bestehende Referate integriert werden, auch wenn damit zwei eigenständige Fachreferate wegfallen.",
       "background": "Der Stadtrat hat 2020/2021 das Mobilitätsreferat und das Referat für Klima- und Umweltschutz neu geschaffen. Befürworter der Abschaffung sehen Doppelstrukturen, zusätzliche Bürokratie und unnötige Personalkosten. Gegner argumentieren, dass eigene Referate Mobilität und Klimaschutz als Querschnittsaufgaben sichtbarer machen und politisch aufwerten, was ohne sie in größeren Referaten untergehen würde.",
       "axes": {
         "x": 0.8,
@@ -290,15 +290,15 @@ window.WAHLOMAT_DATA = {
     },
     {
       "id": 6,
-      "topic": "Mobilität & Verkehr",
-      "short_title": "Radwege",
-      "statement": "Fahrspuren für Autos sollen erhalten bleiben, auch wenn dadurch weniger Platz für breite Radwege ist.",
-      "background": "München plant den Ausbau des Radwegenetzes, besonders geschützte Radwege (Protected Bike Lanes) an Hauptstraßen. Dafür müssten teilweise Fahrspuren oder Parkplätze wegfallen. Radfahrverbände fordern mehr Sicherheit durch Trennung vom Autoverkehr. Autofahrer und Wirtschaftsverbände warnen vor Stau und eingeschränkter Erreichbarkeit.",
+      "topic": "Wirtschaft & Finanzen",
+      "short_title": "Sozialtarif Energie",
+      "statement": "Die Stadtwerke München sollen einen Sozialtarif für Strom und Fernwärme einführen, auch wenn dies die Gewinne des städtischen Unternehmens schmälert.",
+      "background": "Die Fernwärmepreise in München sind in zwei Jahren um über 200 Prozent gestiegen. Über 250.000 Haushalte beziehen Fernwärme ohne Wechselmöglichkeit. Befürworter fordern einen Sozialtarif, um einkommensschwache Haushalte zu entlasten. Kritiker warnen, dass geringere SWM-Gewinne den städtischen Haushalt belasten, da die SWM jährlich über 100 Millionen Euro an die Stadt abführen.",
       "axes": {
-        "x": 0,
-        "y": 0.9
+        "x": 0.5,
+        "y": 0.3
       },
-      "tradeoff": "Umweltverbund vs. Auto"
+      "tradeoff": "Soziale Entlastung vs. Stadtfinanzen"
     }
   ],
   "parties": [
@@ -317,8 +317,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Wir setzen auf Anreize statt Fahrverbote – damit der Umstieg möglich ist, ohne Freiheit und Alltagstauglichkeit zu verlieren."
         },
         "3": {
-          "val": -1,
-          "quote": "Die systematische Umwandlung von Kfz-Stellplätzen lehnen wir ab."
+          "val": 0,
+          "quote": "München braucht eine Ganztagsschulinitiative. Die Stadt investiert in die Bildungsbauoffensive."
         },
         "4": {
           "val": -1,
@@ -329,8 +329,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Wir erhöhen Münchens Einnahmen durch Wachstum statt Gebühren... Prioritäten setzen statt Wunschlisten schreiben."
         },
         "6": {
-          "val": 1,
-          "quote": "Notwendige Fahrspuren erhalten wir... Keine Goldrandlösungen: Mobilität miteinander statt gegeneinander."
+          "val": -1,
+          "quote": "Die SWM müssen wirtschaftlich arbeiten und Transparenz bei der Fernwärmepreisbildung schaffen."
         },
         "7": {
           "val": -1,
@@ -425,8 +425,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Perspektivisch weitgehend autofreie Zonen innerhalb des Mittleren Rings."
         },
         "3": {
-          "val": 1,
-          "quote": "Wir pflanzen mehr Bäume und entsiegeln Flächen... Wir schaffen Platz für Carsharing."
+          "val": 0,
+          "quote": "Mehr Kita-Plätze schaffen und Schulen mit kooperativem Ganztag modernisieren, aber nicht auf Kosten von Klimainvestitionen."
         },
         "4": {
           "val": 1,
@@ -437,8 +437,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Nulltarif für Kinder bis zum 7. Geburtstag ausweiten... Finanziell geförderte D-Tickets statt zeitlich eingeschränkter Isarcard Sozial."
         },
         "6": {
-          "val": -1,
-          "quote": "Verdopplung der geschützten Radwege... Statt in teure Autotunnel investieren wir in sichere Fuß- und Radwege."
+          "val": 0,
+          "quote": "Wohn- und Heizkosten durch Solar- und Sanierungsoffensive dauerhaft senken statt Gewinne umverteilen."
         },
         "7": {
           "val": 0,
@@ -534,7 +534,7 @@ window.WAHLOMAT_DATA = {
         },
         "3": {
           "val": 1,
-          "quote": "Wir stehen für eine Umverteilung des städtischen Raumes zu Gunsten des Umweltverbundes – also Fuß-, Radverkehr, Bus- und Tram und U-Bahn."
+          "quote": "Von der Kita bis zur Berufsschule: Gute Bildung öffnet Türen. Moderne Schulen, verlässliche Betreuung und Ganztagsangebote."
         },
         "4": {
           "val": 1,
@@ -545,8 +545,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Nulltarif für Kinder bis zum 7. Geburtstag ausweiten und kostenlose Mitnahme von Kindern bei der IsarCard."
         },
         "6": {
-          "val": -1,
-          "quote": "Wir stehen für eine Umverteilung des städtischen Raumes zu Gunsten des Umweltverbundes... Infrastruktur für zu Fuss Gehende und Radfahrende ausbauen."
+          "val": 0,
+          "quote": "Energie muss bezahlbar sein. Wir setzen auf den Wärmefonds, um einkommensschwache Haushalte gezielt zu entlasten."
         },
         "7": {
           "val": 0,
@@ -641,8 +641,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Erhalt bzw. Wiederherstellung der Erreichbarkeit von Gewerbebetrieben und Einzelhandel mit dem PKW."
         },
         "3": {
-          "val": -1,
-          "quote": "Parkmöglichkeiten in allen Stadtteilen bedarfsgerecht ausbauen."
+          "val": 0,
+          "quote": "Erhalt der christlich abendländischen Kultur in Kindertagesstätten und Schulen. Deutsche Sprache verbindlich verankern."
         },
         "4": {
           "val": -1,
@@ -653,8 +653,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Schuldenabbau... durch Priorisierung und Streichung nicht zwingender Großprojekte (z. B. der U9, diverser Trambahnprojekte)."
         },
         "6": {
-          "val": 1,
-          "quote": "Streichung nicht zwingender Großprojekte (z. B. ... Radwegeausbau)."
+          "val": -1,
+          "quote": "Strategiewechsel weg von priorisierten Investitionen in erneuerbare Energien. Stabile Energieversorgung statt Umverteilung."
         },
         "7": {
           "val": -1,
@@ -749,8 +749,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Autos, die nicht nach München müssen, sollen die Stadt umfahren."
         },
         "3": {
-          "val": -1,
-          "quote": "Parkgebühren müssen sich künftig an der Nachfrage orientieren... Vermehrt Gehwegparken bei ausreichender Restwegbreite... ermöglichen."
+          "val": 1,
+          "quote": "Schulen ausbauen, Ganztag sichern und Familien Planungssicherheit geben."
         },
         "4": {
           "val": -1,
@@ -761,8 +761,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Bezahlbarer ÖPNV... Eine kluge Haushaltsführung ist essenziell... anstelle kostenintensiver Komfortlösungen."
         },
         "6": {
-          "val": 1,
-          "quote": "Praktikable Lösungen für Auto, ÖPNV, Rad und Fußverkehr."
+          "val": -1,
+          "quote": "SWM brauchen Preistransparenz und Wettbewerb, keine staatlich verordneten Sozialtarife."
         },
         "7": {
           "val": -1,
@@ -858,7 +858,7 @@ window.WAHLOMAT_DATA = {
         },
         "3": {
           "val": 1,
-          "quote": "Den Parkplatzanspruch zugunsten von Fahrradparkplätzen aufheben und das Gehwegparken abschaffen."
+          "quote": "Garantierte, gebührenfreie Kita- und Hortplätze sowie kostenloses Mittagessen für alle Kinder."
         },
         "4": {
           "val": 1,
@@ -869,8 +869,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Den ÖPNV nach Luxemburger Vorbild ticketfrei gestalten."
         },
         "6": {
-          "val": -1,
-          "quote": "weniger Autospuren... Stattdessen sollen Fahrradwege, Spielstraßen und Schulstraßen ausgebaut werden."
+          "val": 1,
+          "quote": "Die SWM muss sofort einen Sozialtarif einführen und perspektivisch ein komplett entgeltfreies Energie-Grundkontingent."
         },
         "7": {
           "val": 1,
@@ -961,8 +961,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Autofreie Zone innerhalb des Altstadtrings ab 2030."
         },
         "3": {
-          "val": 1,
-          "quote": "Parkplätze im öffentlichen Raum werden umgewandelt in Grün und Fuß- und Radwege."
+          "val": 0,
+          "quote": "Schulen müssen ein Ort der Ermutigung sein. Echte Wahlfreiheit für Eltern zwischen Betreuung und Erziehungsgehalt."
         },
         "4": {
           "val": 1,
@@ -973,8 +973,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Kostenloser ÖPNV für Kinder und Jugendliche... Änderung der Finanzierung... um ein kostenloses Angebot zu ermöglichen."
         },
         "6": {
-          "val": -1,
-          "quote": "Reduzierung von Parkplätzen zugunsten von Wohnraum und Grünflächen... Radnetzes hat oberste Priorität."
+          "val": 0,
+          "quote": "Effektives Leistungscontrolling für die Stadtwerke München. Nachhaltig und sozial wirtschaften."
         },
         "9": {
           "val": 1,
@@ -1029,12 +1029,16 @@ window.WAHLOMAT_DATA = {
           "quote": "Praktikable Lösungen für Auto, ÖPNV, Rad und Fußverkehr."
         },
         "3": {
-          "val": -1,
-          "quote": "Vermehrt Gehwegparken bei ausreichender Restwegbreite... ermöglichen."
+          "val": 1,
+          "quote": "Ausbau von Kitas, Horten und Tagespflegeplätzen. Stärkung der Ausbildung von Erzieherinnen und Erziehern."
         },
         "4": {
           "val": -1,
           "quote": "Kein flächendeckendes Tempo-30."
+        },
+        "6": {
+          "val": 0,
+          "quote": "Solide Haushaltspolitik. Soziale Absicherung durch gezielte Maßnahmen."
         },
         "8": {
           "val": 1,
@@ -1086,15 +1090,15 @@ window.WAHLOMAT_DATA = {
         },
         "3": {
           "val": 1,
-          "quote": "Parkflächen im öffentlichen Raum umwidmen zugunsten von Bewegungsfreiheit."
+          "quote": "Schulen, die ganztägiges Lernen ermöglichen. Ausbau von Krippen-, Kita- und Ganztagsplätzen."
         },
         "4": {
           "val": 1,
           "quote": "Weitere Tempo 30 Zonen an kritischen Stellen."
         },
         "6": {
-          "val": -1,
-          "quote": "Hauptrouten nach aktuellen Qualitätsstandards ausbauen: breite Wege, getrennt vom motorisierten Verkehr."
+          "val": 0,
+          "quote": "Geothermie und Photovoltaik schneller ausbauen, damit Energie langfristig bezahlbar bleibt."
         },
         "8": {
           "val": 1,
@@ -1164,9 +1168,13 @@ window.WAHLOMAT_DATA = {
           "val": 1,
           "quote": "50 % Autobahn und 50 % Parkplatz sind 100% Erfolg!"
         },
+        "3": {
+          "val": 0,
+          "quote": "Einführung des G1-Schulsystems: ein Jahr Schule für alle."
+        },
         "6": {
-          "val": -1,
-          "quote": "Wir spannen mit einem stadtweiten Seilbahnnetz ein umfangreiches Mobilitätsangebot. Für Eichhörnchen."
+          "val": 1,
+          "quote": "Sozialtarif für armutsgefährdete Kund*innen der Münchner Stadtwerke als Sofortmaßnahme gegen Energiearmut."
         },
         "12": {
           "val": 1,
@@ -1192,9 +1200,13 @@ window.WAHLOMAT_DATA = {
           "val": 1,
           "quote": "Entlastung vom Durchgangsverkehr... Stärkere Nutzung von öffentlichen Straßen und Plätzen für ein urbanes Leben."
         },
+        "3": {
+          "val": 0,
+          "quote": "Bildungspolitik hat Einfluss auf Teilhabe und Chancengleichheit in der Stadtgesellschaft."
+        },
         "6": {
-          "val": -1,
-          "quote": "Ausbau von Rad- und Fußgängerwegen... Verkehrssicherheit, vor allem für Fußgänger*innen, Radfahrer*innen."
+          "val": 0,
+          "quote": "Soziale Gerechtigkeit in allen Lebensbereichen sicherstellen."
         },
         "16": {
           "val": -1,
@@ -1240,9 +1252,13 @@ window.WAHLOMAT_DATA = {
           "val": 0,
           "quote": "Wir sind gegen einen maßlosen Flächenverbrauch für Gewerbe, Siedlungen und Verkehr."
         },
+        "3": {
+          "val": 0,
+          "quote": "Infrastruktur kann mit dem Wachstum nicht Schritt halten. Ursache ist das überhitzte Wachstum."
+        },
         "6": {
           "val": 0,
-          "quote": "Verkehrswende aktiv vorantreiben... Rascher Ausbau des schienengebundenen ÖPNV."
+          "quote": "Kommunale Kontrolle über Versorgungsunternehmen stärken."
         },
         "9": {
           "val": 1,
@@ -1281,8 +1297,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Innenstadt für Autos unzugänglich machen... Ideologie."
         },
         "3": {
-          "val": -1,
-          "quote": "Gehwegparken dort erlauben, wo Sicherheit und Platz es zulassen."
+          "val": 0,
+          "quote": "Starke Schulen, die Wissen und soziale Kompetenzen vermitteln. Priorisierung von Münchner Familien bei Kita-Plätzen."
         },
         "4": {
           "val": -1,
@@ -1293,8 +1309,8 @@ window.WAHLOMAT_DATA = {
           "quote": "Fokus auf Qualität, Zuverlässigkeit und Netzausbau statt auf kurzfristige Preis- oder Prestigeprojekte."
         },
         "6": {
-          "val": 1,
-          "quote": "Ideologiefreie und vernünftige Verkehrspolitik... statt einseitiger 'Radl-Dogmatik'."
+          "val": 0,
+          "quote": "SWM sollen im Interesse der Münchner Bürger wirtschaften."
         },
         "7": {
           "val": -1,
@@ -1384,6 +1400,14 @@ window.WAHLOMAT_DATA = {
         "2": {
           "val": 1,
           "quote": "Städte gehören den Bürgern, nicht den Autos."
+        },
+        "3": {
+          "val": 0,
+          "quote": "Kulturbegriff im städtischen Schulwesen neu denken, ab Kindergarten."
+        },
+        "6": {
+          "val": 0,
+          "quote": "Kultur und soziale Teilhabe gehören zusammen."
         },
         "16": {
           "val": -1,

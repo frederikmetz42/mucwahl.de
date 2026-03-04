@@ -1,5 +1,14 @@
 # Changelog
 
+## v4.9.11 — 2026-03-04
+### Tradeoff-Klauseln entschärfen + T3/T6 ersetzen
+- 13 "auch wenn"-Klauseln entschärft: Nein-Bias, Angst-Trigger und Sympathie-Gruppen neutralisiert (T1, T2, T5, T7, T10, T11, T13, T19, T20, T21, T22, T23, T24)
+- T3 Parkplätze → Schulen & Kita (Ganztagsschulen + Kita-Plätze Vorrang, Kategorie: Gesellschaft)
+- T6 Radwege → Sozialtarif Energie (SWM Sozialtarif für Strom/Fernwärme, Kategorie: Wirtschaft)
+- 28 neue Partei-Positionen für beide ersetzten Thesen (14 Parteien × 2 Thesen)
+- Die PARTEI T6: val 1 (Sozialtarif-Antrag als Fraktion mit Die Linke im Stadtrat)
+- Kategorieverteilung: Mobilität 6→4, Wirtschaft 5→6, Gesellschaft 6→7
+
 ## v4.9.10 — 2026-03-04
 ### CSU-Korrektur Drogenkonsumräume
 - CSU T22 Drogenkonsumräume: val -1→1, neues Zitat (CSU-Stadtratsfraktion + OB-Kandidat Baumgärtner fordern Modellversuch, Quelle: t-online 19.02.2026)

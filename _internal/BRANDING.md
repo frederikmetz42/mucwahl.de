@@ -9,7 +9,7 @@ Subtitle: "Kommunalwahl München 2026" in slate-400, uppercase, 10px, bold, wide
 ## Logo
 
 Source file: `_internal/logo.svg` (2MB, complex vector, not for web use).
-Web assets: `muc/icon.png` (192x192, 43KB) and `muc/favicon.png` (64x64, 7KB).
+Web assets: `assets/icon.png` (192x192, 43KB) and `assets/favicon.png` (64x64, 7KB).
 
 The logo depicts Munich landmarks (Frauenkirche, Olympic bridge) with a ballot checkbox. Its two dominant colours define the entire palette.
 

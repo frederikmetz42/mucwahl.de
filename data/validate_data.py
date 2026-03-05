@@ -2,7 +2,7 @@ import json
 import sys
 import os
 
-DB_PATH = '01-projects/wahl-o-mat-muenchen-2026/data/database.json'
+DB_PATH = 'data/database.json'
 
 def load_db():
     try:

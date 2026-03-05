@@ -1,0 +1,88 @@
+{
+  "last_updated": "2026-03-05",
+  "notes": "GoatCounter live since Mar 2 (partial day). Feb 24–Mar 1: only Ads clicks available. Mar 2: GC partial day overlap with Ads. Mar 3+: GC tracks all traffic (incl. Ads). Ads data from Google Ads console (All time, segmented by Day).",
+
+  "daily": [
+    { "date": "2026-02-24", "ads_clicks": 0,    "ads_impressions": 0,    "ads_cost": 0,      "gc_visits": null, "estimated_total": 0,    "note": "Campaign in review" },
+    { "date": "2026-02-25", "ads_clicks": 0,    "ads_impressions": 0,    "ads_cost": 0,      "gc_visits": null, "estimated_total": 0,    "note": "Campaign in review" },
+    { "date": "2026-02-26", "ads_clicks": 23,   "ads_impressions": 214,  "ads_cost": 8.45,   "gc_visits": null, "estimated_total": 23,   "note": "Ads only" },
+    { "date": "2026-02-27", "ads_clicks": 31,   "ads_impressions": 674,  "ads_cost": 8.43,   "gc_visits": null, "estimated_total": 31,   "note": "Ads only" },
+    { "date": "2026-02-28", "ads_clicks": 132,  "ads_impressions": 1969, "ads_cost": 40.24,  "gc_visits": null, "estimated_total": 132,  "note": "Ads only" },
+    { "date": "2026-03-01", "ads_clicks": 462,  "ads_impressions": 4010, "ads_cost": 104.88, "gc_visits": null, "estimated_total": 462,  "note": "Ads only, 3.5x budget spike" },
+    { "date": "2026-03-02", "ads_clicks": 208,  "ads_impressions": 812,  "ads_cost": 31.76,  "gc_visits": 70,   "estimated_total": 278,  "note": "GC live partway. Ads+GC overlap, some double-counting" },
+    { "date": "2026-03-03", "ads_clicks": 528,  "ads_impressions": 1435, "ads_cost": 48.44,  "gc_visits": 764,  "estimated_total": 764,  "note": "GC full day, includes Ads traffic" },
+    { "date": "2026-03-04", "ads_clicks": 1067, "ads_impressions": 2561, "ads_cost": 73.59,  "gc_visits": 1163, "estimated_total": 1163, "note": "GC full day, includes Ads traffic" },
+    { "date": "2026-03-05", "ads_clicks": 0,    "ads_impressions": 0,    "ads_cost": 0,      "gc_visits": 6,    "estimated_total": 6,    "note": "Ads paused, organic only" }
+  ],
+
+  "cumulative_total": 2859,
+
+  "totals": {
+    "ads_clicks": 2451,
+    "ads_impressions": 11675,
+    "ads_ctr": "20.99%",
+    "ads_avg_cpc": 0.13,
+    "ads_total_spent": 315.80,
+    "gc_visits": 2003,
+    "gc_offset_pre_gc": 648
+  },
+
+  "referrers": [
+    { "source": "Google (Ads + Organic)", "visits": 1508, "pct": 75.3 },
+    { "source": "Direct / Unknown",       "visits": 378,  "pct": 18.9 },
+    { "source": "Reddit",                 "visits": 61,   "pct": 3.0 },
+    { "source": "ChatGPT",                "visits": 19,   "pct": 0.9 },
+    { "source": "Instagram",              "visits": 15,   "pct": 0.7 },
+    { "source": "Perplexity",             "visits": 3,    "pct": 0.1 },
+    { "source": "Other",                  "visits": 19,   "pct": 1.0, "detail": "Ecosia 1, Claude.ai 1, MS Teams 2, GMX email 1, unattributed 14" }
+  ],
+
+  "devices": {
+    "phones": { "count": 1542, "pct": 77 },
+    "tablets": { "count": 108, "pct": 5 },
+    "desktop": { "count": 304, "pct": 15 },
+    "desktop_hd": { "count": 49, "pct": 2 }
+  },
+
+  "browsers": {
+    "safari": { "count": 1171, "pct": 58 },
+    "chrome": { "count": 731, "pct": 36 },
+    "firefox": { "count": 101, "pct": 5 }
+  },
+
+  "os": {
+    "ios": { "count": 1008, "pct": 50 },
+    "android": { "count": 573, "pct": 29 },
+    "macos": { "count": 217, "pct": 11 },
+    "windows": { "count": 183, "pct": 9 },
+    "linux": { "count": 18, "pct": 1 },
+    "chromeos": { "count": 4, "pct": 0.2 }
+  },
+
+  "locations": {
+    "germany": { "count": 1941, "pct": 97 },
+    "austria": { "count": 10, "pct": 0.5 },
+    "us": { "count": 10, "pct": 0.5 },
+    "italy": { "count": 4, "pct": 0.2 },
+    "netherlands": { "count": 4, "pct": 0.2 },
+    "mexico": { "count": 3, "pct": 0.2 },
+    "other": { "count": 31, "pct": 1.5 }
+  },
+
+  "referrers_daily": {
+    "2026-03-02": { "google": 44, "unknown": 24, "reddit": 0, "chatgpt": 0, "instagram": 0, "perplexity": 1, "other": 1 },
+    "2026-03-03": { "google": 495, "unknown": 200, "reddit": 49, "chatgpt": 7, "instagram": 0, "perplexity": 0, "other": 13 },
+    "2026-03-04": { "google": 968, "unknown": 151, "reddit": 11, "chatgpt": 11, "instagram": 14, "perplexity": 0, "other": 8 },
+    "2026-03-05": { "google": 1, "unknown": 3, "reddit": 1, "chatgpt": 1, "instagram": 0, "perplexity": 0, "other": 0 }
+  },
+
+  "ads_daily_detail": {
+    "2026-02-26": { "impressions": 214,  "clicks": 23,   "ctr": 10.75, "cost": 8.45,   "cpc": 0.37 },
+    "2026-02-27": { "impressions": 674,  "clicks": 31,   "ctr": 4.60,  "cost": 8.43,   "cpc": 0.27 },
+    "2026-02-28": { "impressions": 1969, "clicks": 132,  "ctr": 6.70,  "cost": 40.24,  "cpc": 0.30 },
+    "2026-03-01": { "impressions": 4010, "clicks": 462,  "ctr": 11.52, "cost": 104.88, "cpc": 0.23 },
+    "2026-03-02": { "impressions": 812,  "clicks": 208,  "ctr": 25.62, "cost": 31.76,  "cpc": 0.15 },
+    "2026-03-03": { "impressions": 1435, "clicks": 528,  "ctr": 36.79, "cost": 48.44,  "cpc": 0.09 },
+    "2026-03-04": { "impressions": 2561, "clicks": 1067, "ctr": 41.66, "cost": 73.59,  "cpc": 0.07 }
+  }
+}

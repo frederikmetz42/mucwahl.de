@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MUCwahl Cockpit</title>
 <style>
-  :root {
+  :root, [data-theme="light"] {
+    --bg: #f8fafc; --surface: #ffffff; --surface2: #f1f5f9; --border: #cbd5e1;
+    --text: #1e293b; --text2: #475569; --text3: #94a3b8;
+    --green: #22c55e; --yellow: #eab308; --red: #ef4444; --blue: #3b82f6;
+    --orange: #f97316; --purple: #a855f7; --cyan: #06b6d4;
+  }
+  [data-theme="dark"] {
     --bg: #0f1117; --surface: #1a1d27; --surface2: #242837; --border: #2e3348;
     --text: #e2e8f0; --text2: #94a3b8; --text3: #64748b;
     --green: #22c55e; --yellow: #eab308; --red: #ef4444; --blue: #3b82f6;
@@ -139,6 +145,7 @@
     .phase-grid { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 768px) {
+    #traffic-hero { grid-template-columns: 1fr 1fr !important; }
     .container { padding: 16px; }
     header { flex-direction: column; gap: 8px; align-items: flex-start; }
     .meta { flex-wrap: wrap; gap: 8px; }
@@ -157,6 +164,8 @@
     .feat-name { font-size: 13px; }
   }
   @media (max-width: 480px) {
+    #traffic-hero { grid-template-columns: 1fr 1fr !important; gap: 12px !important; padding: 16px !important; }
+    #traffic-hero > div > div:first-child + div { font-size: 32px !important; }
     .grid { grid-template-columns: 1fr; }
     .nav-link { padding: 8px 6px; font-size: 10px; min-width: 0; }
     .phase-grid { grid-template-columns: 1fr; }
@@ -170,15 +179,262 @@
 </style>
 </head>
 <body>
+<script>document.documentElement.dataset.theme=localStorage.getItem('cockpit-theme')||'light'</script>
 <div class="container">
   <header>
     <h1>MUCwahl <span>Project Cockpit</span></h1>
     <div class="meta">
       <span><span class="dot"></span> Live on GitHub Pages</span>
       <span>mucwahl.de</span>
-      <span>Updated: 2026-02-27</span>
+      <span>Updated: 2026-03-04</span>
+      <button onclick="let t=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=t;localStorage.setItem('cockpit-theme',t)" style="background:none;border:1px solid var(--border);border-radius:6px;padding:4px 8px;cursor:pointer;color:var(--text2);font-size:13px" title="Toggle theme">&#9680;</button>
     </div>
   </header>
+
+  <!-- ==================== TRAFFIC HERO ==================== -->
+  <div id="traffic-hero" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; padding: 20px; background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%); border: 1px solid var(--border); border-radius: 16px;">
+    <div style="text-align: center;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 8px;">Total Besucher</div>
+      <div id="total-visitors" style="font-size: 42px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--green);"></div>
+      <div style="font-size: 11px; color: var(--text3); margin-top: 6px;">GoatCounter + Ads vor Tracking</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 8px;">Google Ads Clicks</div>
+      <div id="ads-clicks" style="font-size: 42px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--blue);"></div>
+      <div style="font-size: 11px; color: var(--text3); margin-top: 6px;">gesamt (Kampagnenstart bis jetzt)</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 8px;">GoatCounter</div>
+      <div id="gc-visits" style="font-size: 42px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--cyan);"></div>
+      <div style="font-size: 11px; color: var(--text3); margin-top: 6px;">seit 2. M&auml;rz (Tracking-Start)</div>
+    </div>
+    <div style="text-align: center;">
+      <div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 8px;">Tage bis Wahl</div>
+      <div id="days-left-hero" style="font-size: 42px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--orange);"></div>
+      <div style="font-size: 11px; color: var(--text3); margin-top: 6px;">8. M&auml;rz 2026</div>
+    </div>
+  </div>
+
+  <!-- Google Ads Detail Bar -->
+  <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px;">
+    <div class="card" style="text-align: center; padding: 14px;">
+      <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 6px;">Impressions</div>
+      <div id="ads-impressions" style="font-size: 22px; font-weight: 800; color: var(--text);"></div>
+    </div>
+    <div class="card" style="text-align: center; padding: 14px;">
+      <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 6px;">CTR</div>
+      <div id="ads-ctr" style="font-size: 22px; font-weight: 800; color: var(--green);"></div>
+    </div>
+    <div class="card" style="text-align: center; padding: 14px;">
+      <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 6px;">Avg CPC</div>
+      <div id="ads-cpc" style="font-size: 22px; font-weight: 800; color: var(--green);"></div>
+    </div>
+    <div class="card" style="text-align: center; padding: 14px;">
+      <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 6px;">Ausgaben</div>
+      <div id="ads-spent" style="font-size: 22px; font-weight: 800; color: var(--orange);"></div>
+    </div>
+    <div class="card" style="text-align: center; padding: 14px;">
+      <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text3); margin-bottom: 6px;">Budget</div>
+      <div id="ads-budget" style="font-size: 22px; font-weight: 800; color: var(--text2);"></div>
+      <div style="font-size: 10px; color: var(--text3); margin-top: 4px;">&euro;70/d seit 5. M&auml;rz</div>
+    </div>
+  </div>
+
+  <!-- Unified Chart: Besucher + CPC + CTR -->
+  <div class="card" style="margin-bottom: 20px;">
+    <div class="section-title">Kampagnen-Performance</div>
+    <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px;">
+      <button class="mtog active" data-metric="visitors" style="--mc:var(--green);">Besucher</button>
+      <button class="mtog active" data-metric="cpc" style="--mc:var(--red);">CPC (&euro;)</button>
+      <button class="mtog active" data-metric="ctr" style="--mc:var(--cyan);">CTR (%)</button>
+    </div>
+    <style>
+      .mtog { font-size:11px; padding:4px 10px; border-radius:20px; border:1px solid var(--surface3); background:var(--surface2); color:var(--text3); cursor:pointer; transition:all .15s; font-family:inherit; }
+      .mtog:hover { border-color:var(--mc); color:var(--mc); }
+      .mtog.active { background:var(--mc); color:#fff; border-color:var(--mc); font-weight:600; }
+      .chtip { position:absolute; display:none; background:var(--surface1); border:1px solid var(--surface3); border-radius:8px; padding:8px 12px; font-size:11px; color:var(--text); pointer-events:none; z-index:10; box-shadow:0 4px 12px rgba(0,0,0,.3); min-width:110px; }
+    </style>
+    <div style="position:relative;">
+      <svg id="main-chart" viewBox="0 0 600 250" style="width:100%; height:auto; display:block;"></svg>
+      <div class="chtip" id="main-tip"></div>
+    </div>
+    <div style="font-size:10px; color:var(--text3); margin-top:4px;">Vor 2.3 = nur Ads Clicks. Ab 2.3: GoatCounter (Ads + Reddit + Direct + andere).</div>
+  </div>
+
+  <!-- Hero Stats Row -->
+  <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:20px;">
+    <div style="text-align:center; padding:10px; background:var(--surface); border:1px solid var(--border); border-radius:10px;">
+      <div style="font-size:22px; font-weight:800; color:var(--green);">2.849</div>
+      <div style="font-size:9px; color:var(--text3); margin-top:2px;">Besucher gesamt</div>
+    </div>
+    <div style="text-align:center; padding:10px; background:var(--surface); border:1px solid var(--border); border-radius:10px;">
+      <div style="font-size:22px; font-weight:800; color:var(--red);">&euro;0,07</div>
+      <div style="font-size:9px; color:var(--text3); margin-top:2px;">CPC <span style="color:var(--green);">&darr;81%</span> seit Start</div>
+    </div>
+    <div style="text-align:center; padding:10px; background:var(--surface); border:1px solid var(--border); border-radius:10px;">
+      <div style="font-size:22px; font-weight:800; color:var(--cyan);">41,7%</div>
+      <div style="font-size:9px; color:var(--text3); margin-top:2px;">CTR <span style="color:var(--text3);">(Branche: 3-5%)</span></div>
+    </div>
+    <div style="text-align:center; padding:10px; background:var(--surface); border:1px solid var(--border); border-radius:10px;">
+      <div style="font-size:22px; font-weight:800; color:var(--orange);">&euro;315</div>
+      <div style="font-size:9px; color:var(--text3); margin-top:2px;">Gesamtausgaben</div>
+    </div>
+  </div>
+  <div style="font-size:10px; color:var(--text3); text-align:center; margin-bottom:8px;">
+    Daten: <code style="font-size:10px; background:var(--surface2); padding:2px 6px; border-radius:4px;">data/analytics.json</code> + Google Ads Console (Stand 5.3)
+  </div>
+
+  <script>
+  (function() {
+    var DATA = [
+      { d:'25.2', visitors:0, ads_clicks:0, ads_impressions:0, ads_cost:0, cpc:0, ctr:0 },
+      { d:'26.2', visitors:23, ads_clicks:23, ads_impressions:214, ads_cost:8.45, cpc:0.37, ctr:10.75 },
+      { d:'27.2', visitors:31, ads_clicks:31, ads_impressions:674, ads_cost:8.43, cpc:0.27, ctr:4.60 },
+      { d:'28.2', visitors:132, ads_clicks:132, ads_impressions:1969, ads_cost:40.24, cpc:0.30, ctr:6.70 },
+      { d:'1.3', visitors:462, ads_clicks:462, ads_impressions:4010, ads_cost:104.88, cpc:0.23, ctr:11.52 },
+      { d:'2.3', visitors:278, ads_clicks:208, ads_impressions:812, ads_cost:31.76, cpc:0.15, ctr:25.62 },
+      { d:'3.3', visitors:764, ads_clicks:528, ads_impressions:1435, ads_cost:48.44, cpc:0.09, ctr:36.79 },
+      { d:'4.3', visitors:1163, ads_clicks:1067, ads_impressions:2561, ads_cost:73.59, cpc:0.07, ctr:41.66 },
+      { d:'5.3', visitors:6, ads_clicks:0, ads_impressions:0, ads_cost:0, cpc:0, ctr:0 }
+    ];
+    var ns = 'http://www.w3.org/2000/svg';
+    var W = 600;
+    var COLORS = { visitors:'var(--green)', ads_clicks:'var(--blue)', ads_impressions:'var(--purple)', ads_cost:'var(--orange)', cpc:'var(--red)', ctr:'var(--cyan)' };
+    var LABELS = { visitors:'Besucher', ads_clicks:'Ads Clicks', ads_impressions:'Impressions', ads_cost:'Kosten', cpc:'CPC', ctr:'CTR' };
+    function getC(v) { try { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); } catch(e) { return '#888'; } }
+
+    // ---- Shared helpers ----
+    function scaffold(svg, H, pad, gcIdx) {
+      while (svg.firstChild) svg.removeChild(svg.firstChild);
+      var tc = getC('--text3'), gc = getC('--surface3');
+      var cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+      for (var i = 0; i <= 4; i++) {
+        var y = pad.t + (ch / 4) * i;
+        var l = document.createElementNS(ns, 'line');
+        l.setAttribute('x1', pad.l); l.setAttribute('y1', y); l.setAttribute('x2', W - pad.r); l.setAttribute('y2', y);
+        l.setAttribute('stroke', gc); l.setAttribute('stroke-width', '0.5'); l.setAttribute('stroke-dasharray', '4,3');
+        svg.appendChild(l);
+      }
+      if (gcIdx != null) {
+        var gx = pad.l + (cw / (DATA.length - 1)) * gcIdx;
+        var gl = document.createElementNS(ns, 'line');
+        gl.setAttribute('x1', gx); gl.setAttribute('y1', pad.t); gl.setAttribute('x2', gx); gl.setAttribute('y2', pad.t + ch);
+        gl.setAttribute('stroke', tc); gl.setAttribute('stroke-width', '1'); gl.setAttribute('stroke-dasharray', '3,3'); gl.setAttribute('opacity', '0.35');
+        svg.appendChild(gl);
+        var gt = document.createElementNS(ns, 'text');
+        gt.setAttribute('x', gx + 3); gt.setAttribute('y', pad.t + 9); gt.setAttribute('font-size', '7'); gt.setAttribute('fill', tc); gt.setAttribute('opacity', '0.4');
+        gt.textContent = 'GC'; svg.appendChild(gt);
+      }
+      DATA.forEach(function(p, i) {
+        var x = pad.l + (cw / (DATA.length - 1)) * i;
+        var t = document.createElementNS(ns, 'text');
+        t.setAttribute('x', x); t.setAttribute('y', H - 4); t.setAttribute('text-anchor', 'middle'); t.setAttribute('font-size', '9'); t.setAttribute('fill', tc);
+        t.textContent = p.d; svg.appendChild(t);
+      });
+      return { tc: tc, cw: cw, ch: ch };
+    }
+    function fmtV(v, metric) {
+      if (metric === 'cpc' || metric === 'ads_cost') return '\u20ac' + (v >= 1 ? Math.round(v) : v.toFixed(2));
+      if (metric === 'ctr') return v.toFixed(1) + '%';
+      return v >= 1000 ? (v/1000).toFixed(1).replace('.',',') + 'k' : Math.round(v).toString();
+    }
+    function addDotLabels(svg, pts, vals, metric, opacity, offsetY, skipVals) {
+      pts.forEach(function(p, i) {
+        if (vals[i] <= 0) return;
+        if (skipVals && skipVals[i] === vals[i]) return; // skip duplicate values
+        var t = document.createElementNS(ns, 'text');
+        t.setAttribute('x', p.x); t.setAttribute('y', p.y + (offsetY || -9));
+        t.setAttribute('text-anchor', 'middle');
+        t.setAttribute('font-size', '8.5'); t.setAttribute('font-weight', '600');
+        t.setAttribute('fill', COLORS[metric]); t.setAttribute('opacity', (opacity || 1).toString());
+        t.textContent = fmtV(vals[i], metric);
+        svg.appendChild(t);
+      });
+    }
+    function makeLine(svg, pad, H, vals, maxV, color, opacity) {
+      var cw = W - pad.l - pad.r, ch = H - pad.t - pad.b;
+      var pts = []; DATA.forEach(function(p, i) {
+        pts.push({ x: pad.l + (cw / (DATA.length - 1)) * i, y: pad.t + ch - (vals[i] / maxV) * ch, v: vals[i] });
+      });
+      var g = document.createElementNS(ns, 'g'); g.setAttribute('opacity', opacity.toString());
+      var aD = ''; pts.forEach(function(p, i) { aD += (i?'L':'M') + p.x.toFixed(1) + ',' + p.y.toFixed(1); });
+      aD += 'L' + pts[pts.length-1].x.toFixed(1) + ',' + (pad.t+ch) + 'L' + pts[0].x.toFixed(1) + ',' + (pad.t+ch) + 'Z';
+      var a = document.createElementNS(ns, 'path'); a.setAttribute('d', aD); a.setAttribute('fill', color); a.setAttribute('opacity', '0.08'); g.appendChild(a);
+      var lD = ''; pts.forEach(function(p, i) { lD += (i?'L':'M') + p.x.toFixed(1) + ',' + p.y.toFixed(1); });
+      var h = document.createElementNS(ns, 'path'); h.setAttribute('d', lD); h.setAttribute('fill', 'none'); h.setAttribute('stroke', 'transparent'); h.setAttribute('stroke-width', '14'); g.appendChild(h);
+      var ln = document.createElementNS(ns, 'path'); ln.setAttribute('d', lD); ln.setAttribute('fill', 'none'); ln.setAttribute('stroke', color); ln.setAttribute('stroke-width', '2.5'); ln.setAttribute('stroke-linecap', 'round'); ln.setAttribute('stroke-linejoin', 'round'); g.appendChild(ln);
+      pts.forEach(function(p) { if (p.v > 0) { var d = document.createElementNS(ns, 'circle'); d.setAttribute('cx', p.x); d.setAttribute('cy', p.y); d.setAttribute('r', '3.5'); d.setAttribute('fill', color); d.setAttribute('stroke', 'var(--surface1)'); d.setAttribute('stroke-width', '1.5'); g.appendChild(d); } });
+      svg.appendChild(g); return { g: g, pts: pts };
+    }
+    function tipSetup(svgId, tipId) {
+      document.getElementById(svgId).addEventListener('mousemove', function(e) {
+        var r = e.currentTarget.getBoundingClientRect(), tip = document.getElementById(tipId), cx = e.clientX - r.left;
+        tip.style.left = (cx > r.width / 2 ? cx - 120 : cx + 16) + 'px'; tip.style.top = (e.clientY - r.top - 40) + 'px';
+      });
+    }
+    function showTip(tipId, day, metric, val) {
+      var tip = document.getElementById(tipId); tip.textContent = '';
+      var d1 = document.createElement('div'); d1.style.fontWeight = '700'; d1.style.marginBottom = '2px'; d1.textContent = day;
+      var d2 = document.createElement('div'); d2.style.color = COLORS[metric];
+      var u = metric === 'cpc' || metric === 'ads_cost' ? '\u20ac' : metric === 'ctr' ? '%' : '';
+      d2.textContent = LABELS[metric] + ': ' + (u === '\u20ac' ? '\u20ac'+val.toFixed(2) : u === '%' ? val.toFixed(1)+'%' : val.toLocaleString('de-DE'));
+      tip.appendChild(d1); tip.appendChild(d2); tip.style.display = 'block';
+    }
+    function hideTip(tipId) { document.getElementById(tipId).style.display = 'none'; }
+    function addDotTips(result, metric, tipId) {
+      var dots = result.g.querySelectorAll('circle'), di = 0;
+      DATA.forEach(function(d, idx) {
+        if (d[metric] > 0 && dots[di]) {
+          (function(day, m, v, dot) { dot.style.cursor = 'pointer'; dot.addEventListener('mouseenter', function() { showTip(tipId, day, m, v); }); dot.addEventListener('mouseleave', function() { hideTip(tipId); }); })(d.d, metric, d[metric], dots[di]);
+          di++;
+        }
+      });
+    }
+    function addLabel(svg, x, y, text, color, anchor) {
+      var t = document.createElementNS(ns, 'text'); t.setAttribute('x', x); t.setAttribute('y', y);
+      t.setAttribute('text-anchor', anchor || 'middle'); t.setAttribute('font-size', '9'); t.setAttribute('fill', color); t.setAttribute('font-weight', '700');
+      t.textContent = text; svg.appendChild(t);
+    }
+
+    // ---- Unified Chart: Besucher + CPC + CTR (toggleable) ----
+    var mPad = { l:12, r:12, t:22, b:32 }, mH = 250;
+    var mActive = new Set(['visitors','cpc','ctr']);
+    var LABEL_OFFSETS = { visitors: -9, cpc: 14, ctr: -9 };
+    function renderMain() {
+      var svg = document.getElementById('main-chart');
+      scaffold(svg, mH, mPad, 5);
+      var metrics = ['visitors','cpc','ctr'].filter(function(m) { return mActive.has(m); });
+      // Each metric gets its own scale (different units)
+      var drawn = [];
+      metrics.forEach(function(m) {
+        var vals = DATA.map(function(d) { return d[m]; });
+        var maxV = (Math.max.apply(null, vals.filter(function(v) { return v > 0; })) || 1) * 1.2;
+        var r = makeLine(svg, mPad, mH, vals, maxV, COLORS[m], 1);
+        addDotTips(r, m, 'main-tip');
+        drawn.push({ metric: m, pts: r.pts, vals: vals });
+      });
+      // Labels: spread offsets to avoid overlap
+      var offsets = [];
+      if (drawn.length === 1) { offsets = [-9]; }
+      else if (drawn.length === 2) { offsets = [-9, 14]; }
+      else { offsets = [-9, 14, -22]; }
+      drawn.forEach(function(d, i) {
+        addDotLabels(svg, d.pts, d.vals, d.metric, 1, offsets[i]);
+      });
+    }
+    document.querySelectorAll('.mtog').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var m = this.dataset.metric;
+        if (mActive.has(m)) { if (mActive.size > 1) mActive.delete(m); } else mActive.add(m);
+        document.querySelectorAll('.mtog').forEach(function(b) { b.classList.toggle('active', mActive.has(b.dataset.metric)); });
+        renderMain();
+      });
+    });
+
+    tipSetup('main-chart', 'main-tip');
+    renderMain();
+  })();
+  </script>
 
   <!-- Sticky Nav -->
   <nav class="nav-bar" id="nav">
@@ -477,7 +733,7 @@
         <div class="card-header">Version</div>
         <div style="display: flex; gap: 16px; align-items: baseline;">
           <div>
-            <div class="stat" style="color: var(--green)">4.7</div>
+            <div class="stat" style="color: var(--green)">4.9.13</div>
             <div class="stat-label">Local</div>
           </div>
           <div style="font-size: 20px; color: var(--text3);">&rarr;</div>
@@ -500,8 +756,8 @@
       </div>
       <div class="card">
         <div class="card-header">Last Ship</div>
-        <div class="stat" style="color: var(--blue)">v4.7</div>
-        <div class="stat-label">6 Features</div>
+        <div class="stat" style="color: var(--blue)">v4.9.13</div>
+        <div class="stat-label">Pre-Flight Check, T15 Reframe</div>
       </div>
     </div>
 
@@ -578,6 +834,26 @@
       <table>
         <thead><tr><th>Version</th><th>Features</th></tr></thead>
         <tbody>
+          <tr>
+            <td><span class="badge badge-green">v4.9.13</span></td>
+            <td>T26 Kitaplatz-Vergabe, T28 &Uuml;bernachtungsabgabe, T15 Gewerbesteuer-Reframe, Pre-Flight-Check</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-green">v4.9.12</span></td>
+            <td>3 schwache Thesen ersetzt (T3/T6/T17), 3 neue Thesen (T26-T28), Fear-Word/Intensifier entfernt</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-green">v4.9.7</span></td>
+            <td>Bayernpartei 12 Thesen, B&uuml;ndnis Kultur partial-Flag, Share-Sheet Focus-Trap, Emoji&rarr;Canvas</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-green">v4.9</span></td>
+            <td>Share UX Overhaul: Fragment-Encoding, 4 Share-Karten, Share-Sheet, Direct-Share Buttons</td>
+          </tr>
+          <tr>
+            <td><span class="badge badge-green">v4.8</span></td>
+            <td>Thesen-Swap: 6 schwache Thesen ersetzt, 7&rarr;5 Kategorien, 84 neue Positionen</td>
+          </tr>
           <tr>
             <td><span class="badge badge-green">v4.7</span></td>
             <td>Offene Karten, Vergleich tab, solar polarity flip, LGBTQ+ shortening, footer merge</td>
@@ -1122,29 +1398,8 @@ Kein Tracking, Open Source.</span>
 
     <!-- Campaign Performance (Live Audit) -->
     <div class="card" style="margin-bottom: 24px; border-left: 3px solid var(--red);">
-      <div class="section-title">Campaign Performance <span class="badge badge-green" style="margin-left: 8px;">Audit Mar 1</span></div>
-      <div class="grid">
-        <div class="card" style="text-align: center;">
-          <div class="card-header">Clicks</div>
-          <div class="stat" style="color: var(--blue);">341</div>
-          <div class="stat-label">of 2,919 impressions</div>
-        </div>
-        <div class="card" style="text-align: center;">
-          <div class="card-header">CTR</div>
-          <div class="stat" style="color: var(--green);">11.68%</div>
-          <div class="stat-label">Excellent for political keywords</div>
-        </div>
-        <div class="card" style="text-align: center;">
-          <div class="card-header">Avg CPC</div>
-          <div class="stat" style="color: var(--green);">&euro;0.21</div>
-          <div class="stat-label">Down from &euro;0.32</div>
-        </div>
-        <div class="card" style="text-align: center;">
-          <div class="card-header">Spent</div>
-          <div class="stat" style="color: var(--orange);">&euro;71.60</div>
-          <div class="stat-label">93.5% mobile traffic</div>
-        </div>
-      </div>
+      <div class="section-title">Campaign Performance <span class="badge badge-green" style="margin-left: 8px;">Stand 2. M&auml;rz</span></div>
+      <div style="font-size: 12px; color: var(--text3); margin-bottom: 12px;">Aktuelle Zahlen oben im Traffic-Hero. Hier: Audit-Details und Optimierungen.</div>
 
       <div style="margin-top: 16px; font-size: 12px; color: var(--text2); line-height: 1.8;">
         <strong style="color: var(--green);">&#10003; Optimisations applied (Mar 1):</strong>
@@ -1163,6 +1418,87 @@ Kein Tracking, Open Source.</span>
 
       <div style="margin-top: 12px; font-size: 12px; color: var(--text2); line-height: 1.8;">
         <strong style="color: var(--orange);">&#128161; Demographics:</strong> 58.7% female, 41.8% male. Largest age group 25&ndash;34 (29.4%). 18&ndash;24 only 6.1%.
+      </div>
+    </div>
+
+    <!-- Day-by-Day Performance -->
+    <div class="card" style="margin-bottom: 24px;">
+      <div class="section-title">Day-by-Day Performance <span class="badge badge-blue" style="margin-left: 8px;">All Time</span></div>
+      <table style="font-variant-numeric: tabular-nums;">
+        <thead>
+          <tr>
+            <th>Tag</th>
+            <th style="text-align: right;">Impr.</th>
+            <th style="text-align: right;">Clicks</th>
+            <th style="text-align: right;">CTR</th>
+            <th style="text-align: right;">Cost</th>
+            <th style="text-align: right;">CPC</th>
+            <th style="width: 120px;">Spend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="white-space: nowrap;"><span style="color: var(--text3); font-size: 11px;">Do</span> 26 Feb</td>
+            <td style="text-align: right; color: var(--text3);">214</td>
+            <td style="text-align: right; font-weight: 700;">23</td>
+            <td style="text-align: right;"><span style="color: var(--green); font-weight: 700;">10.75%</span></td>
+            <td style="text-align: right;">&euro;8.45</td>
+            <td style="text-align: right;"><span style="color: var(--red); font-weight: 700;">&euro;0.37</span></td>
+            <td><div style="height: 8px; border-radius: 4px; background: var(--surface2); overflow: hidden;"><div style="width: 8%; height: 100%; border-radius: 4px; background: var(--blue);"></div></div></td>
+          </tr>
+          <tr>
+            <td style="white-space: nowrap;"><span style="color: var(--text3); font-size: 11px;">Fr</span> 27 Feb</td>
+            <td style="text-align: right; color: var(--text3);">674</td>
+            <td style="text-align: right; font-weight: 700;">31</td>
+            <td style="text-align: right;"><span style="color: var(--red); font-weight: 700;">4.60%</span></td>
+            <td style="text-align: right;">&euro;8.43</td>
+            <td style="text-align: right;"><span style="color: var(--yellow); font-weight: 700;">&euro;0.27</span></td>
+            <td><div style="height: 8px; border-radius: 4px; background: var(--surface2); overflow: hidden;"><div style="width: 8%; height: 100%; border-radius: 4px; background: var(--blue);"></div></div></td>
+          </tr>
+          <tr>
+            <td style="white-space: nowrap;"><span style="color: var(--text3); font-size: 11px;">Sa</span> 28 Feb</td>
+            <td style="text-align: right;">1.969</td>
+            <td style="text-align: right; font-weight: 700;">132</td>
+            <td style="text-align: right;"><span style="color: var(--yellow); font-weight: 700;">6.70%</span></td>
+            <td style="text-align: right;">&euro;40.24</td>
+            <td style="text-align: right;"><span style="color: var(--yellow); font-weight: 700;">&euro;0.30</span></td>
+            <td><div style="height: 8px; border-radius: 4px; background: var(--surface2); overflow: hidden;"><div style="width: 38%; height: 100%; border-radius: 4px; background: var(--blue);"></div></div></td>
+          </tr>
+          <tr style="background: var(--surface2);">
+            <td style="white-space: nowrap;"><span style="color: var(--text3); font-size: 11px;">So</span> 1 Mar <span class="badge badge-red" style="font-size: 9px; padding: 1px 6px; margin-left: 4px;">3.5&times; Budget</span></td>
+            <td style="text-align: right;">4.010</td>
+            <td style="text-align: right; font-weight: 700; color: var(--green);">461</td>
+            <td style="text-align: right;"><span style="color: var(--green); font-weight: 700;">11.50%</span></td>
+            <td style="text-align: right; color: var(--red); font-weight: 700;">&euro;104.60</td>
+            <td style="text-align: right;"><span style="color: var(--green); font-weight: 700;">&euro;0.23</span></td>
+            <td><div style="height: 8px; border-radius: 4px; background: var(--surface2); overflow: hidden;"><div style="width: 100%; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--blue), var(--red));"></div></div></td>
+          </tr>
+          <tr>
+            <td style="white-space: nowrap;"><span style="color: var(--text3); font-size: 11px;">Mo</span> 2 Mar <span class="badge badge-green" style="font-size: 9px; padding: 1px 6px; margin-left: 4px;">Heute</span></td>
+            <td style="text-align: right;">725</td>
+            <td style="text-align: right; font-weight: 700;">175</td>
+            <td style="text-align: right;"><span style="color: var(--green); font-weight: 700;">24.14%</span></td>
+            <td style="text-align: right;">&euro;28.73</td>
+            <td style="text-align: right;"><span style="color: var(--green); font-weight: 700;">&euro;0.16</span></td>
+            <td><div style="height: 8px; border-radius: 4px; background: var(--surface2); overflow: hidden;"><div style="width: 27%; height: 100%; border-radius: 4px; background: var(--green);"></div></div></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr style="border-top: 2px solid var(--border);">
+            <td style="font-weight: 800; color: var(--text);">Total</td>
+            <td style="text-align: right; font-weight: 800;">7.592</td>
+            <td style="text-align: right; font-weight: 800;">822</td>
+            <td style="text-align: right; font-weight: 800; color: var(--green);">10.83%</td>
+            <td style="text-align: right; font-weight: 800;">&euro;190.45</td>
+            <td style="text-align: right; font-weight: 800;">&euro;0.23</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+      <div style="display: flex; gap: 16px; margin-top: 16px; font-size: 11px; color: var(--text3);">
+        <div>CTR: <span style="color: var(--green);">&bull;</span> &gt;10% <span style="color: var(--yellow);">&bull;</span> 5&ndash;10% <span style="color: var(--red);">&bull;</span> &lt;5%</div>
+        <div>CPC: <span style="color: var(--green);">&bull;</span> &lt;&euro;0.25 <span style="color: var(--yellow);">&bull;</span> &euro;0.25&ndash;0.35 <span style="color: var(--red);">&bull;</span> &gt;&euro;0.35</div>
+        <div style="margin-left: auto;">Budget: &euro;30/Tag</div>
       </div>
     </div>
 
@@ -1427,7 +1763,7 @@ Kein Tracking, Open Source.</span>
             &bull; <strong>&bdquo;Stimme zu&ldquo; = progressiv:</strong> 11 Thesen<br>
             &bull; <strong>&bdquo;Stimme zu&ldquo; = konservativ:</strong> 10 Thesen<br>
             &bull; <strong>Ambivalent / beides:</strong> 4 Thesen<br>
-            &bull; Polarity flips: T3, T7, T13, T18 (v4.8 + v4.9.4)
+            &bull; Polarity flips: T7, T13, T18 (v4.8 + v4.9.4). T15 Reframe: senken&rarr;erh&ouml;hen (v4.9.13)
           </div>
         </div>
         <div>
@@ -1498,13 +1834,13 @@ Kein Tracking, Open Source.</span>
           </tr>
         </thead>
         <tbody>
-          <tr><td>1</td><td>Stra&szlig;entunnel</td><td>Neue Stra&szlig;entunnel bauen, auch wenn Milliarden kostet</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">&bdquo;Auch wenn&ldquo;-Klausel. Kosten explizit.</td></tr>
+          <tr style="background:rgba(239,68,68,0.07)"><td>1</td><td>Stra&szlig;entunnel</td><td>Neue Stra&szlig;entunnel bauen, auch wenn hohe Baukosten</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--red)">HARD-FAIL: Spread 6 (&lt;7), St&auml;rke 4.3 (&lt;5). v4.9.12: Fear-Word &bdquo;Milliarden&ldquo; entfernt.</td></tr>
           <tr><td>2</td><td>Autofreie Altstadt</td><td>Privater Autoverkehr im Altstadtring stark einschr&auml;nken</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E1;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">Keine &bdquo;auch wenn&ldquo;-Klausel. Auswirkung auf Anwohner/Lieferverkehr fehlt.</td></tr>
-          <tr><td>3</td><td>Parkpl&auml;tze</td><td>Stra&szlig;enparkpl&auml;tze f&uuml;r Radwege, Gr&uuml;n, Au&szlig;engastro umwandeln</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">&bdquo;Auch wenn&ldquo;-Klausel. v4.9.4 Polarity flip + Au&szlig;engastronomie.</td></tr>
+          <tr><td>26</td><td>Kitaplatz-Vergabe</td><td>Vollzeit-Arbeitende bei Kitaplatzvergabe bevorzugen</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--green)">v4.9.13 NEU. Spread 14, Balance 0.75, St&auml;rke 12.2. Quelle: O-Mat T36.</td></tr>
           <tr><td>4</td><td>Tempo 30</td><td>Tempo 30 auf mehr Stra&szlig;en, auch wenn l&auml;ngere Fahrzeiten</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">&bdquo;Auch wenn&ldquo;-Klausel. Vorbildlich.</td></tr>
           <tr><td>5</td><td>&Ouml;PNV-Preise</td><td>Ticketpreise senken, auch wenn anderswo gespart werden muss</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">&bdquo;Auch wenn&ldquo;-Klausel. Vorbildlich.</td></tr>
-          <tr><td>6</td><td>Radwege</td><td>Fahrspuren erhalten, auch wenn weniger Platz f&uuml;r Radwege</td><td style="text-align:center">&#x1F7E1;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E1;</td><td style="color:var(--text3)">Auto-Perspektive. &bdquo;Auch wenn&ldquo;-Klausel gleicht teilweise aus.</td></tr>
-          <tr><td>7</td><td>Wohnungs-R&uuml;ckkauf</td><td>Wohnungen von Konzernen zur&uuml;ckkaufen, auch wenn Haushalt belastet</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">v4.9.4: &bdquo;Milliarden&ldquo; entfernt. &bdquo;Auch wenn&ldquo;-Klausel. Neutral.</td></tr>
+          <tr><td>27</td><td>Deutsch in Kitas</td><td>Deutsch als verbindliche Umgangssprache in Kitas</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--green)">v4.9.12 NEU. Spread 10, Balance 1.00, perfekte 5:5-Teilung.</td></tr>
+          <tr style="background:rgba(239,68,68,0.07)"><td>7</td><td>Wohnungs-R&uuml;ckkauf</td><td>Wohnungen von Konzernen zur&uuml;ckkaufen, auch wenn Haushalt belastet</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--red)">HARD-FAIL: Spread 5 (&lt;7), Balance 0.25 (&lt;0.4), St&auml;rke 3.0 (&lt;5). Schw&auml;chste These.</td></tr>
           <tr><td>8</td><td>St&auml;dtisches Bauen</td><td>M&uuml;nchner Wohnen nur bezahlbar, auch wenn nicht gewinnbringend</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">&bdquo;Auch wenn&ldquo;-Klausel. Vorbildlich.</td></tr>
           <tr><td>9</td><td>Wachstumsbremse</td><td>Wachstum begrenzen, auch wenn Steuereinnahmen sinken</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">&bdquo;Auch wenn&ldquo;-Klausel. Vorbildlich.</td></tr>
           <tr><td>10</td><td>Nachverdichtung</td><td>Wohnungsbau Vorrang vor Gr&uuml;nfl&auml;chen in EFH-Vierteln</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">Eingebauter Trade-off: Vorrang = klare Priorit&auml;tsfrage.</td></tr>
@@ -1512,13 +1848,13 @@ Kein Tracking, Open Source.</span>
           <tr><td>12</td><td>Hochh&auml;user</td><td>B&uuml;ro-/Hotelhochh&auml;user &uuml;ber 100m erlauben, auch wenn Stadtbild &auml;ndert</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">v4.9.4: B&uuml;ro-/Hotel klargestellt. &bdquo;Auch wenn&ldquo;-Klausel.</td></tr>
           <tr><td>13</td><td>Solarpflicht</td><td>Solarpflicht abschaffen, auch wenn Stromkosten langfristig sinken</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">Polarity flip v4.7. &bdquo;Auch wenn&ldquo;-Klausel.</td></tr>
           <tr><td>14</td><td>Klima-Vorrang</td><td>Klimaschutz im Zweifel wichtiger als Kosten</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">Eingebauter Trade-off: &bdquo;im Zweifel wichtiger als&ldquo;.</td></tr>
-          <tr><td>15</td><td>Gewerbesteuer</td><td>Gewerbesteuersatz senken, auch wenn Einnahmen sinken</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">&bdquo;Auch wenn&ldquo;-Klausel. Vorbildlich.</td></tr>
+          <tr><td>15</td><td>Gewerbesteuer</td><td>Gewerbesteuersatz erh&ouml;hen, auch wenn Standortverlagerung</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--green)">v4.9.13 REFRAME: &bdquo;senken&ldquo;&rarr;&bdquo;erh&ouml;hen&ldquo;. Spread 5&rarr;14, St&auml;rke 4.0&rarr;10.9.</td></tr>
           <tr><td>16</td><td>Sparkurs</td><td>Ausgaben k&uuml;rzen, auch wenn Projekte gestrichen werden</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">&bdquo;Auch wenn&ldquo;-Klausel. Vorbildlich.</td></tr>
-          <tr><td>17</td><td>Digitale Verwaltung</td><td>Alles digital, auch wenn weniger pers&ouml;nliche Beratung</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">&bdquo;Auch wenn&ldquo;-Klausel. Vorbildlich.</td></tr>
+          <tr><td>28</td><td>&Uuml;bernachtungsabgabe</td><td>&Uuml;bernachtungsabgabe (Bettensteuer) einf&uuml;hren</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--green)">v4.9.13 NEU. Spread 14, Balance 0.40, St&auml;rke 9.8. Quelle: O-Mat T71.</td></tr>
           <tr><td>18</td><td>Gewerbefl&auml;chen</td><td>Leerstehende B&uuml;ros in Wohnraum, auch wenn Gewerbesteuer-Potenzial</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">v4.9.4: Polarity flip + Recherche-Background. &bdquo;Auch wenn&ldquo;-Klausel.</td></tr>
           <tr><td>19</td><td>Referate abschaffen</td><td>Mobilit&auml;ts-/Klimareferat abschaffen, in bestehende integrieren</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E1;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">Keine &bdquo;auch wenn&ldquo;-Klausel. Sichtbarkeitsverlust nicht benannt.</td></tr>
           <tr><td>20</td><td>Gendersprache</td><td>Geschlechtergerechte Sprache nutzen, auch wenn nicht amtliche Regeln</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">v4.9.4: &bdquo;Auch wenn&ldquo;-Klausel + Background (Bayern-Verbot, Rechtschreibrat).</td></tr>
-          <tr><td>21</td><td>Video&uuml;berwachung</td><td>Video&uuml;berwachung an Brennpunkten, auch wenn KI/Gesichtserkennung</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">&bdquo;Auch wenn&ldquo;-Klausel. Privatsph&auml;re-Kosten jetzt explizit.</td></tr>
+          <tr style="background:rgba(239,68,68,0.07)"><td>21</td><td>Video&uuml;berwachung</td><td>Video&uuml;berwachung an Brennpunkten, auch wenn &ouml;ffentlicher Raum st&auml;rker &uuml;berwacht</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--red)">HARD-FAIL: Balance 0.14 (&lt;0.4), St&auml;rke 4.5 (&lt;5). CSU allein daf&uuml;r vs. 7 dagegen.</td></tr>
           <tr><td>22</td><td>Drogenkonsumr&auml;ume</td><td>Staatlich kontrollierte Drogenkonsumr&auml;ume einrichten</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E1;</td><td style="text-align:center">&#x1F7E1;</td><td style="color:var(--text3)">Keine &bdquo;auch wenn&ldquo;-Klausel. NIMBY-Gegenargument fehlt.</td></tr>
           <tr><td>23</td><td>Ordnung</td><td>St&auml;rker Kontrolle/Ordnung als Sozialarbeit</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">v4.9.4: &bdquo;st&auml;rker... als&ldquo; statt false binary. Eingebauter Kontrast.</td></tr>
           <tr><td>24</td><td>Bezahlkarte</td><td>Bezahlkarte statt Bargeld, auch wenn nicht frei verf&uuml;gen</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="text-align:center">&#x1F7E2;</td><td style="color:var(--text3)">v4.9.4: Konkreter. &bdquo;Auch wenn&ldquo;-Klausel.</td></tr>
@@ -1534,8 +1870,8 @@ Kein Tracking, Open Source.</span>
         <div>
           <div style="font-size: 11px; font-weight: 700; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;">Akzeptierte Grenzen</div>
           <div style="font-size: 12px; color: var(--text2); line-height: 1.8;">
-            &bull; <strong>7 Thesen ohne &bdquo;auch wenn&ldquo;</strong> (T2, T10, T11, T14, T19, T22, T23): Davon haben T10, T14 und T23 eingebaute Trade-offs (&bdquo;Vorrang&ldquo;, &bdquo;im Zweifel&ldquo;, &bdquo;st&auml;rker... als&ldquo;). Nur T2, T11, T19, T22 fehlt ein expliziter Gegenargument-Hinweis.<br>
-            &bull; <strong>Status-quo-Framing</strong> bei T6: &bdquo;Erhalten bleiben&ldquo; bevorzugt leicht den Ist-Zustand. Akzeptabel, weil die &bdquo;auch wenn&ldquo;-Klausel ausgleicht.<br>
+            &bull; <strong>3 Thesen unter HARD-Schwelle</strong> (T1, T7, T21): Bestehen Pre-Flight-Check nicht. T7 schw&auml;chste These (St&auml;rke 3.0), T21 extremste Balance (0.14: 1 daf&uuml;r, 7 dagegen), T1 zu wenig Spread (6/14).<br>
+            &bull; <strong>Gesellschaft-Korrelation</strong>: T24/T25/T19 haben 100% identische Partei-Splits. 7 Gesellschafts-Thesen = 28% des Quiz, alle messen dieselbe ideologische Achse. Reddit: &bdquo;eine Frage zu Migration und zack bin ich ein Nazi&ldquo;.<br>
             &bull; <strong>T22 (Drogenkonsumr&auml;ume)</strong>: &bdquo;Staatlich kontrollierte&ldquo; und &bdquo;f&uuml;r Abh&auml;ngige&ldquo; rahmt als geregelt/gezielt. NIMBY-Gegenargument fehlt.
           </div>
         </div>
@@ -1802,11 +2138,40 @@ Kein Tracking, Open Source.</span>
   </section>
 
   <footer style="text-align: center; padding: 24px 0; font-size: 11px; color: var(--text3); border-top: 1px solid var(--border); margin-top: 8px;">
-    Internal project dashboard &middot; Not for public distribution &middot; Updated 2026-02-27
+    Internal project dashboard &middot; Not for public distribution &middot; Updated 2026-03-05
   </footer>
 </div>
 
 <script>
+// ==================== TRAFFIC DATA ====================
+// Update these numbers when checking Google Ads dashboard
+var ADS_CLICKS = 2451;          // Google Ads total clicks (updated 2026-03-05)
+var ADS_IMPRESSIONS = 11675;    // Google Ads total impressions
+var ADS_CTR = '20.99%';         // Google Ads CTR
+var ADS_CPC = '\u20ac0.13';     // Google Ads avg CPC
+var ADS_SPENT = '\u20ac316';    // Google Ads total spend
+var ADS_BUDGET = '\u20ac70/d';  // Current daily budget (raised 2026-03-05)
+var GC_OFFSET = 648;            // Ads clicks before GoatCounter went live (2. M\u00e4rz)
+// GoatCounter visits fetched live below
+
+// Populate Ads hero
+document.getElementById('ads-clicks').textContent = ADS_CLICKS.toLocaleString('de-DE');
+document.getElementById('ads-impressions').textContent = ADS_IMPRESSIONS.toLocaleString('de-DE');
+document.getElementById('ads-ctr').textContent = ADS_CTR;
+document.getElementById('ads-cpc').textContent = ADS_CPC;
+document.getElementById('ads-spent').textContent = ADS_SPENT;
+document.getElementById('ads-budget').textContent = ADS_BUDGET;
+
+// GoatCounter visits — update manually when checking dashboard
+// (API requires auth token or same-origin, so we use a constant)
+var GC_VISITS = 1993;  // Update from https://mucwahl.goatcounter.com (2026-03-04)
+(function() {
+  var gcEl = document.getElementById('gc-visits');
+  var totalEl = document.getElementById('total-visitors');
+  gcEl.textContent = GC_VISITS.toLocaleString('de-DE');
+  totalEl.textContent = (GC_VISITS + GC_OFFSET).toLocaleString('de-DE');
+})();
+
 // Scroll spy for nav
 (function() {
   var sections = document.querySelectorAll('.section');
@@ -1839,6 +2204,12 @@ Kein Tracking, Open Source.</span>
     el2.textContent = days;
     if (days <= 7) el2.style.color = 'var(--red)';
     else if (days <= 14) el2.style.color = 'var(--orange)';
+  }
+  var el3 = document.getElementById('days-left-hero');
+  if (el3) {
+    el3.textContent = days;
+    if (days <= 7) el3.style.color = 'var(--red)';
+    else if (days <= 14) el3.style.color = 'var(--orange)';
   }
   var badge = document.getElementById('countdown-badge');
   if (badge) {
@@ -2010,7 +2381,7 @@ Kein Tracking, Open Source.</span>
 
 // Version sync
 (async function() {
-  var LOCAL = '4.9.4';
+  var LOCAL = '4.9.13';
   var el = document.getElementById('live-version');
   var status = document.getElementById('version-status');
   function setStatus(text, cls) {

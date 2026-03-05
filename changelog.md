@@ -1,5 +1,15 @@
 # Changelog
 
+## v4.9.14 — 2026-03-05
+### SEO-Optimierung + Outreach
+- Title + Description: "Kommunalwahl München 2026" als Keyword vorne eingefügt
+- FAQPage structured data: 3 Fragen (Parteien, Was ist MUCwahl, Wahldatum) für Rich Snippets
+- Noscript-Content: alle 14 Parteien namentlich, Wahldatum, alle Kategorien
+- Sitemap: lastmod aktualisiert, embed.html ergänzt, changefreq → daily, in Search Console neu eingereicht
+- Twitter-Meta (title/description/image) entfernt (OG-Fallback reicht)
+- Outreach-Tracker erstellt: `_internal/outreach/outreach-tracker.md` (12 Kontakte)
+- Landeszentrale: Absage → Reply → Sekretärin fragt nach Nummer (Status CALL)
+
 ## v4.9.13 — 2026-03-04
 ### Schwache Thesen ersetzen + Gewerbesteuer-Reframe (Pre-Flight Check)
 - T26 Kostenlose Krippe → **Kitaplatz-Vergabe** (Spread 14, Balance 0.75, 0 Neutrals). Quelle: München-O-Mat T36. Überraschende Splits: Grüne FOR (Bedarfsprinzip), SPD AGAINST (Alleinerziehende benachteiligt).

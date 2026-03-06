@@ -172,7 +172,7 @@ window.WAHLOMAT_DATA = {
       "id": 8,
       "topic": "Wohnen & Mietmarkt",
       "short_title": "Städtisches Bauen",
-      "statement": "Die städtische Wohnungsgesellschaft Münchner Wohnen (früher GWG) soll ausschließlich bezahlbare Wohnungen bauen, auch wenn dies nicht gewinnbringend ist.",
+      "statement": "Die städtische Wohnungsgesellschaft Münchner Wohnen (früher GWG/GEWOFAG) soll ausschließlich bezahlbare Wohnungen bauen, auch wenn dies nicht gewinnbringend ist.",
       "background": "Die Münchner Wohnen (ehemals GWG/GEWOFAG) ist mit rund 70.000 Wohnungen Münchens größter Vermieter. Sie baut sowohl geförderte als auch freifinanzierte Wohnungen. Freifinanzierte Wohnungen erwirtschaften Gewinne, die wiederum in neue Projekte fließen. Die Frage ist, ob die Gesellschaft komplett auf bezahlbaren Wohnraum umschwenken soll, auch wenn das die Investitionsfähigkeit senkt.",
       "axes": {
         "x": -0.9,
@@ -873,7 +873,7 @@ window.WAHLOMAT_DATA = {
           "quote": "Keine Kürzungen beim geförderten und preisgedämpften Wohnungsbau! Die Münchner Wohnen... müssen stattdessen stärker gefördert werden."
         },
         "9": {
-          "val": 1,
+          "val": 0,
           "quote": "Investorengetriebenes Wachstum verdrängt Menschen. Vorrang für Soziales statt Konzernansiedlung."
         },
         "10": {

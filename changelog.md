@@ -1,11 +1,21 @@
 # Changelog
 
-## v4.10 — 2026-03-06 — Schnellcheck-Prototyp (Either-Or MVP)
+## v4.10 — 2026-03-06 — Schnellcheck-Prototyp + SEO-Audit
+### Schnellcheck (Either-Or MVP)
 - **Added:** `schnellcheck.html` — Standalone 8-Fragen-Quiz im binären "A oder B?"-Format
 - **Added:** `schnellcheck.js` — Quizlogik mit Scoring gegen 14 Parteien, A/B-Randomisierung
 - **Added:** Farbkodierte Optionskarten (Teal vs. Amber) mit Tradeoff-Labels (z.B. "Sparsamkeit" vs. "Investition")
 - **Added:** "Beides wichtig"-Escape mit halbem Gewicht
 - **Added:** Ergebnisseite mit Top-Match-Hero und sortiertem Balkendiagramm
+### SEO-Audit + Performance
+- **Fixed:** Render-blocking `wahlomat_data.js` (68KB) von `<head>` ans Body-Ende verschoben
+- **Fixed:** Falsches Wahldatum in FAQ-Schema + Noscript ("9. März" → "8. März")
+- **Added:** Font-Preloads für Inter woff2 (400 + 700)
+- **Added:** OG-Image + Twitter-Card Meta auf allen öffentlichen Seiten
+- **Added:** `noindex` auf `embed.html` (Duplicate-Content-Schutz)
+- **Added:** Noscript-Fallback für `schnellcheck.html`
+- **Changed:** Sitemap bereinigt: embed.html + schnellcheck.html entfernt, lastmod aktualisiert
+- **Added:** `_internal/faq-draft.md` — 10 FAQ-Entwürfe für JSON-LD (Review ausstehend)
 
 ## v4.9.14 — 2026-03-05
 ### SEO-Optimierung + Outreach

@@ -1,6 +1,10 @@
 # Changelog
 
-## v4.14 — 2026-03-11 — Fairness-Audit + Nudge-Fix
+## v4.15 - 2026-03-11 - Stichwahl-Links + Em-Dash Purge
+- **Added:** Stichwahl-Links auf index.html (Startseite, Ergebnisseite, Hamburger-Nav) und methodik.html
+- **Fixed:** Em dashes in allen HTML-Dateien durch Kommas/Doppelpunkte/Bindestriche ersetzt
+
+## v4.14 - 2026-03-11 - Fairness-Audit + Nudge-Fix
 ### Bilanz-Check (stichwahl2)
 - **Added:** 2 grüne Erfolgskarten: Bildungsbauoffensive (9,4 Mrd EUR), Ökostrom/Geothermie
 - **Added:** Corona-/Energiekrisen-Kontext in Intro + Ergebnis-Note

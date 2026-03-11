@@ -119,6 +119,11 @@
                      class="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-slate-200 py-1 z-50">
                     <button @click="goToStimmzettel(); navOpen = false" class="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors">Wahl-Info</button>
                     <a href="methodik.html" class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors">Offene Karten</a>
+                    <div class="border-t border-slate-100">
+                        <div class="px-4 pt-2 pb-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Stichwahl</div>
+                        <a href="stichwahl.html" class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors">Deine Wahl</a>
+                        <a href="stichwahl2.html" class="block px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors">Bilanz-Check</a>
+                    </div>
                     <template x-if="step === 99">
                         <div class="border-t border-slate-100">
                             <button @click="step = 98; window.scrollTo(0,0); navOpen = false" class="w-full text-left px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50 transition-colors">Gewichtung anpassen</button>
@@ -209,6 +214,39 @@
                     <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center"><svg aria-hidden="true" class="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></div>
                     <h2 class="font-bold text-slate-900 text-sm">Open Source</h2>
                     <p class="text-xs text-slate-500">Quellcode offen auf <a href="https://github.com/frederikmetz42/mucwahl.de" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">GitHub</a>. Transparent und nachprüfbar.</p>
+                </div>
+            </div>
+
+            <!-- Stichwahl-Tools Banner (start screen) -->
+            <div class="mt-10 bg-orange-50 border border-orange-200 rounded-xl p-6 text-left">
+                <div class="flex items-start gap-3 mb-3">
+                    <span class="inline-flex items-center justify-center w-8 h-8 bg-orange-100 rounded-lg flex-shrink-0">
+                        <svg aria-hidden="true" class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </span>
+                    <div>
+                        <h2 class="font-bold text-slate-900 text-sm">Stichwahl am 22. März</h2>
+                        <p class="text-xs text-slate-600 mt-1">Reiter oder Krause? Zwei Tools für die OB-Stichwahl.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <a href="stichwahl.html" class="flex items-center gap-3 bg-white border border-orange-200 rounded-lg px-4 py-3 hover:border-orange-400 hover:shadow-sm transition-all group">
+                        <span class="text-orange-500 group-hover:text-orange-600 flex-shrink-0">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                        </span>
+                        <div>
+                            <div class="text-sm font-bold text-slate-900">Deine Wahl</div>
+                            <div class="text-xs text-slate-500">Thesen-Vergleich Reiter vs. Krause</div>
+                        </div>
+                    </a>
+                    <a href="stichwahl2.html" class="flex items-center gap-3 bg-white border border-orange-200 rounded-lg px-4 py-3 hover:border-orange-400 hover:shadow-sm transition-all group">
+                        <span class="text-orange-500 group-hover:text-orange-600 flex-shrink-0">
+                            <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </span>
+                        <div>
+                            <div class="text-sm font-bold text-slate-900">Bilanz-Check</div>
+                            <div class="text-xs text-slate-500">Was wurde aus den Versprechen?</div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -393,7 +431,7 @@
         <div x-show="step === 99" x-transition.opacity class="space-y-6">
 
         <!--
-        === PROJECT SPEC — Donation Banner ===
+        === PROJECT SPEC - Donation Banner ===
         WORKFLOW: Read this block → update changelog → implement → verify features.
 
         ## FEATURES (v1.3)
@@ -427,7 +465,7 @@
         - "Einbetten ..." collapsible embed code panel
 
         ## CHANGELOG
-        ### v1.3 — QA audit fixes (UX expert + user panel)
+        ### v1.3 -QA audit fixes (UX expert + user panel)
         - CHANGED: Separated donation banner from voting countdown (banner = donation only, countdown = hero card)
         - CHANGED: Default tab Kompass → Parteien (more immediately rewarding)
         - ADDED: Party switcher dropdown in Vergleich tab header
@@ -437,21 +475,21 @@
         - REMOVED: Bottom "Andere Partei vergleichen?" text link (replaced by dropdown)
         - UNCHANGED: everything else
 
-        ### v1.2 — Mobile optimisation + dynamic countdown
+        ### v1.2 -Mobile optimisation + dynamic countdown
         - CHANGED: Static "Kommunalwahl am 8. März" → dynamic "Noch X Tage bis zur Wahl!"
         - ADDED: Election day variant ("Heute ist Wahltag!")
         - ADDED: Post-election hide (daysUntilElection < 0)
         - CHANGED: Mobile layout now stacks with full-width elements and 44px touch targets
         - UNCHANGED: everything else
 
-        ### v1.1 — UX cleanup
+        ### v1.1 -UX cleanup
         - MOVED: PDF + Embed to share sheet
         - MOVED: Gewichtung/Neu starten to hamburger menu
         - REMOVED: bottom orphan buttons section
         - FIXED: X button placement (inline instead of absolute overlay)
         - FIXED: Date corrected to 8. März
 
-        ### v1.0 — Initial build
+        ### v1.0 -Initial build
         - CREATED: Closable donation + voting reminder banner on results page
         - CREATED: "Unterstützen" footer link on all pages
         - CREATED: bannerDismissed state + dismissBanner() in app.js
@@ -480,6 +518,24 @@
                     <button @click="dismissBanner()" class="text-slate-300 hover:text-slate-500 active:text-slate-600 transition-colors p-2 flex items-center justify-center rounded-full hover:bg-slate-100 flex-shrink-0" style="min-width:44px;min-height:44px" aria-label="Banner schließen">
                         <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stichwahl-Tools Banner (results page) -->
+        <div class="max-w-2xl mx-auto mb-4 no-print">
+            <div class="bg-orange-50 border border-orange-200 rounded-xl px-4 py-3">
+                <div class="flex items-center justify-between gap-3 flex-wrap">
+                    <div class="flex items-center gap-2 text-sm text-slate-700">
+                        <span aria-hidden="true" class="text-orange-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        </span>
+                        <span><span class="font-bold">Stichwahl 22. März:</span> Reiter oder Krause?</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="stichwahl.html" class="text-xs font-medium text-orange-700 hover:text-orange-900 bg-white border border-orange-200 rounded-lg px-3 py-1.5 hover:border-orange-400 transition-colors" style="min-height:44px;display:inline-flex;align-items:center">Deine Wahl</a>
+                        <a href="stichwahl2.html" class="text-xs font-medium text-orange-700 hover:text-orange-900 bg-white border border-orange-200 rounded-lg px-3 py-1.5 hover:border-orange-400 transition-colors" style="min-height:44px;display:inline-flex;align-items:center">Bilanz-Check</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -646,7 +702,7 @@
 
                     <p class="text-xs text-slate-400 mt-3 text-center leading-relaxed">Nähe im Kompass bedeutet inhaltliche Übereinstimmung, keine politische Empfehlung. Basiert auf deinen Antworten zu 25 Thesen.</p>
                     <p class="text-xs text-slate-400 mt-1 text-center leading-relaxed">Die meisten Parteien liegen auf einer Diagonale (links-progressiv bis rechts-konservativ). Das ist typisch für westliche Parteiensysteme, nicht ein Fehler der Darstellung.</p>
-                    <p class="text-xs text-slate-400 mt-1 text-center leading-relaxed">Der Kompass zeigt deine politische Grundrichtung auf zwei Achsen. Die Prozentzahl in der Rangliste misst dagegen, wie oft du bei konkreten Thesen mit einer Partei übereinstimmst — deshalb können Reihenfolge und Kompass-Nähe voneinander abweichen.</p>
+                    <p class="text-xs text-slate-400 mt-1 text-center leading-relaxed">Der Kompass zeigt deine politische Grundrichtung auf zwei Achsen. Die Prozentzahl in der Rangliste misst dagegen, wie oft du bei konkreten Thesen mit einer Partei übereinstimmst, deshalb können Reihenfolge und Kompass-Nähe voneinander abweichen.</p>
                     <p class="text-[10px] text-center mt-2"><a href="methodik.html" class="text-blue-500 hover:text-blue-700 hover:underline transition-colors">Wie wird das berechnet? →</a></p>
                 </div>
             </div>

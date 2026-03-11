@@ -9,7 +9,7 @@
       "id": 1,
       "topic": "Mobilität & Verkehr",
       "short_title": "Straßentunnel",
-      "statement": "Die Stadt München soll neue Straßentunnel (z.B. am Englischen Garten oder der Landshuter Allee) bauen, auch wenn dies Milliarden kostet und Jahre dauert.",
+      "statement": "Die Stadt München soll neue Straßentunnel (z.B. am Englischen Garten oder der Landshuter Allee) bauen, auch wenn dies hohe Baukosten verursacht.",
       "axes": {
         "x": 0,
         "y": 0.8
@@ -422,7 +422,7 @@
         {
           "thesis_id": 1,
           "position": -1,
-          "quote": "Wir stoppen klimaschädliche Großprojekte wie neue Autotunnel und investieren stattdessen in saubere Infrastruktur."
+          "quote": "Die fertig geplante oberirdische Tram-Nordtangente ist schneller und günstiger als ein 240-Millionen-Tunnel, für den fast 900 Bäume gefällt werden müssten."
         },
         {
           "thesis_id": 2,

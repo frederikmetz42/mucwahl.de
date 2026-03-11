@@ -1,5 +1,36 @@
 # Changelog
 
+## v4.12 — 2026-03-10 — Stichwahl-Tool "Deine Wahl" v3
+- **Added:** `stichwahl.html` — Standalone Stichwahl-Entscheidungshilfe für OB-Stichwahl Reiter (SPD) vs Krause (Grüne)
+- **Added:** Star-any topic selection (1-5 Themen statt forced pick-2)
+- **Added:** 3 orthogonale Führungsstil-Fragen (Verwaltung/Vision, Kompromiss/Kante, Bürgernähe/Großprojekte)
+- **Added:** Swipe-Cards für Fragen (CSS-only, Touch + Mouse, Tap-Fallback)
+- **Added:** 8 Persönlichkeits-Archetypen ("Münchens Kompass", "Münchens Antrieb", etc.)
+- **Added:** "Wusstest du?"-Factoids auf allen Vergleichskarten
+- **Added:** Results-Reflow: Archetyp-Reveal → Einigkeit (18/25) → Unterschiede → Tendenz als Punchline
+- **Added:** Shareable Archetyp-Text ("Münchens Kompass. Tendenz: Krause. Was bist du?")
+- **Added:** Design-Workshop-Dokumentation in `_internal/stichwahl/workshop-notes.md`
+- **Changed:** Tailwind rebuilt für neue Utility-Klassen
+
+## v4.11.1 — 2026-03-07 — Instagram-Visuals + Grüne T1 Tunnel-Korrektur
+- **Added:** 10 Instagram-Feed-Karten (1080x1350) mit reusable HTML-Template (`_internal/screenshots/instagram/`)
+- **Fixed:** Grüne T1 Zitat: "klimaschädliche Autotunnel" → Tram-Nordtangente-Argument (Tunnel enthält 2 Tramgleise, ist kein reiner Autotunnel)
+- **Changed:** T1 Background: Tram-Komponente, Baumfällungen (578-900), oberirdische Alternative ergänzt
+- **Fixed:** database.json Drift: T1 Statement noch "Milliarden" (seit v4.9.12 "hohe Baukosten"), Grüne T1 Zitat synchronisiert
+
+## v4.11 — 2026-03-07 — Reddit-Feedback + Countdown + Marktexpansion
+### Daten-Fixes (Reddit-Feedback)
+- **Fixed:** Die Linke T9 (Wachstumsbremse) von val=1 auf val=0 (neutral). Zitat kritisiert investorengetriebenes Wachstum, fordert aber keine aktive Wachstumsbremse.
+- **Fixed:** T8 Statement "früher GWG" → "früher GWG/GEWOFAG" (Münchner Wohnen = Fusion beider Unternehmen)
+### Countdown-UX
+- **Added:** 3 emotionale Countdown-States: "Morgen ist Wahl!" (1 Tag), "Heute wird gewählt!" (Wahltag), "Noch X Tage" (>1 Tag)
+- **Changed:** Emoji-Unterstützung an 3 Stellen (Intro-Text, Election-Day-Banner, Ergebnisseite)
+### Marktexpansion + Media-Pitch (intern)
+- **Added:** `_internal/cockpit.html` Expansion Tab: Weltweite Gap-Matrix, Revenue-Szenarien, Strategie
+- **Added:** `_internal/outreach/media-pitch.md` — Pitch-Template für Lokalredaktionen
+- **Added:** `_internal/research/vaa-market-research.md` — 30+ Länder VAA-Analyse (456 Zeilen)
+- **Changed:** Cockpit Ads/GoatCounter-Zahlen aktualisiert (5.840 Klicks, 5.823 GC, €541 Spend)
+
 ## v4.10 — 2026-03-06 — Schnellcheck-Prototyp + SEO-Audit
 ### Schnellcheck (Either-Or MVP)
 - **Added:** `schnellcheck.html` — Standalone 8-Fragen-Quiz im binären "A oder B?"-Format

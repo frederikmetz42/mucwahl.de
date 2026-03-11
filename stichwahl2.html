@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>München, was wählst du? — Stichwahl-Dilemma-Check 2026</title>
-<meta name="description" content="5 echte Münchner Entscheidungen. Kita oder Klimaschutz? Radwege oder Autospuren? Finde heraus, wie du dich entscheidest.">
+<title>Bilanz-Check — Was wurde aus den Versprechen? | Stichwahl München 2026</title>
+<meta name="description" content="6 Versprechen aus dem Koalitionsvertrag 2020. Was wurde geliefert? Und was sagen Reiter und Krause jetzt dazu?">
 <meta name="robots" content="noindex">
 <link rel="icon" href="assets/favicon.png">
 <script src="vendor/alpine.min.js" defer></script>
@@ -14,35 +14,26 @@
   .fade-in { animation: fadeIn 0.4s ease-out; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
   .progress-fill { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
-  .option-card {
-    transition: all 0.2s ease;
-    cursor: pointer;
-  }
-  @media (hover: hover) {
-    .option-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.08); }
-  }
-  .option-card.selected {
-    border-color: #f59e0b;
-    background: #fffbeb;
-    transform: scale(1.02);
-  }
-  .option-card.not-selected { opacity: 0.5; }
-  @keyframes matchReveal {
-    from { width: 0%; }
-    to { width: var(--fill); }
-  }
-  .match-fill { animation: matchReveal 0.8s 0.3s ease-out both; }
+  .vote-btn { transition: all 0.15s ease; cursor: pointer; }
+  .vote-btn.active-r { border-color: #dc2626; background: #fef2f2; }
+  .vote-btn.active-b { border-color: #f59e0b; background: #fffbeb; }
+  .vote-btn.active-k { border-color: #16a34a; background: #f0fdf4; }
+  @media (hover: hover) { .vote-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); } }
   @keyframes countUp { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
-  .count-reveal { animation: countUp 0.5s 0.5s ease-out both; }
-  .factoid { border-left: 3px solid #f59e0b; }
-  .stagger-1 { animation-delay: 0.1s; }
-  .stagger-2 { animation-delay: 0.25s; }
-  .stagger-3 { animation-delay: 0.4s; }
+  .count-reveal { animation: countUp 0.5s 0.3s ease-out both; }
   @keyframes cardEntry { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   .card-enter { animation: cardEntry 0.35s ease-out both; }
+  .shock-card { border: 2px solid #dc2626; background: linear-gradient(135deg, #fef2f2 0%, #fff 100%); }
+  .shock-badge { animation: pulse 2s infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+  .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+  .status-red { background: #dc2626; }
+  .status-yellow { background: #f59e0b; }
+  .status-green { background: #16a34a; }
+  .archetype-card { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
 </style>
 </head>
-<body class="bg-stone-50 text-stone-800 min-h-screen font-[Inter,system-ui,sans-serif]" x-data="muenchenDilemma()" x-cloak>
+<body class="bg-stone-50 text-stone-800 min-h-screen font-[Inter,system-ui,sans-serif]" x-data="bilanzCheck()" x-cloak>
 
 <!-- Progress Bar -->
 <div class="fixed top-0 left-0 right-0 h-1.5 bg-stone-200 z-50" x-show="screen !== 'intro'">
@@ -58,70 +49,122 @@
         <div class="inline-flex items-center gap-2 bg-amber-100 text-amber-700 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
           Stichwahl 22. März
         </div>
-        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">München, was wählst du?</h1>
-        <p class="text-stone-500 text-lg">5 echte Entscheidungen. Keine einfachen Antworten.</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">Versprochen. Geliefert?</h1>
+        <p class="text-stone-500 text-lg">Der Bilanz-Check zur Stichwahl.</p>
       </div>
 
       <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 mb-6">
         <p class="text-stone-600 leading-relaxed mb-4">
-          Reiter und Krause stimmen bei den meisten Themen überein. Was sie unterscheidet, sind die Prioritäten, wenn es eng wird.
+          Reiter und Krause haben <strong>6 Jahre zusammen regiert</strong>. SPD stellte den OB, Grüne das Mobilitätsreferat. Beide tragen Verantwortung.
         </p>
         <p class="text-stone-600 leading-relaxed">
-          Dieses Tool stellt dir <strong>5 echte Münchner Dilemmas</strong>. Du entscheidest, ohne zu wissen, welcher Kandidat wofür steht. Danach siehst du, wem deine Werte näher sind.
+          6 Versprechen aus dem Koalitionsvertrag 2020. Was wurde daraus? Und wer überzeugt dich jetzt mehr?
         </p>
       </div>
 
       <div class="space-y-3 mb-8 text-sm text-stone-500">
         <div class="flex items-start gap-3">
           <span class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-700">1</span>
-          <span>5 Entweder-Oder-Entscheidungen (60 Sek.)</span>
+          <span>6 Versprechen, 6 Bilanzen (2 Min.)</span>
         </div>
         <div class="flex items-start gap-3">
           <span class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-700">2</span>
-          <span>Reveal: Wem sind deine Werte näher?</span>
+          <span>Bei jedem Versprechen: Wer überzeugt dich?</span>
         </div>
         <div class="flex items-start gap-3">
           <span class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-700">3</span>
-          <span>Hintergrund-Fakten zu deinen Themen</span>
+          <span>Dein Wählertyp + was dein Ergebnis bedeutet</span>
         </div>
       </div>
 
-      <button @click="screen = 'dilemma'" class="w-full bg-stone-800 text-white font-semibold py-4 rounded-xl hover:bg-stone-700 active:bg-stone-900 transition-colors text-lg">
-        Los geht's
+      <button @click="screen = 'cards'" class="w-full bg-stone-800 text-white font-semibold py-4 rounded-xl hover:bg-stone-700 active:bg-stone-900 transition-colors text-lg">
+        Bilanz prüfen
       </button>
-      <p class="text-center text-xs text-stone-400 mt-3">Keine Cookies. Kein Tracking. Deine Daten bleiben bei dir.</p>
+      <p class="text-center text-xs text-stone-400 mt-3">Keine Cookies. Kein Tracking. Alle Quellen verlinkt.</p>
     </div>
   </template>
 
-  <!-- ==================== DILEMMA QUESTIONS ==================== -->
-  <template x-if="screen === 'dilemma'">
-    <div class="flex-1 flex flex-col pt-8 fade-in" :key="'d-' + currentQ">
-      <div class="mb-6">
-        <p class="text-sm font-medium text-amber-600 mb-1">Entscheidung <span x-text="currentQ + 1"></span> von 5</p>
-        <p class="text-xs text-stone-400" x-text="dilemmas[currentQ].category"></p>
+  <!-- ==================== PROMISE CARDS ==================== -->
+  <template x-if="screen === 'cards'">
+    <div class="flex-1 pt-8 fade-in" :key="'c-' + currentQ">
+      <div class="mb-4">
+        <p class="text-sm font-medium text-amber-600 mb-1">Versprechen <span x-text="currentQ + 1"></span> von 6</p>
+        <p class="text-xs text-stone-400" x-text="promises[currentQ].category"></p>
       </div>
 
-      <div class="flex-1 flex flex-col justify-center">
-        <!-- Dilemma framing -->
-        <div class="bg-white rounded-2xl border border-stone-200 p-6 mb-6">
-          <p class="text-lg font-bold leading-relaxed" x-text="dilemmas[currentQ].framing"></p>
+      <div class="flex-1 flex flex-col">
+        <!-- Promise card -->
+        <div class="rounded-2xl border overflow-hidden mb-4"
+          :class="promises[currentQ].isShock ? 'shock-card' : 'bg-white border-stone-200'">
+
+          <!-- Shock badge -->
+          <template x-if="promises[currentQ].isShock">
+            <div class="bg-red-600 text-white text-xs font-bold px-4 py-1.5 text-center shock-badge">
+              Größte Lücke
+            </div>
+          </template>
+
+          <div class="p-5">
+            <!-- Promise -->
+            <div class="mb-4">
+              <p class="text-xs font-semibold text-amber-600 uppercase tracking-wide mb-2">Versprochen (2020)</p>
+              <p class="text-base font-bold leading-snug" x-text="promises[currentQ].promise"></p>
+              <p class="text-[10px] text-stone-400 mt-1">Koalitionsvertrag Grün-Rot 2020</p>
+            </div>
+
+            <!-- Status + what happened -->
+            <div class="rounded-xl p-4 mb-4" :class="promises[currentQ].status === 'red' ? 'bg-red-50' : 'bg-amber-50'">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="status-dot" :class="'status-' + promises[currentQ].status"></span>
+                <span class="text-xs font-bold" :class="promises[currentQ].status === 'red' ? 'text-red-700' : 'text-amber-700'"
+                  x-text="promises[currentQ].status === 'red' ? 'Nicht geliefert' : 'Teilweise geliefert'"></span>
+              </div>
+              <p class="text-sm leading-relaxed" :class="promises[currentQ].status === 'red' ? 'text-red-800' : 'text-amber-800'"
+                x-text="promises[currentQ].reality"></p>
+              <p class="text-[10px] mt-2" :class="promises[currentQ].status === 'red' ? 'text-red-400' : 'text-amber-400'"
+                x-text="promises[currentQ].realitySource"></p>
+            </div>
+
+            <!-- Candidate positions -->
+            <p class="text-xs font-semibold text-stone-500 uppercase tracking-wide mb-2">Was sagen sie jetzt?</p>
+            <div class="grid grid-cols-2 gap-2.5 mb-1">
+              <div class="rounded-lg p-3 bg-red-50 border border-red-100">
+                <div class="flex items-center gap-1.5 mb-1.5">
+                  <span class="w-5 h-5 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center">R</span>
+                  <span class="font-semibold text-[11px]">Reiter (SPD)</span>
+                </div>
+                <p class="text-[11px] text-stone-600 leading-relaxed" x-text="promises[currentQ].reiterNow"></p>
+                <p class="text-[10px] text-stone-400 mt-1" x-text="promises[currentQ].reiterSource"></p>
+              </div>
+              <div class="rounded-lg p-3 bg-green-50 border border-green-100">
+                <div class="flex items-center gap-1.5 mb-1.5">
+                  <span class="w-5 h-5 rounded-full bg-green-600 text-white text-[10px] font-bold flex items-center justify-center">K</span>
+                  <span class="font-semibold text-[11px]">Krause (Grüne)</span>
+                </div>
+                <p class="text-[11px] text-stone-600 leading-relaxed" x-text="promises[currentQ].krauseNow"></p>
+                <p class="text-[10px] text-stone-400 mt-1" x-text="promises[currentQ].krauseSource"></p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Options -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <button @click="selectOption('a')"
-            class="option-card bg-white border-2 border-stone-200 rounded-2xl p-5 text-left"
-            :class="{ 'selected': answers[currentQ] === 'a', 'not-selected': answers[currentQ] === 'b' }">
-            <span class="text-2xl block mb-2" x-text="dilemmas[currentQ].optionA.emoji"></span>
-            <span class="font-bold block mb-1" x-text="dilemmas[currentQ].optionA.label"></span>
-            <p class="text-sm text-stone-500 leading-relaxed" x-text="dilemmas[currentQ].optionA.desc"></p>
+        <!-- Vote buttons -->
+        <p class="text-xs font-semibold text-stone-500 text-center mb-2">Wer überzeugt dich bei diesem Thema?</p>
+        <div class="grid grid-cols-3 gap-2">
+          <button @click="vote('r')"
+            class="vote-btn border-2 border-stone-200 rounded-xl py-3 px-2 text-center"
+            :class="{ 'active-r': votes[currentQ] === 'r' }">
+            <span class="block text-xs font-bold text-red-600">Reiter</span>
           </button>
-          <button @click="selectOption('b')"
-            class="option-card bg-white border-2 border-stone-200 rounded-2xl p-5 text-left"
-            :class="{ 'selected': answers[currentQ] === 'b', 'not-selected': answers[currentQ] === 'a' }">
-            <span class="text-2xl block mb-2" x-text="dilemmas[currentQ].optionB.emoji"></span>
-            <span class="font-bold block mb-1" x-text="dilemmas[currentQ].optionB.label"></span>
-            <p class="text-sm text-stone-500 leading-relaxed" x-text="dilemmas[currentQ].optionB.desc"></p>
+          <button @click="vote('b')"
+            class="vote-btn border-2 border-stone-200 rounded-xl py-3 px-2 text-center"
+            :class="{ 'active-b': votes[currentQ] === 'b' }">
+            <span class="block text-xs font-bold text-amber-600">Beide gleich</span>
+          </button>
+          <button @click="vote('k')"
+            class="vote-btn border-2 border-stone-200 rounded-xl py-3 px-2 text-center"
+            :class="{ 'active-k': votes[currentQ] === 'k' }">
+            <span class="block text-xs font-bold text-green-600">Krause</span>
           </button>
         </div>
       </div>
@@ -132,92 +175,61 @@
   <template x-if="screen === 'results'">
     <div class="flex-1 pt-8 fade-in">
 
-      <!-- Part A: Match Count -->
-      <div class="bg-white rounded-2xl border border-stone-200 p-6 mb-4">
-        <p class="text-center text-sm text-stone-400 mb-4">Dein Ergebnis</p>
-        <div class="flex justify-center items-end gap-8 mb-4">
+      <!-- Archetype Card -->
+      <div class="archetype-card rounded-2xl border border-amber-200 p-6 mb-4 text-center">
+        <p class="text-xs font-semibold text-amber-600 uppercase tracking-wide mb-2">Dein Wählertyp</p>
+        <p class="text-2xl font-extrabold mb-2 count-reveal" x-text="archetype.name"></p>
+        <p class="text-sm text-stone-600 leading-relaxed" x-text="archetype.desc"></p>
+      </div>
+
+      <!-- Score breakdown -->
+      <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4">
+        <div class="flex justify-center items-center gap-6 mb-3">
           <div class="text-center">
-            <div class="w-14 h-14 rounded-full bg-red-600 text-white text-lg font-bold flex items-center justify-center mx-auto mb-2">DR</div>
-            <div class="count-reveal text-2xl font-extrabold" x-text="matchReiter"></div>
-            <div class="text-xs text-stone-400">Reiter</div>
+            <div class="w-10 h-10 rounded-full bg-red-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-1">R</div>
+            <div class="text-lg font-extrabold" x-text="scoreR"></div>
           </div>
-          <div class="text-stone-300 text-sm font-medium pb-6">von 5</div>
           <div class="text-center">
-            <div class="w-14 h-14 rounded-full bg-green-600 text-white text-lg font-bold flex items-center justify-center mx-auto mb-2">DK</div>
-            <div class="count-reveal text-2xl font-extrabold" x-text="matchKrause"></div>
-            <div class="text-xs text-stone-400">Krause</div>
+            <div class="w-10 h-10 rounded-full bg-amber-400 text-white text-sm font-bold flex items-center justify-center mx-auto mb-1">=</div>
+            <div class="text-lg font-extrabold" x-text="scoreB"></div>
+          </div>
+          <div class="text-center">
+            <div class="w-10 h-10 rounded-full bg-green-600 text-white text-sm font-bold flex items-center justify-center mx-auto mb-1">K</div>
+            <div class="text-lg font-extrabold" x-text="scoreK"></div>
           </div>
         </div>
+        <p class="text-center text-xs text-stone-400">von 6 Versprechen</p>
         <!-- Bar -->
-        <div class="flex h-3 rounded-full overflow-hidden bg-stone-100 mb-3">
-          <div class="match-fill bg-red-500 rounded-l-full" :style="'--fill:' + (matchReiter / 5 * 100) + '%'"></div>
-          <div class="match-fill bg-green-500 rounded-r-full" :style="'--fill:' + (matchKrause / 5 * 100) + '%'"></div>
+        <div class="flex h-2.5 rounded-full overflow-hidden bg-stone-100 mt-3">
+          <div class="bg-red-500 transition-all" :style="'width:' + (scoreR/6*100) + '%'"></div>
+          <div class="bg-amber-400 transition-all" :style="'width:' + (scoreB/6*100) + '%'"></div>
+          <div class="bg-green-500 transition-all" :style="'width:' + (scoreK/6*100) + '%'"></div>
         </div>
-        <p class="text-center text-sm font-medium text-stone-600" x-text="resultSummary"></p>
-        <p class="text-center text-xs text-stone-400 mt-2">Das ist keine Wahlempfehlung. Die Stichwahl hat mehr als 5 Dimensionen.</p>
       </div>
 
-      <!-- Part B: Dilemma-by-Dilemma Breakdown -->
-      <div class="mb-2">
-        <p class="text-sm font-semibold text-stone-500 mb-3 px-1">Deine 5 Entscheidungen im Detail</p>
-      </div>
-
-      <template x-for="(d, i) in dilemmas" :key="i">
-        <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden mb-3 card-enter" :class="'stagger-' + Math.min(i+1, 3)">
-          <div class="px-4 py-2.5 bg-stone-50 border-b border-stone-200 flex items-center gap-2">
-            <span class="font-semibold text-sm" x-text="d.shortTitle"></span>
-            <span class="ml-auto text-xs text-stone-400" x-text="d.category"></span>
-          </div>
-          <div class="p-4">
-            <!-- User's choice -->
-            <div class="flex items-center gap-2 mb-3">
-              <span class="text-sm text-stone-500">Du:</span>
-              <span class="text-sm font-bold" x-text="answers[i] === 'a' ? d.optionA.label : d.optionB.label"></span>
-              <span class="ml-auto text-xs font-semibold px-2 py-0.5 rounded-full"
-                :class="userMatchesReiter(i) ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'"
-                x-text="userMatchesReiter(i) ? 'Näher an Reiter' : 'Näher an Krause'"></span>
-            </div>
-            <!-- Candidate positions -->
-            <div class="grid grid-cols-2 gap-3">
-              <div class="rounded-lg p-2.5 bg-red-50 border border-red-100">
-                <div class="flex items-center gap-1.5 mb-1.5">
-                  <span class="w-5 h-5 rounded-full bg-red-600 text-white text-[10px] font-bold flex items-center justify-center">R</span>
-                  <span class="font-semibold text-xs">Reiter (SPD)</span>
-                </div>
-                <p class="text-[11px] text-stone-600 leading-relaxed" x-text="d.reiterPos"></p>
-                <p class="text-[10px] text-stone-400 mt-1" x-text="d.reiterSource"></p>
-              </div>
-              <div class="rounded-lg p-2.5 bg-green-50 border border-green-100">
-                <div class="flex items-center gap-1.5 mb-1.5">
-                  <span class="w-5 h-5 rounded-full bg-green-600 text-white text-[10px] font-bold flex items-center justify-center">K</span>
-                  <span class="font-semibold text-xs">Krause (Grüne)</span>
-                </div>
-                <p class="text-[11px] text-stone-600 leading-relaxed" x-text="d.krausePos"></p>
-                <p class="text-[10px] text-stone-400 mt-1" x-text="d.krauseSource"></p>
-              </div>
-            </div>
-          </div>
+      <!-- Per-promise breakdown -->
+      <p class="text-sm font-semibold text-stone-500 mb-3 px-1">Deine 6 Bewertungen</p>
+      <template x-for="(p, i) in promises" :key="i">
+        <div class="bg-white rounded-xl border border-stone-200 px-4 py-3 mb-2 flex items-center gap-3 card-enter">
+          <span class="status-dot flex-shrink-0" :class="'status-' + p.status"></span>
+          <span class="text-sm font-medium flex-1" x-text="p.shortTitle"></span>
+          <span class="text-xs font-bold px-2 py-0.5 rounded-full"
+            :class="votes[i] === 'r' ? 'bg-red-100 text-red-700' : votes[i] === 'k' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'"
+            x-text="votes[i] === 'r' ? 'Reiter' : votes[i] === 'k' ? 'Krause' : 'Beide'"></span>
         </div>
       </template>
 
-      <!-- Part C: "Gut zu wissen" Facts -->
-      <template x-if="relevantFacts.length > 0">
-        <div class="mt-2 mb-4">
-          <p class="text-sm font-semibold text-stone-500 mb-3 px-1">Gut zu wissen</p>
-          <template x-for="(fact, fi) in relevantFacts" :key="fi">
-            <div class="factoid bg-amber-50 px-4 py-3 rounded-r-lg mb-2 card-enter">
-              <p class="text-xs font-bold text-amber-800 mb-1" x-text="fact.topic"></p>
-              <p class="text-xs text-amber-700 leading-relaxed" x-text="fact.text"></p>
-              <p class="text-[10px] text-amber-500 mt-1" x-text="fact.source"></p>
-            </div>
-          </template>
-        </div>
-      </template>
+      <!-- Context note -->
+      <div class="bg-stone-100 rounded-xl p-4 mt-3 mb-4">
+        <p class="text-xs text-stone-500 leading-relaxed">
+          <strong>Kontext:</strong> Reiter regiert seit 12 Jahren, entsprechend mehr lässt sich überprüfen. Krauses Bilanz als 2. Bürgermeister (seit 2023) ist kürzer, aber nicht leer. Beide tragen als Grün-Rot-Koalition Verantwortung für die Ergebnisse.
+        </p>
+      </div>
 
-      <!-- Part D: Share + Cross-Nav -->
-      <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-5">
+      <!-- Share -->
+      <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4">
         <p class="font-semibold mb-3">Teilen</p>
-        <div class="bg-stone-50 rounded-xl p-4 mb-4">
+        <div class="bg-stone-50 rounded-xl p-4 mb-3">
           <p class="text-sm text-stone-600" x-text="shareText"></p>
         </div>
         <button @click="copyShare()" class="w-full bg-stone-800 text-white font-medium py-3 rounded-xl hover:bg-stone-700 active:bg-stone-900 transition-colors text-sm">
@@ -225,16 +237,12 @@
         </button>
       </div>
 
-      <!-- Cross-navigation -->
+      <!-- Cross-nav -->
       <div class="bg-stone-100 rounded-xl p-4 mb-5">
-        <p class="text-sm font-semibold text-stone-600 mb-2">Noch nicht entschieden?</p>
-        <a href="stichwahl.html" class="block text-amber-600 font-medium text-sm hover:underline mb-1">
-          Thesen-Vergleich: "Deine Wahl"
-        </a>
+        <p class="text-sm font-semibold text-stone-600 mb-2">Weitere Tools</p>
+        <a href="stichwahl.html" class="block text-amber-600 font-medium text-sm hover:underline mb-1">Deine Wahl: Thesen-Vergleich</a>
         <p class="text-xs text-stone-400 mb-3">Wo unterscheiden sich Reiter und Krause inhaltlich?</p>
-        <a href="index.html" class="block text-amber-600 font-medium text-sm hover:underline">
-          Alle 25 Thesen auf mucwahl.de
-        </a>
+        <a href="index.html" class="block text-amber-600 font-medium text-sm hover:underline">Alle 25 Thesen auf mucwahl.de</a>
         <p class="text-xs text-stone-400">Der vollständige Überblick mit 14 Parteien.</p>
       </div>
 
@@ -247,152 +255,151 @@
 </div>
 
 <script>
-function muenchenDilemma() {
-  const DILEMMAS = [
+function bilanzCheck() {
+  const PROMISES = [
     {
-      shortTitle: 'Kita vs Klimaschutz',
-      category: 'Familie & Umwelt',
-      framing: 'Der Haushalt ist begrenzt. Was hat Vorrang: mehr Kita-Plätze oder schnellere Klimaneutralität?',
-      optionA: { label: 'Kita-Plätze', emoji: '\u{1F476}', desc: 'Betreuungsgarantie für alle Kinder. Kita-Ausbau vor anderen Investitionen.' },
-      optionB: { label: 'Klimaneutralität', emoji: '\u{1F33F}', desc: 'Klimaneutral bis 2035. Jeder freie Euro in Energiewende und Klimaschutz.' },
-      reiterDir: 'a',
-      reiterPos: 'Kita-Ausbau als Priorität. 3.200 neue Plätze seit 2020, Betreuungsgarantie als Kernversprechen.',
-      reiterSource: 'SPD Wahlprogramm 2026',
-      krausePos: 'Will Kita-Gebühren senken und Klimaneutralität bis 2035 beschleunigen. Beides gleichzeitig.',
-      krauseSource: 'dominik-krause.de/themen',
-      factKey: 'kita'
-    },
-    {
-      shortTitle: 'Auto vs Rad',
+      shortTitle: 'Autofreie Altstadt',
       category: 'Mobilität',
-      framing: 'Eine vierspurige Straße soll umgebaut werden. Was entsteht?',
-      optionA: { label: 'Autospuren erhalten', emoji: '\u{1F697}', desc: 'Verkehrsfluss sichern. Autofahrer nicht weiter einschränken.' },
-      optionB: { label: 'Radwege ausbauen', emoji: '\u{1F6B2}', desc: 'Geschützte Radspuren. Weniger Platz für Autos, mehr für Fahrräder.' },
-      reiterDir: 'a',
-      reiterPos: '"Ausgewogener Verkehrsmix". Radentscheid nur teilweise umgesetzt. Will niemanden "aus dem Auto zwingen".',
+      promise: 'Du solltest bis 2025 autofrei durch die Altstadt laufen können. Kein privater Autoverkehr innerhalb des Altstadtrings.',
+      status: 'red',
+      reality: 'Aus "autofrei" wurde "autoreduziert", dann "Altstadt für alle". Reiter erklärte 2021: "München wird erstmal nicht autofrei." Kein systematischer Autoausschluss umgesetzt.',
+      realitySource: 'AZ München, stadt.muenchen.de, Koalitionsvertrag 2020',
+      reiterNow: '"Ausgewogener Verkehrsmix ohne ideologische Grabenkämpfe." Will niemanden aus dem Auto zwingen.',
       reiterSource: 'SPD Wahlprogramm 2026',
-      krausePos: 'Radentscheid vollständig umsetzen. Fußgängerzonen erweitern, Autoverkehr reduzieren.',
+      krauseNow: 'Fußgängerzonen erweitern, Autoverkehr reduzieren. Radentscheid vollständig umsetzen.',
       krauseSource: 'dominik-krause.de/themen',
-      factKey: 'rad'
+      isShock: false
     },
     {
-      shortTitle: 'Bauen vs Grünflächen',
-      category: 'Wohnen & Stadtplanung',
-      framing: 'Freie Flächen in München sind knapp. Was soll auf der letzten Brache in deinem Viertel entstehen?',
-      optionA: { label: 'Wohnungen bauen', emoji: '\u{1F3D7}', desc: 'Nachverdichten, auch in Gartenstadtvierteln. Jede Fläche zählt.' },
-      optionB: { label: 'Grünflächen schützen', emoji: '\u{1F333}', desc: 'Parks und Frischluftschneisen erhalten. Lebensqualität vor Masse.' },
-      reiterDir: 'a',
-      reiterPos: 'Keine konkreten Neubauzahlen im Programm. Pragmatischer Ansatz: "bezahlbar bauen, wo Platz ist".',
+      shortTitle: 'Wohnungsbau',
+      category: 'Wohnen',
+      promise: 'Jedes Jahr sollten 8.500 neue Wohnungen entstehen, damit du dir München noch leisten kannst.',
+      status: 'yellow',
+      reality: '2024 wurden 7.100 Wohnungen fertiggestellt. Neuvermietung liegt bei über 20 Euro/qm. Ziel knapp verfehlt, Richtung stimmt.',
+      realitySource: 'Mietspiegel 2025, Planungsreferat München',
+      reiterNow: 'Keine konkreten Neubauzahlen im neuen Programm. "Bezahlbar bauen, wo Platz ist."',
       reiterSource: 'SPD Wahlprogramm 2026',
-      krausePos: '50.000 neue Wohnungen als konkretes Ziel. Aber: Grünflächen und Frischluftschneisen nicht verhandelbar.',
+      krauseNow: '50.000 neue Wohnungen in 3 Säulen. 10.000 davon aus 1,9 Mio. m² Büroleerstand.',
       krauseSource: 'dominik-krause.de/themen',
-      factKey: 'wohnen'
+      isShock: false
     },
     {
-      shortTitle: 'Tempo vs Beteiligung',
-      category: 'Demokratie & Verwaltung',
-      framing: 'Große Bauprojekte dauern in München oft 10+ Jahre. Was ist wichtiger?',
-      optionA: { label: 'Tempo machen', emoji: '\u{1F680}', desc: 'Genehmigungen beschleunigen, weniger Einspruchsmöglichkeiten, schneller bauen.' },
-      optionB: { label: 'Bürger beteiligen', emoji: '\u{1F4E2}', desc: 'Mehr Bürgerentscheide, Anwohner früh einbinden, auch wenn es länger dauert.' },
-      reiterDir: 'a',
-      reiterPos: '43 Jahre Verwaltungserfahrung (seit 1981). Kennt die Abläufe, setzt auf schnelle Genehmigungen.',
+      shortTitle: '5 Tramlinien',
+      category: 'ÖPNV',
+      promise: '5 neue Tramlinien und 15+ km neues Tramnetz sollten deinen Weg zur Arbeit schneller machen.',
+      status: 'red',
+      reality: 'Nur 1 Teilstück gebaut (Tram 14, Westtangente, seit Feb 2026). Tram 23 und 24 frühestens 2027-2029. 4 von 5 Linien nicht mal begonnen.',
+      realitySource: 'tramreport.de, MVG Bauprojekte',
+      reiterNow: 'Unterstützt U5 und U9 Großprojekte. Tram-Ausbau nicht prominent im Programm.',
       reiterSource: 'SPD Wahlprogramm 2026',
-      krausePos: 'Digitale Verwaltung als eigener Programmpunkt. Bürgerbeteiligung und Transparenz stärken.',
+      krauseNow: 'Tram + U-Bahn + eigene Busspuren. Konkreter ÖPNV-Ausbauplan.',
       krauseSource: 'dominik-krause.de/themen',
-      factKey: 'verwaltung'
+      isShock: false
     },
     {
-      shortTitle: 'Gewerbe vs Wohnen',
-      category: 'Wirtschaft & Leben',
-      framing: 'Ein großes Bürogebäude steht leer. Was soll damit passieren?',
-      optionA: { label: 'Wohnungen', emoji: '\u{1F3E0}', desc: 'Umwidmen zu Wohnraum. Jede leere Fläche zuerst für Wohnungsbau prüfen.' },
-      optionB: { label: 'Arbeitsplätze', emoji: '\u{1F527}', desc: 'Gewerbeflächen sichern. Handwerk und Mittelstand brauchen Platz in der Stadt.' },
-      reiterDir: 'b',
-      reiterPos: 'Balance: Wohnraum und Arbeitsplätze sichern. Handwerk und Mittelstand brauchen Fläche in der Stadt.',
+      shortTitle: 'Radentscheid',
+      category: 'Mobilität',
+      promise: '1,6 Milliarden Euro für sichere Radwege. 560 km geschützte Radinfrastruktur bis 2025. Das war das Versprechen an 160.000 Münchner, die unterschrieben haben.',
+      status: 'red',
+      reality: '70 Millionen von 1,6 Milliarden ausgegeben (4,4%). Etwa 30 von 560 km umgesetzt. Bei diesem Tempo wäre der Radentscheid im Jahr 2175 fertig.',
+      realitySource: 'Radentscheid München Pressemitteilung, AZ München',
+      reiterNow: 'SPD stimmte 2022 mit CSU für einen 3-km-Autotunnel (BMW). Radentscheid nicht im Fokus.',
+      reiterSource: 'AZ München, SPD Wahlprogramm 2026',
+      krauseNow: 'Radentscheid vollständig umsetzen. Grüne hatten das Mobilitätsreferat — tragen Mitverantwortung für das Tempo.',
+      krauseSource: 'dominik-krause.de/themen, Grüne Fraktion',
+      isShock: true
+    },
+    {
+      shortTitle: 'Klimaneutralität 2035',
+      category: 'Klima & Energie',
+      promise: 'München sollte bis 2035 klimaneutral werden. Jeder freie Euro in Energiewende und Klimaschutz.',
+      status: 'yellow',
+      reality: 'SWM erzeugt rechnerisch 100% Ökostrom. PV-Ausbau verdoppelt, aber unter Landesdurchschnitt. Mobilitätswende stockt. Fahrplan steht, Tempo reicht nicht.',
+      realitySource: 'SWM Energiewende, Öko-Institut München',
+      reiterNow: '"Sozial verträglicher Klimaschutz." Klimaneutralität bleibt Ziel, aber nicht auf Kosten anderer Prioritäten.',
       reiterSource: 'SPD Wahlprogramm 2026',
-      krausePos: '10.000 Wohnungen aus 1,9 Mio. m² Büroleerstand. Wohnraum hat Vorrang vor neuen Gewerbeflächen.',
+      krauseNow: 'Klimaneutralität beschleunigen. Solar- und Geothermie-Ausbau. Tausende zusätzliche Bäume.',
       krauseSource: 'dominik-krause.de/themen',
-      factKey: 'gewerbe'
+      isShock: false
+    },
+    {
+      shortTitle: 'Kita-Ausbau',
+      category: 'Familie & Soziales',
+      promise: 'Betreuungsgarantie für alle Kinder. Genug Kita-Plätze, damit du arbeiten gehen kannst.',
+      status: 'yellow',
+      reality: '3.200 neue Plätze seit 2020 geschaffen. Aber: Noch rund 5.000 Plätze fehlen. Warteliste in manchen Stadtteilen über 12 Monate.',
+      realitySource: 'Referat für Bildung und Sport, Stadtratsbericht 2024',
+      reiterNow: 'Kita-Ausbau bleibt Kernversprechen. Betreuungsgarantie als Priorität.',
+      reiterSource: 'SPD Wahlprogramm 2026',
+      krauseNow: 'Kita-Gebühren senken. Ausbau fortsetzen, aber auch Qualität der Betreuung verbessern.',
+      krauseSource: 'dominik-krause.de/themen',
+      isShock: false
     }
   ];
 
-  const FACTS = {
-    kita: { topic: 'Kita-Plätze in München', text: 'Aktuell fehlen in München rund 5.000 Betreuungsplätze für unter Dreijährige. Seit 2020 wurden ca. 3.200 neue Plätze geschaffen. Die Warteliste ist in manchen Stadtteilen über 12 Monate lang.', source: 'Referat für Bildung und Sport, Stadtratsbericht 2024' },
-    rad: { topic: 'Radverkehr in München', text: 'Der Radentscheid fordert 560 km geschützte Radwege. Bisher wurden etwa 30 km umgesetzt. Im Koalitionsvertrag 2020 wurde die autofreie Altstadt versprochen, aber nicht umgesetzt.', source: 'Radentscheid München, Koalitionsvertrag 2020' },
-    wohnen: { topic: 'Wohnungsbau in München', text: 'Neuvermietung liegt über 20 Euro/qm. 2024 wurden 7.100 Wohnungen fertiggestellt. Krause will 50.000 neue Wohnungen in 3 Säulen, die SPD nennt keine konkreten Zahlen.', source: 'Mietspiegel 2025, Wahlprogramme 2026' },
-    verwaltung: { topic: 'Baugenehmigungen in München', text: 'Die durchschnittliche Dauer einer Baugenehmigung in München beträgt 8-14 Monate. Großprojekte wie die 2. Stammstrecke oder der Konzertsaal sind seit über 10 Jahren in Planung.', source: 'Lokalbaukommission, Medienberichte' },
-    gewerbe: { topic: 'Büroleerstand in München', text: 'Rund 1,9 Mio. m² Bürofläche stehen leer. Krause will daraus 10.000 Wohnungen schaffen. Gleichzeitig fehlen bezahlbare Gewerbeflächen für Handwerk und Mittelstand.', source: 'Colliers 2025, dominik-krause.de/themen' }
+  const ARCHETYPES = {
+    wechsel: {
+      name: 'Der Wechselwähler',
+      desc: 'Du hältst die Bilanz für unzureichend und traust dem Herausforderer mehr zu. Du willst Erneuerung, nicht Kontinuität.',
+      emoji: '🔄'
+    },
+    pragmatiker: {
+      name: 'Der Pragmatiker',
+      desc: 'Du setzt auf Erfahrung. Nicht alles wurde geliefert, aber du traust dem Amtsinhaber eher zu, es besser zu machen.',
+      emoji: '⚖️'
+    },
+    skeptiker: {
+      name: 'Der Skeptiker',
+      desc: 'Du traust keinem von beiden vollständig. Beide haben regiert, beide tragen Verantwortung. Dein Urteil: Noch nicht entschieden.',
+      emoji: '🤔'
+    },
+    abwaegend: {
+      name: 'Der Abwägende',
+      desc: 'Du siehst Stärken und Schwächen auf beiden Seiten. Dein Ergebnis zeigt: Die Entscheidung ist enger als du vielleicht dachtest.',
+      emoji: '🔍'
+    }
   };
 
   return {
     screen: 'intro',
     currentQ: 0,
-    answers: [null, null, null, null, null],
-    dilemmas: DILEMMAS,
+    votes: [null, null, null, null, null, null],
+    promises: PROMISES,
     copied: false,
 
     get progressPct() {
       if (this.screen === 'intro') return 0;
-      if (this.screen === 'dilemma') return 10 + (this.currentQ / 5) * 80;
+      if (this.screen === 'cards') return 5 + (this.currentQ / 6) * 85;
       return 100;
     },
 
-    selectOption(choice) {
-      if (this.currentQ >= 5 || this.answers[this.currentQ] !== null) return;
-      this.answers[this.currentQ] = choice;
+    vote(choice) {
+      if (this.votes[this.currentQ] !== null) return;
+      this.votes[this.currentQ] = choice;
       setTimeout(() => {
-        if (this.currentQ >= 4) {
+        if (this.currentQ >= 5) {
           this.screen = 'results';
         } else {
           this.currentQ++;
         }
-      }, 400);
+      }, 350);
     },
 
-    userMatchesReiter(i) {
-      const d = DILEMMAS[i];
-      return this.answers[i] === d.reiterDir;
-    },
+    get scoreR() { return this.votes.filter(v => v === 'r').length; },
+    get scoreK() { return this.votes.filter(v => v === 'k').length; },
+    get scoreB() { return this.votes.filter(v => v === 'b').length; },
 
-    get matchReiter() {
-      let count = 0;
-      for (let i = 0; i < 5; i++) {
-        if (this.answers[i] === DILEMMAS[i].reiterDir) count++;
-      }
-      return count;
-    },
-
-    get matchKrause() {
-      return 5 - this.matchReiter;
-    },
-
-    get resultSummary() {
-      const r = this.matchReiter;
-      const k = this.matchKrause;
-      if (r === k) return 'Genau in der Mitte. Bei deinen Werten kein klarer Favorit.';
-      if (r >= 4) return 'Bei ' + r + ' von 5 Dilemmas hast du ähnlich wie Reiter (SPD) entschieden.';
-      if (k >= 4) return 'Bei ' + k + ' von 5 Dilemmas hast du ähnlich wie Krause (Grüne) entschieden.';
-      const winner = r > k ? 'Reiter (SPD)' : 'Krause (Grüne)';
-      const count = Math.max(r, k);
-      return 'Knapp: Bei ' + count + ' von 5 Dilemmas näher an ' + winner + '. Der Unterschied ist minimal.';
-    },
-
-    get relevantFacts() {
-      const facts = [];
-      for (let i = 0; i < 5; i++) {
-        if (this.answers[i] !== null && FACTS[DILEMMAS[i].factKey]) {
-          facts.push(FACTS[DILEMMAS[i].factKey]);
-        }
-      }
-      return facts.slice(0, 3);
+    get archetype() {
+      const r = this.scoreR, k = this.scoreK, b = this.scoreB;
+      if (k >= 4) return ARCHETYPES.wechsel;
+      if (r >= 4) return ARCHETYPES.pragmatiker;
+      if (b >= 3) return ARCHETYPES.skeptiker;
+      return ARCHETYPES.abwaegend;
     },
 
     get shareText() {
-      const choices = DILEMMAS.map((d, i) => {
-        const choice = this.answers[i] === 'a' ? d.optionA.label : d.optionB.label;
-        return choice;
-      });
-      return 'Meine 5 Münchner Entscheidungen: ' + choices.join(', ') + '. Was wählst du? mucwahl.de/stichwahl2';
+      const a = this.archetype;
+      return 'Mein Bilanz-Check zur Münchner Stichwahl: ' + a.emoji + ' ' + a.name + '. Reiter ' + this.scoreR + '× | Beide ' + this.scoreB + '× | Krause ' + this.scoreK + '×. Was bist du? mucwahl.de/stichwahl2';
     },
 
     async copyShare() {
@@ -406,7 +413,7 @@ function muenchenDilemma() {
     restart() {
       this.screen = 'intro';
       this.currentQ = 0;
-      this.answers = [null, null, null, null, null];
+      this.votes = [null, null, null, null, null, null];
       this.copied = false;
     }
   };

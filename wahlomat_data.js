@@ -5,7 +5,7 @@ window.WAHLOMAT_DATA = {
       "topic": "Mobilität & Verkehr",
       "short_title": "Straßentunnel",
       "statement": "Die Stadt München soll neue Straßentunnel (z.B. am Englischen Garten oder der Landshuter Allee) bauen, auch wenn dies hohe Baukosten verursacht.",
-      "background": "Gemeint sind v.a. der Englischer-Garten-Tunnel (ca. 240 Mio. Euro laut Machbarkeitsstudie 2024) und ein möglicher Tunnel an der Landshuter Allee. Befürworter sehen Entlastung für Anwohner und neue Freiflächen an der Oberfläche. Kritiker verweisen auf jahrelange Bauzeiten und Kostenexplosionen: Der Luise-Kiesselbach-Tunnel (fertig 2015) wurde deutlich teurer als geplant.",
+      "background": "Gemeint sind v.a. der Englischer-Garten-Tunnel (ca. 240 Mio. Euro laut Machbarkeitsstudie 2024) und ein möglicher Tunnel an der Landshuter Allee. Der E-Garten-Tunnel würde 4 Autospuren und 2 Tramgleise mit 3 neuen Haltestellen unterirdisch führen; an der Oberfläche entstünden neue Grünflächen und die Dietlindenstraße würde zur Sackgasse für Autos. Befürworter sehen Entlastung für Anwohner und ÖPNV-Ausbau in einem Projekt. Kritiker verweisen auf 578–900 Baumfällungen, jahrelange Bauzeiten und Kostenexplosionen (Luise-Kiesselbach-Tunnel wurde deutlich teurer als geplant) und bevorzugen die fertig geplante oberirdische Tram-Nordtangente als günstigere Alternative.",
       "axes": {
         "x": 0,
         "y": 0.8
@@ -160,7 +160,7 @@ window.WAHLOMAT_DATA = {
       "id": 26,
       "topic": "Wirtschaft & Finanzen",
       "short_title": "Kitaplatz-Vergabe",
-      "statement": "Familien, in denen beide Elternteile in Vollzeit arbeiten, sollen bevorzugt einen Kitaplatz bekommen, auch wenn dies Alleinerziehende und Teilzeit-Familien benachteiligt.",
+      "statement": "Familien, in denen beide Elternteile in Vollzeit arbeiten, sollen bevorzugt einen Kitaplatz bekommen, auch wenn Familien mit Teilzeitmodellen dadurch länger auf einen Platz warten.",
       "background": "In München fehlen trotz massivem Ausbau tausende Kitaplätze. Das aktuelle Vergabesystem vergibt Plätze nach Punkten, die Faktoren wie Berufstätigkeit, Alleinerziehend-Status und Wohnortnähe berücksichtigen. Befürworter einer Vollzeit-Bevorzugung argumentieren mit dem höchsten Betreuungsbedarf und der Vereinbarkeit von Familie und Beruf. Kritiker warnen, dass Alleinerziehende und Familien mit Teilzeitmodellen systematisch benachteiligt würden.",
       "axes": {
         "x": 0.3,
@@ -418,7 +418,7 @@ window.WAHLOMAT_DATA = {
       "positions": {
         "1": {
           "val": -1,
-          "quote": "Wir stoppen klimaschädliche Großprojekte wie neue Autotunnel und investieren stattdessen in saubere Infrastruktur."
+          "quote": "Die fertig geplante oberirdische Tram-Nordtangente ist schneller und günstiger als ein 240-Millionen-Tunnel, für den fast 900 Bäume gefällt werden müssten."
         },
         "2": {
           "val": 1,
@@ -526,7 +526,7 @@ window.WAHLOMAT_DATA = {
       "positions": {
         "1": {
           "val": 0,
-          "quote": "Wir sagen klar: Die Idee eines S-Bahn-Rings um München muss weiterverfolgt werden. Der Brenner-Nordzulauf durch München-Ost darf daher nur in Tunnellage erfolgen."
+          "quote": ""
         },
         "2": {
           "val": 1,

@@ -639,8 +639,25 @@ function kanoCheck() {
     },
 
     get shareText() {
-      const cats = this.kanoSummaryOrder.filter(c => c.count > 0).map(c => c.count + '× ' + c.label).join(', ');
-      return 'Mein Prioritäten-Check zur Münchner Stichwahl: ' + cats + '. Was zählt für dich? mucwahl.de/stichwahl4';
+      // Find which candidate has more Begeisterung+Leistung topics
+      const krauseTopics = [0, 1, 2, 3, 6];
+      const reiterTopics = [5, 7];
+      let krauseHot = [], reiterHot = [];
+      for (const i of krauseTopics) {
+        const c = this.getKanoCode(i);
+        if (c === 'B' || c === 'L') krauseHot.push(this.topics[i].label);
+      }
+      for (const i of reiterTopics) {
+        const c = this.getKanoCode(i);
+        if (c === 'B' || c === 'L') reiterHot.push(this.topics[i].label);
+      }
+      // Build text around the stronger match
+      const stronger = krauseHot.length >= reiterHot.length ? 'Krause' : 'Reiter';
+      const hotTopics = stronger === 'Krause' ? krauseHot : reiterHot;
+      if (hotTopics.length === 0) {
+        return 'Mein Prioritäten-Check: Keiner der Kandidaten trifft meine Kernthemen. Und bei dir? mucwahl.de/stichwahl4';
+      }
+      return 'Mein Prioritäten-Check: Bei ' + hotTopics.join(', ') + ' bin ich nah bei ' + stronger + '. Und du? mucwahl.de/stichwahl4';
     },
 
     async copyShare() {

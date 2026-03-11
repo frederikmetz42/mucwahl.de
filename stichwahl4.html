@@ -1,0 +1,665 @@
+<!--
+=== PROJECT SPEC - DO NOT REMOVE ===
+WORKFLOW: Read this block → update changelog entry → implement changes → update features → write UNCHANGED line → verify against previous features list.
+
+## FEATURES (v1.0)
+### Core Mechanic: Kano Dual-Question Method
+- 8 political topics, each with positive + negative framing question
+- 5 answer options per question (Begeistert, Erwarte ich, Egal, Akzeptabel, Stoert mich)
+- Kano matrix maps positive+negative answer pair to category: Begeisterung, Leistung, Basis, Indifferent, Rueckweisung, Fraglich
+- Per-topic classification shown as coloured pills on results screen
+- Per-candidate summary: how many of their topics fall into each Kano category
+
+### Topics (8)
+1. Wohnen (Krause-leaning): 50.000 neue bezahlbare Wohnungen, SEM Nord, Umwandlungsagentur
+2. OEPNV & Mobilitaet (Krause-leaning): Tramlinien ausbauen vor Gratisticket
+3. Verkehr & Strassenraum (Krause-leaning): Autoverkehr zugunsten Fuss/Rad zurueckbauen
+4. Klima & Energie (Krause-leaning): Klimaneutral 2035, PV auf staedtischen Daechern
+5. Sicherheit & Ordnung (Both): Polizeipraesenz + Sozialarbeit + Praevention
+6. Digitale Verwaltung (Reiter-leaning): Alle Behoerdengaenge digital, Muenchen-App
+7. Kultur & Subkultur (Krause-leaning): Subkultur schuetzen, Zwischennutzung, bezahlbare Ateliers
+8. Amtserfahrung & Kontinuitaet (Reiter-leaning): OB der den Laden kennt
+
+### Design
+- Single file, standalone HTML
+- Alpine.js via vendor/alpine.min.js (deferred)
+- Tailwind via shared styles.css
+- Fortress Zero: no backend, no cookies, no tracking, no CDN
+- Non-partisan colours: indigo-500 / teal-500 for candidates (NOT party colours)
+- Candidate order randomised per session (primacy bias prevention)
+- No celebratory framing
+- Mobile-first (375px), max-w-lg centred
+- Inter font family
+
+### Flow
+1. Intro screen: Kano concept explained simply, Stichwahl badge, CTA
+2. Questions: 8 topic cards, each with 2 sub-questions (positive + negative), radio buttons, progress
+3. Results: Kano pills per topic, candidate summary, asymmetry insight, key insight text
+4. Share: clipboard fallback, cross-nav to other tools + index.html
+
+## UNCHANGED: n/a (v1.0 initial build)
+=== END PROJECT SPEC ===
+-->
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prioritäten-Check: Was zählt für dich? | Stichwahl München 2026</title>
+<meta name="description" content="Was erwartest du vom nächsten OB? 8 Themen, 16 Fragen. Finde heraus, was für dich Pflicht ist, was dich begeistern würde und was dich stört.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.png">
+<script src="vendor/alpine.min.js" defer></script>
+<link rel="stylesheet" href="styles.css">
+<style>
+  [x-cloak] { display: none !important; }
+  .fade-in { animation: fadeIn 0.4s ease-out; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  .progress-fill { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+
+  .radio-opt { transition: all 0.15s ease; cursor: pointer; }
+  .radio-opt.selected { border-color: #ea580c; background: #fff7ed; }
+  @media (hover: hover) { .radio-opt:hover:not(.selected) { border-color: #d6d3d1; background: #fafaf9; } }
+
+  .kano-pill { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+  .kano-begeisterung { background: #d1fae5; color: #065f46; }
+  .kano-leistung { background: #dbeafe; color: #1e40af; }
+  .kano-basis { background: #e7e5e4; color: #44403c; }
+  .kano-indifferent { background: #f5f5f4; color: #78716c; }
+  .kano-rueckweisung { background: #fee2e2; color: #991b1b; }
+  .kano-fraglich { background: #fef3c7; color: #92400e; }
+
+  .candidate-badge { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; font-weight: 700; font-size: 11px; color: white; }
+
+  @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  .slide-up { animation: slideUp 0.35s ease-out both; }
+
+  .insight-card { border-left: 3px solid #3b82f6; }
+</style>
+</head>
+<body class="bg-stone-50 text-stone-800 min-h-screen font-[Inter,system-ui,sans-serif]" x-data="kanoCheck()" x-cloak>
+
+<!-- Progress Bar -->
+<div class="fixed top-0 left-0 right-0 h-1.5 bg-stone-200 z-50" x-show="screen !== 'intro'">
+  <div class="h-full bg-gradient-to-r from-orange-500 to-orange-600 progress-fill rounded-r-full" :style="'width:' + progressPct + '%'"></div>
+</div>
+
+<div class="max-w-lg mx-auto px-4 py-8 min-h-screen flex flex-col">
+
+  <!-- ==================== INTRO ==================== -->
+  <template x-if="screen === 'intro'">
+    <div class="flex-1 flex flex-col justify-center fade-in">
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 bg-orange-100 text-orange-600 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+          Stichwahl 22. März
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight mb-3">Prioritäten-Check</h1>
+        <p class="text-stone-500 text-lg">Nicht nur ob, sondern wie sehr.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 mb-6">
+        <p class="text-stone-600 leading-relaxed mb-4">
+          Normale Wahltools fragen: Bist du dafür oder dagegen? Das reicht nicht. Manche Themen sind dir <strong>so wichtig, dass sie alles überlagern</strong>. Andere sind nett, aber kein Grund für eine Entscheidung.
+        </p>
+        <p class="text-stone-600 leading-relaxed">
+          Dieser Check zeigt dir, was für dich <strong>Pflicht</strong> ist, was dich <strong>begeistern</strong> würde und was dich <strong>stört</strong>. 8 Themen, je 2 kurze Fragen.
+        </p>
+      </div>
+
+      <div class="space-y-3 mb-8 text-sm text-stone-500">
+        <div class="flex items-start gap-3">
+          <span class="flex-shrink-0 w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-xs font-bold text-orange-700">1</span>
+          <span>Pro Thema 2 Fragen: "Was wäre, wenn?" und "Was wäre, wenn nicht?"</span>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="flex-shrink-0 w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-xs font-bold text-orange-700">2</span>
+          <span>Deine Antworten zeigen, welche Themen wirklich zählen</span>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="flex-shrink-0 w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center text-xs font-bold text-orange-700">3</span>
+          <span>Ergebnis: Dein persönliches Prioritäten-Profil mit Kandidaten-Bezug</span>
+        </div>
+      </div>
+
+      <button @click="screen = 'questions'" class="w-full bg-stone-800 text-white font-semibold py-4 rounded-xl hover:bg-stone-700 active:bg-stone-900 transition-colors text-lg">
+        Check starten
+      </button>
+      <p class="text-center text-xs text-stone-400 mt-3">Keine Cookies. Kein Tracking. Deine Daten bleiben bei dir.</p>
+    </div>
+  </template>
+
+  <!-- ==================== QUESTIONS ==================== -->
+  <template x-if="screen === 'questions'">
+    <div class="flex-1 flex flex-col pt-8 fade-in" :key="'q-' + currentTopic">
+      <!-- Topic header -->
+      <div class="mb-2">
+        <p class="text-sm font-medium text-orange-600 mb-1">Thema <span x-text="currentTopic + 1"></span> von 8</p>
+      </div>
+      <div class="flex items-center gap-3 mb-5">
+        <span class="text-2xl" x-text="topics[currentTopic].emoji"></span>
+        <div>
+          <h2 class="text-lg font-bold" x-text="topics[currentTopic].label"></h2>
+          <p class="text-xs text-stone-400" x-text="topics[currentTopic].desc"></p>
+        </div>
+      </div>
+
+      <!-- Positive question -->
+      <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4">
+        <p class="text-xs font-semibold text-emerald-600 uppercase tracking-wide mb-2">Wenn ja...</p>
+        <p class="text-sm font-medium text-stone-700 mb-4" x-text="topics[currentTopic].posQ"></p>
+        <div class="space-y-2">
+          <template x-for="(opt, i) in answerOptions" :key="'p'+i">
+            <button
+              @click="setAnswer('pos', i)"
+              class="radio-opt w-full text-left border-2 border-stone-200 rounded-xl px-4 py-3 text-sm"
+              :class="answers[currentTopic]?.pos === i ? 'selected' : ''">
+              <span x-text="opt"></span>
+            </button>
+          </template>
+        </div>
+      </div>
+
+      <!-- Negative question -->
+      <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-6">
+        <p class="text-xs font-semibold text-rose-600 uppercase tracking-wide mb-2">Wenn nein...</p>
+        <p class="text-sm font-medium text-stone-700 mb-4" x-text="topics[currentTopic].negQ"></p>
+        <div class="space-y-2">
+          <template x-for="(opt, i) in answerOptions" :key="'n'+i">
+            <button
+              @click="setAnswer('neg', i)"
+              class="radio-opt w-full text-left border-2 border-stone-200 rounded-xl px-4 py-3 text-sm"
+              :class="answers[currentTopic]?.neg === i ? 'selected' : ''">
+              <span x-text="opt"></span>
+            </button>
+          </template>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div class="flex gap-3 mt-auto">
+        <button
+          x-show="currentTopic > 0"
+          @click="currentTopic--"
+          class="flex-1 border-2 border-stone-200 text-stone-600 font-medium py-3 rounded-xl hover:bg-stone-100 transition-colors text-sm">
+          Zurück
+        </button>
+        <button
+          @click="nextTopic()"
+          class="flex-1 font-semibold py-3 rounded-xl transition-colors text-sm"
+          :class="canAdvance ? 'bg-stone-800 text-white hover:bg-stone-700' : 'bg-stone-200 text-stone-400 cursor-not-allowed'">
+          <span x-text="currentTopic === 7 ? 'Ergebnis anzeigen' : 'Weiter'"></span>
+        </button>
+      </div>
+    </div>
+  </template>
+
+  <!-- ==================== RESULTS ==================== -->
+  <template x-if="screen === 'results'">
+    <div class="flex-1 pt-8 fade-in">
+
+      <!-- Header -->
+      <div class="text-center mb-6">
+        <p class="text-sm text-stone-400 mb-2">Dein Prioritäten-Profil</p>
+        <h2 class="text-2xl font-extrabold tracking-tight">So tickst du.</h2>
+      </div>
+
+      <!-- Kano Summary Bar -->
+      <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4 slide-up">
+        <p class="text-xs font-semibold text-stone-500 uppercase tracking-wide mb-3">Deine 8 Themen im Überblick</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          <template x-for="cat in kanoSummaryOrder" :key="cat.key">
+            <div x-show="cat.count > 0" class="kano-pill" :class="'kano-' + cat.key">
+              <span x-text="cat.count + '×'"></span>
+              <span x-text="cat.label"></span>
+            </div>
+          </template>
+        </div>
+        <div class="flex h-3 rounded-full overflow-hidden bg-stone-100">
+          <template x-for="cat in kanoSummaryOrder" :key="'bar-'+cat.key">
+            <div :class="'bg-kano-' + cat.key" :style="'width:' + (cat.count / 8 * 100) + '%'" class="transition-all"></div>
+          </template>
+        </div>
+        <style>
+          .bg-kano-begeisterung { background: #6ee7b7; }
+          .bg-kano-leistung { background: #93c5fd; }
+          .bg-kano-basis { background: #d6d3d1; }
+          .bg-kano-indifferent { background: #e7e5e4; }
+          .bg-kano-rueckweisung { background: #fca5a5; }
+          .bg-kano-fraglich { background: #fcd34d; }
+        </style>
+      </div>
+
+      <!-- Per-topic cards -->
+      <template x-for="(t, i) in topics" :key="'r'+i">
+        <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden mb-3 slide-up" :style="'animation-delay:' + (i * 0.05) + 's'">
+          <div class="px-5 py-3 flex items-center gap-3">
+            <span class="text-lg" x-text="t.emoji"></span>
+            <div class="flex-1">
+              <p class="font-semibold text-sm" x-text="t.label"></p>
+              <p class="text-xs text-stone-400" x-text="t.leaning"></p>
+            </div>
+            <span class="kano-pill" :class="'kano-' + getKanoKey(i)" x-text="getKanoLabel(i)"></span>
+          </div>
+          <div class="px-5 pb-4">
+            <p class="text-xs text-stone-500 leading-relaxed" x-text="getKanoExplainer(i)"></p>
+          </div>
+        </div>
+      </template>
+
+      <!-- Candidate Summary -->
+      <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4 mt-4 slide-up" style="animation-delay: 0.4s">
+        <p class="text-xs font-semibold text-stone-500 uppercase tracking-wide mb-4">Was bedeutet das für die Kandidaten?</p>
+
+        <template x-for="c in candidateOrder" :key="c.id">
+          <div class="mb-4 last:mb-0">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="candidate-badge" :class="c.id === 'krause' ? 'bg-teal-500' : 'bg-indigo-500'" x-text="c.id === 'krause' ? 'K' : 'R'"></span>
+              <span class="font-semibold text-sm" x-text="c.name"></span>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              <template x-for="item in getCandidateKano(c.id)" :key="item.topic">
+                <div class="kano-pill text-[10px]" :class="'kano-' + item.kano">
+                  <span x-text="item.topicLabel"></span>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- Asymmetry insight -->
+      <div class="insight-card bg-blue-50 rounded-r-2xl p-4 mb-4 slide-up" style="animation-delay: 0.5s">
+        <p class="text-sm text-blue-800 leading-relaxed" x-html="asymmetryInsight"></p>
+      </div>
+
+      <!-- Key insight -->
+      <div class="bg-stone-100 rounded-xl p-4 mb-4 slide-up" style="animation-delay: 0.55s">
+        <p class="text-xs text-stone-500 leading-relaxed" x-html="keyInsight"></p>
+      </div>
+
+      <!-- Share -->
+      <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4 slide-up" style="animation-delay: 0.6s">
+        <p class="font-semibold mb-3">Teilen</p>
+        <div class="bg-stone-50 rounded-xl p-4 mb-3">
+          <p class="text-sm text-stone-600" x-text="shareText"></p>
+        </div>
+        <button @click="copyShare()" class="w-full bg-stone-800 text-white font-medium py-3 rounded-xl hover:bg-stone-700 active:bg-stone-900 transition-colors text-sm">
+          <span x-text="copied ? 'Kopiert!' : 'Text kopieren'"></span>
+        </button>
+      </div>
+
+      <!-- Cross-nav -->
+      <div class="bg-stone-100 rounded-xl p-4 mb-5 slide-up" style="animation-delay: 0.65s">
+        <p class="text-sm font-semibold text-stone-600 mb-2">Weitere Tools</p>
+        <a href="stichwahl.html" class="block text-orange-600 font-medium text-sm hover:underline mb-1">Deine Wahl: Thesen-Vergleich</a>
+        <p class="text-xs text-stone-400 mb-3">Wo unterscheiden sich Reiter und Krause inhaltlich?</p>
+        <a href="stichwahl2.html" class="block text-orange-600 font-medium text-sm hover:underline mb-1">Bilanz-Check: Versprochen. Geliefert?</a>
+        <p class="text-xs text-stone-400 mb-3">8 Versprechen aus dem Koalitionsvertrag 2020.</p>
+        <a href="stichwahl3.html" class="block text-orange-600 font-medium text-sm hover:underline mb-1">Budget-Simulator: Dein München 2032</a>
+        <p class="text-xs text-stone-400 mb-3">100 Punkte, 6 Themen, dein Stadtprofil.</p>
+        <a href="index.html" class="block text-orange-600 font-medium text-sm hover:underline">Alle 25 Thesen auf mucwahl.de</a>
+        <p class="text-xs text-stone-400">Der vollständige Überblick mit 14 Parteien.</p>
+      </div>
+
+      <button @click="restart()" class="w-full border-2 border-stone-200 text-stone-600 font-medium py-3 rounded-xl hover:bg-stone-100 transition-colors text-sm mb-4">
+        Nochmal starten
+      </button>
+    </div>
+  </template>
+
+</div>
+
+<script>
+function kanoCheck() {
+  // Kano classification matrix
+  // Rows: negative answer (0=begeistert..4=stoert)
+  // Cols: positive answer (0=begeistert..4=stoert)
+  // Values: B=Begeisterung, L=Leistung, A=Basis, I=Indifferent, R=Rueckweisung, F=Fraglich
+  const KANO_MATRIX = [
+    ['F', 'R', 'R', 'R', 'R'],  // neg: begeistert
+    ['B', 'I', 'I', 'I', 'R'],  // neg: erwarte ich
+    ['B', 'I', 'I', 'I', 'R'],  // neg: egal
+    ['B', 'I', 'I', 'I', 'R'],  // neg: akzeptabel
+    ['B', 'L', 'A', 'A', 'F'],  // neg: stoert mich
+  ];
+
+  const KANO_LABELS = {
+    B: 'Begeisterung', L: 'Leistung', A: 'Basis',
+    I: 'Indifferent', R: 'Rückweisung', F: 'Fraglich'
+  };
+  const KANO_KEYS = {
+    B: 'begeisterung', L: 'leistung', A: 'basis',
+    I: 'indifferent', R: 'rueckweisung', F: 'fraglich'
+  };
+
+  const TOPICS = [
+    {
+      label: 'Wohnen',
+      emoji: '\u{1F3E0}',
+      desc: 'Bezahlbare Wohnungen, Neubau, Mieterschutz',
+      leaning: 'Schwerpunkt: Krause',
+      candidateId: 'krause',
+      posQ: 'Wie fändest du es, wenn der nächste OB 50.000 neue bezahlbare Wohnungen baut, die SEM Nord entwickelt und eine Umwandlungsagentur gegen Spekulation gründet?',
+      negQ: 'Wie fändest du es, wenn der nächste OB den Wohnungsbau dem Markt überlässt und keine neuen Bauziele setzt?',
+      explainers: {
+        B: 'Wohnen begeistert dich. Ein OB, der hier liefert, gewinnt dich. Krause hat genau das zu seinem Kernversprechen gemacht: 50.000 Wohnungen, SEM Nord, Leerstand umwandeln.',
+        L: 'Je mehr beim Wohnen passiert, desto zufriedener bist du. Das ist ein klassisches Leistungsthema für dich.',
+        A: 'Wohnen ist für dich Pflicht. Wenn hier nichts passiert, ist alles andere egal. Das ist deine Grunderwartung an jeden OB.',
+        I: 'Wohnungsbau ist dir nicht besonders wichtig. Das Thema beeinflusst deine Wahlentscheidung kaum.',
+        R: 'Den aktiven Wohnungsbau lehnst du ab. Du siehst das anders als Krause, der 50.000 neue Wohnungen bauen will.',
+        F: 'Deine Antworten passen nicht ins Muster. Vielleicht hast du das Thema anders verstanden als gemeint.'
+      }
+    },
+    {
+      label: 'ÖPNV & Mobilität',
+      emoji: '\u{1F68B}',
+      desc: 'Tramausbau, Takte, Ticketpreise',
+      leaning: 'Schwerpunkt: Krause',
+      candidateId: 'krause',
+      posQ: 'Wie fändest du es, wenn der nächste OB Tramlinien massiv ausbaut und bessere Takte ermöglicht, bevor über ein Gratisticket geredet wird?',
+      negQ: 'Wie fändest du es, wenn der nächste OB beim ÖPNV nichts Neues baut und auf Bundesgelder wartet?',
+      explainers: {
+        B: 'Tram-Ausbau begeistert dich. Krause hat im Stadtrat für die Tram-Nordtangente gekämpft und will Ausbau vor Gratisticket.',
+        L: 'Mehr ÖPNV heißt für dich mehr Zufriedenheit. Je besser das Netz, desto besser dein Urteil über den OB.',
+        A: 'ÖPNV-Ausbau ist für dich selbstverständlich. Ohne Fortschritt hier wärst du enttäuscht, egal was sonst passiert.',
+        I: 'ÖPNV-Ausbau bewegt dich nicht besonders. Das Thema spielt für deine Wahl keine große Rolle.',
+        R: 'Du willst keinen massiven Tramausbau. Deine Prioritäten liegen woanders.',
+        F: 'Deine Antworten ergeben kein klares Bild. Vielleicht ist deine Haltung zum ÖPNV differenzierter als die Frage zulässt.'
+      }
+    },
+    {
+      label: 'Verkehr & Straßenraum',
+      emoji: '\u{1F6B6}',
+      desc: 'Autoverkehr, Fuß, Rad, Aufenthaltsqualität',
+      leaning: 'Schwerpunkt: Krause',
+      candidateId: 'krause',
+      posQ: 'Wie fändest du es, wenn der nächste OB Autoverkehr in der Innenstadt zugunsten von Fuß, Rad und Aufenthalt zurückbaut?',
+      negQ: 'Wie fändest du es, wenn der nächste OB den Straßenraum so lässt wie er ist und keine Flächen umverteilt?',
+      explainers: {
+        B: 'Weniger Autos, mehr Lebensqualität begeistert dich. Krause will Straßenraum umverteilen, ohne ideologischen Kulturkampf.',
+        L: 'Je konsequenter der Umbau, desto besser für dich. Das ist ein Thema, bei dem du Fortschritt belohnst.',
+        A: 'Straßenraum für Menschen ist für dich Grundvoraussetzung. Stillstand wäre inakzeptabel.',
+        I: 'Die Aufteilung des Straßenraums ist dir relativ egal. Andere Themen wiegen schwerer.',
+        R: 'Du willst keinen Rückbau des Autoverkehrs. Deine Position liegt näher bei Reiters "ausgewogenem Verkehrsmix".',
+        F: 'Deine Antworten sind widersprüchlich. Vielleicht hängt es für dich von der konkreten Straße ab.'
+      }
+    },
+    {
+      label: 'Klima & Energie',
+      emoji: '\u{2600}\u{FE0F}',
+      desc: 'Klimaneutralität, PV-Ausbau, Geothermie',
+      leaning: 'Schwerpunkt: Krause',
+      candidateId: 'krause',
+      posQ: 'Wie fändest du es, wenn der nächste OB München bis 2035 klimaneutral macht und PV-Anlagen auf alle städtischen Dächer bringt?',
+      negQ: 'Wie fändest du es, wenn der nächste OB Klimaschutz anderen Prioritäten unterordnet und keinen festen Zeitplan setzt?',
+      explainers: {
+        B: 'Ambitionierter Klimaschutz begeistert dich. Krause will 2035 als festes Ziel, Reiter hält es "sozial verträglich" offen.',
+        L: 'Je ambitionierter der Klimaschutz, desto zufriedener bist du. Das ist ein Leistungsthema, bei dem Tempo zählt.',
+        A: 'Klimaschutz ist für dich Grundvoraussetzung. Ohne klaren Plan verliert jeder OB bei dir Punkte.',
+        I: 'Klimapolitik beeinflusst deine Wahlentscheidung wenig. Andere Themen sind dir wichtiger.',
+        R: 'Du lehnst einen aggressiven Klimazeitplan ab. Das verbindet dich eher mit Reiters vorsichtigerem Ansatz.',
+        F: 'Deine Antworten passen nicht zusammen. Vielleicht unterstützt du Klimaschutz, aber nicht auf diesem Weg.'
+      }
+    },
+    {
+      label: 'Sicherheit & Ordnung',
+      emoji: '\u{1F6E1}\u{FE0F}',
+      desc: 'Polizeipräsenz, Sozialarbeit, Prävention',
+      leaning: 'Beide Kandidaten',
+      candidateId: 'both',
+      posQ: 'Wie fändest du es, wenn der nächste OB mehr Polizeipräsenz mit Sozialarbeit und Prävention kombiniert?',
+      negQ: 'Wie fändest du es, wenn der nächste OB bei Sicherheit und Ordnung keine neuen Akzente setzt?',
+      explainers: {
+        B: 'Die Kombination aus Sicherheit und Prävention begeistert dich. Beide Kandidaten versprechen das, unterschiedlich akzentuiert.',
+        L: 'Je besser die Sicherheitslage, desto zufriedener bist du. Hier belohnst du konkrete Ergebnisse.',
+        A: 'Sicherheit ist Pflicht. Wenn der OB hier nicht liefert, hilft alles andere nicht. Beide Kandidaten betonen das Thema.',
+        I: 'Sicherheit und Ordnung stehen bei dir nicht im Vordergrund. Das Thema macht für dich keinen Unterschied.',
+        R: 'Du lehnst mehr Polizeipräsenz ab, auch mit Sozialarbeit kombiniert.',
+        F: 'Deine Antworten sind uneindeutig. Vielleicht hängt es für dich vom konkreten Ansatz ab.'
+      }
+    },
+    {
+      label: 'Digitale Verwaltung',
+      emoji: '\u{1F4F1}',
+      desc: 'Online-Behördengänge, München-App',
+      leaning: 'Schwerpunkt: Reiter',
+      candidateId: 'reiter',
+      posQ: 'Wie fändest du es, wenn der nächste OB alle Behördengänge digital ermöglicht und eine München-App für alles einführt?',
+      negQ: 'Wie fändest du es, wenn Behördengänge weiterhin Wartezeit und persönliches Erscheinen erfordern?',
+      explainers: {
+        B: 'Digitale Verwaltung begeistert dich. Reiter hat hier ein laufendes Digitalisierungsprogramm, das auf seiner Erfahrung aufbaut.',
+        L: 'Je digitaler die Verwaltung, desto besser. Du belohnst jeden Fortschritt in diese Richtung.',
+        A: 'Digitale Behördengänge sind für dich selbstverständlich. Ohne sie verliert der OB bei dir Vertrauen.',
+        I: 'Digitalisierung der Verwaltung ist dir nicht besonders wichtig. Du kommst auch mit dem Status quo zurecht.',
+        R: 'Du willst keine vollständige Digitalisierung der Behörden. Vielleicht schätzt du persönlichen Kontakt.',
+        F: 'Deine Antworten passen nicht zusammen. Vielleicht willst du beides: digital und persönlich.'
+      }
+    },
+    {
+      label: 'Kultur & Subkultur',
+      emoji: '\u{1F3A8}',
+      desc: 'Subkulturschutz, Zwischennutzung, Ateliers',
+      leaning: 'Schwerpunkt: Krause',
+      candidateId: 'krause',
+      posQ: 'Wie fändest du es, wenn der nächste OB Subkultur aktiv schützt, Zwischennutzung fördert und bezahlbare Ateliers sichert?',
+      negQ: 'Wie fändest du es, wenn der nächste OB Kulturförderung dem Markt überlässt und keine Räume für Subkultur schafft?',
+      explainers: {
+        B: 'Subkulturschutz begeistert dich. Krause hat sich konkret für das Backstage eingesetzt und Zwischennutzung des alten Gasteigs ermöglicht.',
+        L: 'Je mehr für Kultur passiert, desto besser. Du belohnst jeden Schritt, den der OB hier geht.',
+        A: 'Kulturförderung ist für dich Grunderwartung. Ohne sie fehlt München etwas Wesentliches.',
+        I: 'Subkultur und Ateliers sind dir nicht besonders wichtig. Das Thema beeinflusst deine Wahl kaum.',
+        R: 'Du lehnst aktive Subkulturförderung ab. Vielleicht findest du, dass Kultur sich selbst tragen sollte.',
+        F: 'Deine Antworten sind widersprüchlich. Vielleicht unterstützt du Kultur, aber nicht durch städtische Eingriffe.'
+      }
+    },
+    {
+      label: 'Amtserfahrung & Kontinuität',
+      emoji: '\u{1F3DB}\u{FE0F}',
+      desc: 'Verwaltungskompetenz, gewachsene Netzwerke',
+      leaning: 'Schwerpunkt: Reiter',
+      candidateId: 'reiter',
+      posQ: 'Wie fändest du es, wenn der nächste OB die Verwaltung seit Jahren kennt, ein eingespieltes Netzwerk hat und sofort loslegen kann?',
+      negQ: 'Wie fändest du es, wenn der nächste OB erst in die Rolle hineinwachsen muss und die internen Abläufe neu lernt?',
+      explainers: {
+        B: 'Erfahrung begeistert dich. Reiter hat 12 Jahre Amtserfahrung, das ist sein stärkstes Argument.',
+        L: 'Je mehr Verwaltungskompetenz, desto besser. Du schätzt, dass jemand weiß wie der Laden läuft.',
+        A: 'Amtserfahrung ist für dich Pflicht. Ohne sie traust du keinem OB zu, die großen Themen zu bewegen. Das spricht klar für Reiter.',
+        I: 'Ob der OB Erfahrung mitbringt oder nicht, ist dir egal. Du schaust auf die Inhalte, nicht den Lebenslauf.',
+        R: 'Du willst ausdrücklich keinen Amtsinhaber-Bonus. Für dich ist es Zeit für jemand Neues.',
+        F: 'Deine Antworten sind widersprüchlich. Vielleicht schätzt du Erfahrung, willst aber trotzdem Veränderung.'
+      }
+    }
+  ];
+
+  const ANSWER_OPTIONS = [
+    'Das würde mich begeistern',
+    'Das erwarte ich',
+    'Ist mir egal',
+    'Kann ich gerade noch akzeptieren',
+    'Das würde mich stören'
+  ];
+
+  // Randomise candidate display order
+  const CANDIDATES = [
+    { id: 'krause', name: 'Krause (Grüne)' },
+    { id: 'reiter', name: 'Reiter (SPD)' }
+  ];
+  const shuffled = Math.random() < 0.5 ? [CANDIDATES[0], CANDIDATES[1]] : [CANDIDATES[1], CANDIDATES[0]];
+
+  return {
+    screen: 'intro',
+    currentTopic: 0,
+    answers: Array.from({ length: 8 }, () => ({ pos: null, neg: null })),
+    topics: TOPICS,
+    answerOptions: ANSWER_OPTIONS,
+    candidateOrder: shuffled,
+    copied: false,
+
+    get progressPct() {
+      if (this.screen === 'intro') return 0;
+      if (this.screen === 'questions') {
+        const answered = this.answers.reduce((sum, a) => sum + (a.pos !== null ? 0.5 : 0) + (a.neg !== null ? 0.5 : 0), 0);
+        return 5 + (answered / 8) * 85;
+      }
+      return 100;
+    },
+
+    get canAdvance() {
+      const a = this.answers[this.currentTopic];
+      return a && a.pos !== null && a.neg !== null;
+    },
+
+    setAnswer(type, idx) {
+      this.answers[this.currentTopic][type] = idx;
+    },
+
+    nextTopic() {
+      if (!this.canAdvance) return;
+      if (this.currentTopic >= 7) {
+        this.screen = 'results';
+      } else {
+        this.currentTopic++;
+      }
+    },
+
+    getKanoCode(topicIdx) {
+      const a = this.answers[topicIdx];
+      if (a.pos === null || a.neg === null) return 'I';
+      return KANO_MATRIX[a.neg][a.pos];
+    },
+
+    getKanoKey(topicIdx) {
+      return KANO_KEYS[this.getKanoCode(topicIdx)];
+    },
+
+    getKanoLabel(topicIdx) {
+      return KANO_LABELS[this.getKanoCode(topicIdx)];
+    },
+
+    getKanoExplainer(topicIdx) {
+      const code = this.getKanoCode(topicIdx);
+      const key = KANO_KEYS[code];
+      return TOPICS[topicIdx].explainers[code] || '';
+    },
+
+    get kanoSummaryOrder() {
+      const counts = { begeisterung: 0, leistung: 0, basis: 0, indifferent: 0, rueckweisung: 0, fraglich: 0 };
+      for (let i = 0; i < 8; i++) {
+        counts[this.getKanoKey(i)]++;
+      }
+      return [
+        { key: 'begeisterung', label: 'Begeisterung', count: counts.begeisterung },
+        { key: 'leistung', label: 'Leistung', count: counts.leistung },
+        { key: 'basis', label: 'Basis', count: counts.basis },
+        { key: 'indifferent', label: 'Indifferent', count: counts.indifferent },
+        { key: 'rueckweisung', label: 'Rückweisung', count: counts.rueckweisung },
+        { key: 'fraglich', label: 'Fraglich', count: counts.fraglich }
+      ];
+    },
+
+    getCandidateKano(candidateId) {
+      const result = [];
+      for (let i = 0; i < 8; i++) {
+        const t = TOPICS[i];
+        if (t.candidateId === candidateId || t.candidateId === 'both') {
+          result.push({
+            topic: i,
+            topicLabel: t.label,
+            kano: this.getKanoKey(i)
+          });
+        }
+      }
+      return result;
+    },
+
+    get asymmetryInsight() {
+      // Count Begeisterung/Basis per candidate
+      const krauseTopics = [0, 1, 2, 3, 6]; // Wohnen, OEPNV, Verkehr, Klima, Kultur
+      const reiterTopics = [5, 7]; // Digital, Amtserfahrung
+      const bothTopics = [4]; // Sicherheit
+
+      let krauseBegeisterung = 0, krauseBasis = 0, krauseLeistung = 0;
+      let reiterBegeisterung = 0, reiterBasis = 0, reiterLeistung = 0;
+
+      for (const i of krauseTopics) {
+        const code = this.getKanoCode(i);
+        if (code === 'B') krauseBegeisterung++;
+        if (code === 'A') krauseBasis++;
+        if (code === 'L') krauseLeistung++;
+      }
+      for (const i of reiterTopics) {
+        const code = this.getKanoCode(i);
+        if (code === 'B') reiterBegeisterung++;
+        if (code === 'A') reiterBasis++;
+        if (code === 'L') reiterLeistung++;
+      }
+
+      const parts = [];
+
+      if (krauseBegeisterung > 0) {
+        parts.push('<strong>' + krauseBegeisterung + ' von Krauses Themen</strong> begeistern dich');
+      }
+      if (reiterBasis > 0) {
+        parts.push('bei Reiters Themen erwartest du <strong>' + reiterBasis + '× Basis-Leistung</strong>, die du voraussetzt');
+      }
+      if (reiterBegeisterung > 0 && krauseBegeisterung === 0) {
+        parts.push('<strong>' + reiterBegeisterung + ' von Reiters Themen</strong> begeistern dich');
+      }
+
+      if (parts.length === 0) {
+        return 'Dein Profil zeigt keine starke Asymmetrie zwischen den Kandidaten. Beide haben Themen, die dir wichtig sind, und Themen, die dich weniger interessieren.';
+      }
+
+      let text = parts.join(', ');
+      text = text.charAt(0).toUpperCase() + text.slice(1) + '.';
+
+      // Add the key asymmetry observation
+      if (reiterBasis > 0 && krauseBegeisterung > 0) {
+        text += ' <strong>Das heißt:</strong> Krauses Themen können dich positiv überraschen. Reiters Themen sind Pflicht, die du erwartest. Wenn Pflicht wichtiger ist als Begeisterung, spricht das für Reiter. Wenn du Aufbruch willst, spricht das für Krause.';
+      }
+
+      return text;
+    },
+
+    get keyInsight() {
+      const basisCount = this.kanoSummaryOrder.find(c => c.key === 'basis')?.count || 0;
+      const begeisterungCount = this.kanoSummaryOrder.find(c => c.key === 'begeisterung')?.count || 0;
+      const rueckweisungCount = this.kanoSummaryOrder.find(c => c.key === 'rueckweisung')?.count || 0;
+
+      if (basisCount >= 4) {
+        return '<strong>Viele Basis-Themen:</strong> Du hast hohe Grunderwartungen. Wer die nicht erfüllt, fällt bei dir durch, egal was er sonst verspricht. Kein OB kann dich begeistern, bevor die Basics stimmen.';
+      }
+      if (begeisterungCount >= 4) {
+        return '<strong>Viele Begeisterungs-Themen:</strong> Du bist offen für Neues und belohnst ambitionierte Versprechen. Aber Vorsicht: Begeisterung heißt auch, dass du enttäuscht wirst, wenn nichts davon kommt.';
+      }
+      if (rueckweisungCount >= 3) {
+        return '<strong>Mehrere Rückweisungen:</strong> Bei einigen Themen lehnst du die vorgeschlagene Richtung ab. Das ist ein klares Signal, dass du bei diesen Punkten anders denkst als der jeweilige Kandidat.';
+      }
+      return '<strong>Gemischtes Profil:</strong> Du hast Grunderwartungen, Begeisterungspotenzial und Themen, die dich kalt lassen. Das ist normal. Entscheidend ist, welche Basis-Themen für dich den Ausschlag geben.';
+    },
+
+    get shareText() {
+      const cats = this.kanoSummaryOrder.filter(c => c.count > 0).map(c => c.count + '× ' + c.label).join(', ');
+      return 'Mein Prioritäten-Check zur Münchner Stichwahl: ' + cats + '. Was zählt für dich? mucwahl.de/stichwahl4';
+    },
+
+    async copyShare() {
+      try {
+        await navigator.clipboard.writeText(this.shareText);
+        this.copied = true;
+        setTimeout(() => this.copied = false, 2000);
+      } catch(e) {}
+    },
+
+    restart() {
+      this.screen = 'intro';
+      this.currentTopic = 0;
+      this.answers = Array.from({ length: 8 }, () => ({ pos: null, neg: null }));
+      this.copied = false;
+    }
+  };
+}
+</script>
+
+</body>
+</html>

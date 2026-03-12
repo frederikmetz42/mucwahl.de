@@ -1,5 +1,14 @@
 # Changelog
 
+## v4.18 - 2026-03-12 - Workshop-Umsetzung: Playlist + Merges + Scoring-Fix
+- **Added:** `stichwahl.html` — Playlist-Landingpage (4 Schritte + optionaler Simulator + "Jetzt starten" CTA)
+- **Added:** `stichwahl1.html` — Deine Wahl (verschoben von stichwahl.html)
+- **Changed:** `stichwahl6.html` — Bilanz-Check als 5. Tab integriert (ehemals stichwahl2), Deep-linking via URL-Hash
+- **Changed:** `stichwahl3.html` — Scoring: Cosine Similarity → Weighted Difference (5-95% statt 88-96% Spread)
+- **Changed:** Alle Stichwahl-Seiten: Sequenzielle Navigation ("Nächster Schritt: X →") statt flache "Weitere Tools"-Listen
+- **Changed:** `stichwahl2.html` → Redirect auf stichwahl6#bilanz-check (meta-refresh)
+- **Changed:** `stichwahl4.html` → Redirect auf stichwahl5 (meta-refresh)
+
 ## v4.17 - 2026-03-12 - München-Check + Kandidaten-Profil + Design Workshop
 ### München-Check (stichwahl5)
 - **Added:** `stichwahl5.html` — Kano + Cityscape Fusion: 8 Münchner Themen als Kano-Dualfragen, kombiniert mit Stadtpostkarten-Visualisierung. Überholt stichwahl4 vollständig.

@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kandidaten-Profil: Reiter vs. Krause | Stichwahl München 2026</title>
+<meta name="description" content="Wer steht zur Wahl? Lebenslauf, Amtsbilanz, Kontroversen und Programm-Schwerpunkte von Dieter Reiter und Dominik Krause im Fakten-Check.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.png">
+<script src="vendor/alpine.min.js" defer></script>
+<link rel="stylesheet" href="styles.css">
+<style>
+[x-cloak] { display: none !important; }
+.fade-in { animation: fadeIn 0.4s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Candidate columns */
+.col-r { border-left: 3px solid #6366f1; }
+.col-k { border-left: 3px solid #14b8a6; }
+.badge-r { background: #6366f1; color: white; }
+.badge-k { background: #14b8a6; color: white; }
+.bg-r { background: #eef2ff; }
+.bg-k { background: #f0fdfa; }
+
+/* Source links */
+.src { color: #78716c; text-decoration: underline; text-decoration-style: dotted; }
+.src:hover { color: #ea580c; }
+
+/* Section toggle */
+.section-toggle { cursor: pointer; user-select: none; }
+.section-toggle:hover { background: #fafaf9; }
+
+/* Controversy cards */
+.controversy { border-left: 3px solid #f59e0b; background: #fffbeb; }
+.controversy-minor { border-left: 3px solid #d6d3d1; background: #fafaf9; }
+
+/* Timeline dot */
+.timeline-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+
+/* Tab */
+.tab-active { border-bottom: 2px solid #ea580c; color: #1c1917; font-weight: 600; }
+.tab-inactive { border-bottom: 2px solid transparent; color: #78716c; }
+</style>
+</head>
+<body class="bg-stone-50 text-stone-800 min-h-screen font-[Inter,system-ui,sans-serif]" x-data="kandidatenProfil()" x-cloak>
+
+<div class="max-w-lg mx-auto px-4 py-8 min-h-screen">
+
+  <!-- Header -->
+  <div class="text-center mb-6 fade-in">
+    <div class="inline-flex items-center gap-2 bg-orange-100 text-orange-600 px-4 py-1.5 rounded-full text-sm font-semibold mb-6">
+      Stichwahl 22. März
+    </div>
+    <h1 class="text-3xl font-extrabold tracking-tight mb-2">Wer steht zur Wahl?</h1>
+    <p class="text-stone-500" style="font-size:15px;">Fakten, Bilanz, Kontroversen. Alles mit Quellen.</p>
+  </div>
+
+  <!-- Candidate badges -->
+  <div class="flex gap-3 mb-6 fade-in">
+    <div class="flex-1 bg-white rounded-2xl border border-stone-200 p-4 text-center">
+      <div class="w-12 h-12 rounded-full badge-r flex items-center justify-center text-lg font-bold mx-auto mb-2">R</div>
+      <p class="font-bold" style="font-size:15px;">Dieter Reiter</p>
+      <p class="text-stone-400" style="font-size:13px;">SPD, 67 Jahre</p>
+      <p class="text-stone-400" style="font-size:13px;">OB seit 2014</p>
+      <p class="font-semibold mt-2" style="font-size:14px; color:#6366f1;">35,6%</p>
+      <p class="text-stone-400" style="font-size:11px;">1. Wahlgang</p>
+    </div>
+    <div class="flex-1 bg-white rounded-2xl border border-stone-200 p-4 text-center">
+      <div class="w-12 h-12 rounded-full badge-k flex items-center justify-center text-lg font-bold mx-auto mb-2">K</div>
+      <p class="font-bold" style="font-size:15px;">Dominik Krause</p>
+      <p class="text-stone-400" style="font-size:13px;">Grüne, 35 Jahre</p>
+      <p class="text-stone-400" style="font-size:13px;">2. BM seit 2023</p>
+      <p class="font-semibold mt-2" style="font-size:14px; color:#14b8a6;">29,5%</p>
+      <p class="text-stone-400" style="font-size:11px;">1. Wahlgang</p>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="flex border-b border-stone-200 mb-4">
+    <button @click="tab = 'person'" class="flex-1 py-3 text-center transition-colors" style="font-size:14px;"
+      :class="tab === 'person' ? 'tab-active' : 'tab-inactive'">Person</button>
+    <button @click="tab = 'bilanz'" class="flex-1 py-3 text-center transition-colors" style="font-size:14px;"
+      :class="tab === 'bilanz' ? 'tab-active' : 'tab-inactive'">Bilanz</button>
+    <button @click="tab = 'kontroversen'" class="flex-1 py-3 text-center transition-colors" style="font-size:14px;"
+      :class="tab === 'kontroversen' ? 'tab-active' : 'tab-inactive'">Kontroversen</button>
+    <button @click="tab = 'programm'" class="flex-1 py-3 text-center transition-colors" style="font-size:14px;"
+      :class="tab === 'programm' ? 'tab-active' : 'tab-inactive'">Programm</button>
+  </div>
+
+  <!-- ==================== PERSON ==================== -->
+  <template x-if="tab === 'person'">
+    <div class="fade-in">
+
+      <!-- Reiter -->
+      <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden mb-4">
+        <div class="bg-r px-5 py-3 flex items-center gap-3">
+          <span class="w-7 h-7 rounded-full badge-r flex items-center justify-center text-xs font-bold">R</span>
+          <span class="font-bold" style="font-size:15px;">Dieter Reiter</span>
+        </div>
+        <div class="px-5 py-4">
+          <div class="space-y-3" style="font-size:14px;">
+            <div class="flex gap-3">
+              <div class="timeline-dot bg-indigo-400"></div>
+              <div>
+                <p class="text-stone-500" style="font-size:13px;">1958</p>
+                <p>Geboren in Rain am Lech. Aufgewachsen in München.</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="timeline-dot bg-indigo-400"></div>
+              <div>
+                <p class="text-stone-500" style="font-size:13px;">1981</p>
+                <p>Diplom-Verwaltungswirt. Beginn in der Stadtkämmerei München.</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="timeline-dot bg-indigo-400"></div>
+              <div>
+                <p class="text-stone-500" style="font-size:13px;">1981–2009</p>
+                <p>Stadtkämmerei: Büroleiter, Pressesprecher, Amtsleiter Kassen- und Steueramt, Stellv. Stadtkämmerer.</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="timeline-dot bg-indigo-400"></div>
+              <div>
+                <p class="text-stone-500" style="font-size:13px;">2009–2014</p>
+                <p>Berufsmäßiger Stadtrat, Referent für Arbeit und Wirtschaft.</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="timeline-dot bg-indigo-400"></div>
+              <div>
+                <p class="text-stone-500" style="font-size:13px;">Seit 2014</p>
+                <p><strong>Oberbürgermeister von München.</strong> 2014 mit 56,7%, 2020 mit 71,7% gewählt.</p>
+              </div>
+            </div>
+          </div>
+          <p class="mt-3"><a href="https://de.wikipedia.org/wiki/Dieter_Reiter" target="_blank" rel="noopener" class="src" style="font-size:13px;">Wikipedia</a>
+          · <a href="https://spd-muenchen.de/kommunalwahlen-2026/dieter-reiter/" target="_blank" rel="noopener" class="src" style="font-size:13px;">SPD München</a></p>
+        </div>
+      </div>
+
+      <!-- Krause -->
+      <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden mb-4">
+        <div class="bg-k px-5 py-3 flex items-center gap-3">
+          <span class="w-7 h-7 rounded-full badge-k flex items-center justify-center text-xs font-bold">K</span>
+          <span class="font-bold" style="font-size:15px;">Dominik Krause</span>
+        </div>
+        <div class="px-5 py-4">
+          <div class="space-y-3" style="font-size:14px;">
+            <div class="flex gap-3">
+              <div class="timeline-dot bg-teal-400"></div>
+              <div>
+                <p class="text-stone-500" style="font-size:13px;">1990</p>
+                <p>Geboren in München. Aufgewachsen in Moosach und Untermenzing.</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="timeline-dot bg-teal-400"></div>
+              <div>
+                <p class="text-stone-500" style="font-size:13px;">~2012</p>
+                <p>Master in angewandter Physik, TU München.</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="timeline-dot bg-teal-400"></div>
+              <div>
+                <p class="text-stone-500" style="font-size:13px;">2012–2014</p>
+                <p>Sprecher der Grünen Jugend München.</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="timeline-dot bg-teal-400"></div>
+              <div>
+                <p class="text-stone-500" style="font-size:13px;">2014–2023</p>
+                <p>Stadtrat. 2019–2020 Parteichef Grüne München. 2022–2023 Fraktionsvorsitzender.</p>
+              </div>
+            </div>
+            <div class="flex gap-3">
+              <div class="timeline-dot bg-teal-400"></div>
+              <div>
+                <p class="text-stone-500" style="font-size:13px;">Seit Okt 2023</p>
+                <p><strong>Zweiter Bürgermeister von München.</strong> OB-Kandidat mit 99,3% Parteitagsvotum.</p>
+              </div>
+            </div>
+          </div>
+          <p class="mt-3"><a href="https://de.wikipedia.org/wiki/Dominik_Krause" target="_blank" rel="noopener" class="src" style="font-size:13px;">Wikipedia</a>
+          · <a href="https://dominik-krause.de/ueber" target="_blank" rel="noopener" class="src" style="font-size:13px;">dominik-krause.de</a></p>
+        </div>
+      </div>
+
+    </div>
+  </template>
+
+  <!-- ==================== BILANZ ==================== -->
+  <template x-if="tab === 'bilanz'">
+    <div class="fade-in">
+
+      <div class="bg-stone-100 rounded-xl p-4 mb-4">
+        <p class="text-stone-500" style="font-size:13px;">
+          <strong>Kontext:</strong> Reiter und Krause haben 6 Jahre zusammen in der Grün-Rot-Koalition regiert (2020–2026). SPD stellte den OB, Grüne das Mobilitätsreferat. Beide tragen Verantwortung. Die Amtszeit fiel in Corona-Krise (2020–22) und Energiepreisschock (2022–23).
+        </p>
+      </div>
+
+      <!-- Reiter Bilanz -->
+      <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden mb-4">
+        <div class="bg-r px-5 py-3 flex items-center gap-3">
+          <span class="w-7 h-7 rounded-full badge-r flex items-center justify-center text-xs font-bold">R</span>
+          <span class="font-bold" style="font-size:15px;">Reiters Bilanz (12 Jahre OB)</span>
+        </div>
+        <div class="px-5 py-4 space-y-3" style="font-size:14px;">
+          <div class="flex items-start gap-2">
+            <span class="text-green-600 font-bold flex-shrink-0">+</span>
+            <div>
+              <p><strong>Bildungsbauoffensive:</strong> 9,4 Mrd. € bewilligt. Größtes kommunales Schulbauprogramm Deutschlands.</p>
+              <p><a href="https://stadt.muenchen.de" class="src" style="font-size:13px;" target="_blank" rel="noopener">Referat für Bildung und Sport</a></p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-green-600 font-bold flex-shrink-0">+</span>
+            <div>
+              <p><strong>Ökostrom:</strong> SWM erzeugt rechnerisch 100% Ökostrom aus eigenen Anlagen. Geothermie-Vorreiter.</p>
+              <p><a href="https://www.swm.de/energiewende" class="src" style="font-size:13px;" target="_blank" rel="noopener">SWM Geschäftsbericht</a></p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-green-600 font-bold flex-shrink-0">+</span>
+            <div>
+              <p><strong>Wiederwahl 2020:</strong> 71,7% in der Stichwahl. Höchstes Ergebnis eines Münchner OB seit Jahrzehnten.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-amber-500 font-bold flex-shrink-0">~</span>
+            <div>
+              <p><strong>Wohnungsbau:</strong> 7.100 Wohnungen 2024 (Ziel: 8.500). Neuvermietung über 20 €/qm. SEM Nord für gescheitert erklärt.</p>
+              <p><a href="https://www.sueddeutsche.de/muenchen/muenchen-sem-nord-nordost-reiter-enteignung-li.3391561" class="src" style="font-size:13px;" target="_blank" rel="noopener">SZ: SEM Nord</a></p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-red-500 font-bold flex-shrink-0">–</span>
+            <div>
+              <p><strong>Radentscheid:</strong> 70 Mio. von 1,6 Mrd. € ausgegeben (4,4%). Ca. 30 von 560 km umgesetzt.</p>
+              <p><a href="https://www.radentscheidmuenchen.de/presse/" class="src" style="font-size:13px;" target="_blank" rel="noopener">Radentscheid München</a></p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-red-500 font-bold flex-shrink-0">–</span>
+            <div>
+              <p><strong>Tramausbau:</strong> Nur 1 von 5 versprochenen Tramlinien gebaut (Tram 14, seit Feb 2026).</p>
+              <p><a href="https://tramreport.de" class="src" style="font-size:13px;" target="_blank" rel="noopener">tramreport.de</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Krause Bilanz -->
+      <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden mb-4">
+        <div class="bg-k px-5 py-3 flex items-center gap-3">
+          <span class="w-7 h-7 rounded-full badge-k flex items-center justify-center text-xs font-bold">K</span>
+          <span class="font-bold" style="font-size:15px;">Krauses Bilanz (2,5 Jahre 2. BM)</span>
+        </div>
+        <div class="px-5 py-4 space-y-3" style="font-size:14px;">
+          <div class="flex items-start gap-2">
+            <span class="text-green-600 font-bold flex-shrink-0">+</span>
+            <div>
+              <p><strong>Backstage gerettet:</strong> Einsatz für den Erhalt des Backstage-Clubs, eines der letzten großen Live-Musik-Venues.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-green-600 font-bold flex-shrink-0">+</span>
+            <div>
+              <p><strong>Gasteig-Zwischennutzung:</strong> Ermöglichte kulturelle Nutzung des leerstehenden Gasteig während der Sanierung.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-green-600 font-bold flex-shrink-0">+</span>
+            <div>
+              <p><strong>Tram-Nordtangente:</strong> Setzte sich im Stadtrat für die Tramstrecke als Alternative zum Autotunnel am Englischen Garten ein.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-amber-500 font-bold flex-shrink-0">~</span>
+            <div>
+              <p><strong>Mobilitätsreferat:</strong> Die Grüne Fraktion verantwortete das Mobilitätsreferat, konnte den Radentscheid und Tramausbau aber nicht entscheidend beschleunigen.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-2">
+            <span class="text-stone-400 font-bold flex-shrink-0">?</span>
+            <div>
+              <p><strong>Kurze Amtszeit:</strong> Erst seit Oktober 2023 im Amt. Weniger Bilanz überprüfbar als bei einem 12-jährigen OB.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-stone-100 rounded-xl p-4 mb-4">
+        <p class="text-stone-500" style="font-size:13px;">
+          Detaillierte Bilanz mit 8 Koalitionsversprechen: <a href="stichwahl2.html" class="src">Bilanz-Check öffnen</a>
+        </p>
+      </div>
+
+    </div>
+  </template>
+
+  <!-- ==================== KONTROVERSEN ==================== -->
+  <template x-if="tab === 'kontroversen'">
+    <div class="fade-in">
+
+      <div class="bg-stone-100 rounded-xl p-4 mb-4">
+        <p class="text-stone-500" style="font-size:13px;">
+          Öffentlich dokumentierte Kontroversen beider Kandidaten. Jeder Punkt ist mit Quellen belegt. Die Anzahl der Einträge spiegelt die öffentliche Aktenlage wider, nicht eine redaktionelle Gewichtung.
+        </p>
+      </div>
+
+      <!-- Reiter -->
+      <div class="mb-3">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-7 h-7 rounded-full badge-r flex items-center justify-center text-xs font-bold">R</span>
+          <span class="font-bold" style="font-size:15px;">Dieter Reiter</span>
+        </div>
+
+        <!-- FC Bayern -->
+        <div class="controversy rounded-xl p-4 mb-3">
+          <p class="font-semibold mb-1" style="font-size:14px;">FC Bayern: Nicht genehmigte Nebeneinkünfte</p>
+          <p class="text-stone-600 leading-relaxed" style="font-size:14px;">
+            Reiter erhielt seit Ende 2021 jährlich 20.000 € als Mitglied im Verwaltungsbeirat des FC Bayern (insgesamt ca. 90.000 €). Die Nebentätigkeit war genehmigungspflichtig (ab 10.000 €/Jahr laut bayerischem Beamtenrecht), wurde aber nicht beim Stadtrat angemeldet.
+          </p>
+          <p class="text-stone-600 leading-relaxed mt-2" style="font-size:14px;">
+            <strong>Folgen:</strong> Die Regierung von Oberbayern prüft ein Disziplinarverfahren. Reiter trat von allen FC-Bayern-Ämtern zurück und kündigte an, die gesamten 90.000 € an soziale Projekte zu spenden (Mini München + Bunt kickt gut).
+          </p>
+          <p class="text-stone-600 leading-relaxed mt-2" style="font-size:14px;">
+            <strong>Reiters Position:</strong> Er gibt an, die Genehmigungspflicht nicht gekannt zu haben.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://www.abendzeitung-muenchen.de/muenchen/420000-euro-in-einer-ob-amtszeit-haette-dieter-reiter-diesen-betrag-vom-fc-bayern-bekommen-art-1118023" target="_blank" rel="noopener" class="src" style="font-size:13px;">AZ München</a>
+            <a href="https://muenchen.t-online.de/region/muenchen/id_101158318/disziplinarverfahren-gegen-ob-dieter-reiter-regierung-von-oberbayern-prueft.html" target="_blank" rel="noopener" class="src" style="font-size:13px;">t-online</a>
+            <a href="https://fcbinside.de/2026/03/07/nebenjob-beim-fc-bayern-ob-reiter-droht-disziplinarverfahren/" target="_blank" rel="noopener" class="src" style="font-size:13px;">fcbinside.de</a>
+          </div>
+        </div>
+
+        <!-- LiMux -->
+        <div class="controversy rounded-xl p-4 mb-3">
+          <p class="font-semibold mb-1" style="font-size:14px;">LiMux → Windows: Umstellung gegen Expertenmeinung</p>
+          <p class="text-stone-600 leading-relaxed" style="font-size:14px;">
+            München hatte ab 2004 die Stadtverwaltung (15.000 Rechner) auf Linux umgestellt (LiMux-Projekt). 2017 beschloss die schwarz-rote Koalition unter Reiter die Rückkehr zu Windows. Die Grundlage war ein Gutachten von Accenture, einem Microsoft-Partnerunternehmen. Mindestkosten der Umstellung: 18,9 Mio. € allein für Lizenzen.
+          </p>
+          <p class="text-stone-600 leading-relaxed mt-2" style="font-size:14px;">
+            <strong>Kritik:</strong> Die Accenture-Studie empfahl nicht explizit die Abkehr von LiMux, sondern adressierte Verwaltungsprobleme. Unabhängige Experten und eine Change.org-Petition warnten vor Abhängigkeit und Kosten.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://www.heise.de/news/Linux-in-Muenchen-Berater-empfehlen-Ausstieg-aus-LiMux-auf-Raten-3463100.html" target="_blank" rel="noopener" class="src" style="font-size:13px;">heise.de</a>
+            <a href="https://netzpolitik.org/2017/kommentar-die-abkehr-von-freier-und-unabhaengiger-software-in-muenchen-waere-falsch/" target="_blank" rel="noopener" class="src" style="font-size:13px;">netzpolitik.org</a>
+            <a href="https://www.silicon.de/41636385/aus-fuer-limux-accenture-raet-zu-windows" target="_blank" rel="noopener" class="src" style="font-size:13px;">silicon.de</a>
+          </div>
+        </div>
+
+        <!-- Diesel-Dieter -->
+        <div class="controversy rounded-xl p-4 mb-3">
+          <p class="font-semibold mb-1" style="font-size:14px;">"Diesel-Dieter": Verkehrspolitik und BMW-Tunnel</p>
+          <p class="text-stone-600 leading-relaxed" style="font-size:14px;">
+            Reiter setzte sich gegen Diesel-Fahrverbote ein ("Ja, ich mag Autos") und unterstützte mit SPD und CSU einen 3-km-Autotunnel zur Anbindung des BMW-Forschungszentrums FIZ. Kritiker sehen darin eine Priorisierung von Autoverkehr und Industrieinteressen gegenüber Radverkehr und ÖPNV.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://www.abendzeitung-muenchen.de/muenchen/oberbuergermeister-dieter-reiter-in-der-az-ja-ich-mag-autos-art-869050" target="_blank" rel="noopener" class="src" style="font-size:13px;">AZ: "Ja, ich mag Autos"</a>
+            <a href="https://www.m-i-n.net/min/gegen-bmw-tunnel/" target="_blank" rel="noopener" class="src" style="font-size:13px;">MIN: Gegen BMW-Tunnel</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Krause -->
+      <div class="mb-3">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="w-7 h-7 rounded-full badge-k flex items-center justify-center text-xs font-bold">K</span>
+          <span class="font-bold" style="font-size:15px;">Dominik Krause</span>
+        </div>
+
+        <!-- Wiesn -->
+        <div class="controversy-minor rounded-xl p-4 mb-3">
+          <p class="font-semibold mb-1" style="font-size:14px;">Wiesn-Kommentar: "Größte offene Drogenszene"</p>
+          <p class="text-stone-600 leading-relaxed" style="font-size:14px;">
+            Krause bezeichnete das Oktoberfest in einem Instagram-Interview als "größte offene Drogenszene der Welt". Die Aussage war als Argument für eine entspanntere Cannabis-Politik gemeint, wurde aber als respektlos gegenüber der Wiesn-Tradition kritisiert.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-3">
+            <a href="https://www.abendzeitung-muenchen.de/muenchen/dominik-krause-gruene-ob-kandidat-muenchen-2026-im-ueberblick-art-1112109" target="_blank" rel="noopener" class="src" style="font-size:13px;">AZ München: Profil Krause</a>
+          </div>
+        </div>
+
+        <div class="bg-stone-50 rounded-xl p-4 mb-3">
+          <p class="text-stone-400" style="font-size:13px;">
+            Keine weiteren öffentlich dokumentierten Kontroversen gefunden. Die AZ München beschreibt Krause als "überkorrekt" und bestätigt, dass er "mit ernsthaften Skandalen nicht zu kämpfen" hatte.
+            <a href="https://www.abendzeitung-muenchen.de/muenchen/dominik-krause-gruene-ob-kandidat-muenchen-2026-im-ueberblick-art-1112109" target="_blank" rel="noopener" class="src">Quelle</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="bg-stone-100 rounded-xl p-4 mb-4">
+        <p class="text-stone-500" style="font-size:13px;">
+          <strong>Hinweis:</strong> Kontroversen werden nach öffentlicher Quellenlage dokumentiert. Ein längere Amtszeit erzeugt naturgemäß mehr überprüfbare Vorgänge. Die unterschiedliche Anzahl der Einträge ist eine Folge davon, nicht einer redaktionellen Auswahl.
+        </p>
+      </div>
+
+    </div>
+  </template>
+
+  <!-- ==================== PROGRAMM ==================== -->
+  <template x-if="tab === 'programm'">
+    <div class="fade-in">
+
+      <div class="grid grid-cols-2 gap-3 mb-4">
+        <!-- Reiter -->
+        <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden">
+          <div class="bg-r px-4 py-2.5 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full badge-r flex items-center justify-center font-bold" style="font-size:11px;">R</span>
+            <span class="font-bold" style="font-size:13px;">Reiter</span>
+          </div>
+          <div class="px-4 py-3 space-y-2.5" style="font-size:13px;">
+            <div>
+              <p class="font-semibold text-stone-700">Verwaltung</p>
+              <p class="text-stone-500">Erfahrung, Stabilität, eingespieltes Netzwerk</p>
+            </div>
+            <div>
+              <p class="font-semibold text-stone-700">Digitalisierung</p>
+              <p class="text-stone-500">Alle Behördengänge digital, München-App</p>
+            </div>
+            <div>
+              <p class="font-semibold text-stone-700">Sicherheit</p>
+              <p class="text-stone-500">Polizeipräsenz + Prävention</p>
+            </div>
+            <div>
+              <p class="font-semibold text-stone-700">Verkehr</p>
+              <p class="text-stone-500">"Ausgewogener Verkehrsmix", U-Bahn-Ausbau</p>
+            </div>
+            <div>
+              <p class="font-semibold text-stone-700">Klima</p>
+              <p class="text-stone-500">"Sozial verträglicher Klimaschutz"</p>
+            </div>
+            <div>
+              <p class="font-semibold text-stone-700">Wohnen</p>
+              <p class="text-stone-500">"Bezahlbar bauen, wo Platz ist"</p>
+            </div>
+          </div>
+          <div class="px-4 pb-3">
+            <a href="https://spd-muenchen.de/kommunalwahlen-2026/dieter-reiter/" target="_blank" rel="noopener" class="src" style="font-size:12px;">SPD Wahlprogramm 2026</a>
+          </div>
+        </div>
+
+        <!-- Krause -->
+        <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden">
+          <div class="bg-k px-4 py-2.5 flex items-center gap-2">
+            <span class="w-6 h-6 rounded-full badge-k flex items-center justify-center font-bold" style="font-size:11px;">K</span>
+            <span class="font-bold" style="font-size:13px;">Krause</span>
+          </div>
+          <div class="px-4 py-3 space-y-2.5" style="font-size:13px;">
+            <div>
+              <p class="font-semibold text-stone-700">Wohnen</p>
+              <p class="text-stone-500">50.000 Wohnungen, SEM Nord, Umwandlungsagentur</p>
+            </div>
+            <div>
+              <p class="font-semibold text-stone-700">Mobilität</p>
+              <p class="text-stone-500">Tramausbau, Radentscheid umsetzen, Takt verdichten</p>
+            </div>
+            <div>
+              <p class="font-semibold text-stone-700">Klima</p>
+              <p class="text-stone-500">Klimaneutral 2035, PV auf städtischen Dächern</p>
+            </div>
+            <div>
+              <p class="font-semibold text-stone-700">Verkehr</p>
+              <p class="text-stone-500">Straßenraum umverteilen für Fuß, Rad, Aufenthalt</p>
+            </div>
+            <div>
+              <p class="font-semibold text-stone-700">Kultur</p>
+              <p class="text-stone-500">Subkultur schützen, Zwischennutzung, Ateliers</p>
+            </div>
+            <div>
+              <p class="font-semibold text-stone-700">Sicherheit</p>
+              <p class="text-stone-500">Polizei + Sozialarbeit + Prävention</p>
+            </div>
+          </div>
+          <div class="px-4 pb-3">
+            <a href="https://dominik-krause.de/themen" target="_blank" rel="noopener" class="src" style="font-size:12px;">dominik-krause.de/themen</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-stone-100 rounded-xl p-4 mb-4">
+        <p class="text-stone-500" style="font-size:13px;">
+          <strong>Transparenz:</strong> Diese Übersicht fasst die öffentlichen Programmschwerpunkte zusammen. Für den detaillierten Vergleich aller 25 Thesen: <a href="index.html" class="src">mucwahl.de</a>
+        </p>
+      </div>
+
+    </div>
+  </template>
+
+  <!-- Cross-nav (always visible) -->
+  <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4">
+    <p class="font-semibold text-stone-600 mb-2" style="font-size:14px;">Weitere Tools</p>
+    <a href="stichwahl.html" class="block text-orange-600 font-medium hover:underline mb-1" style="font-size:14px;">Deine Wahl: Thesen-Vergleich</a>
+    <p class="text-stone-400 mb-2" style="font-size:13px;">Wo unterscheiden sich Reiter und Krause inhaltlich?</p>
+    <a href="stichwahl2.html" class="block text-orange-600 font-medium hover:underline mb-1" style="font-size:14px;">Bilanz-Check: Versprochen. Geliefert?</a>
+    <p class="text-stone-400 mb-2" style="font-size:13px;">8 Versprechen aus dem Koalitionsvertrag 2020.</p>
+    <a href="stichwahl5.html" class="block text-orange-600 font-medium hover:underline mb-1" style="font-size:14px;">München-Check: Kano-Prioritäten</a>
+    <p class="text-stone-400 mb-2" style="font-size:13px;">Was ist dir Pflicht, was begeistert dich?</p>
+    <a href="stichwahl3.html" class="block text-orange-600 font-medium hover:underline mb-1" style="font-size:14px;">Dein München 2032: Budget-Simulator</a>
+    <p class="text-stone-400 mb-2" style="font-size:13px;">100 Punkte, 6 Themen, dein Stadtprofil.</p>
+    <a href="index.html" class="block text-orange-600 font-medium hover:underline" style="font-size:14px;">Alle 25 Thesen auf mucwahl.de</a>
+    <p class="text-stone-400" style="font-size:13px;">Der vollständige Überblick mit 14 Parteien.</p>
+  </div>
+
+  <p class="text-center text-stone-400 mb-4" style="font-size:13px;">
+    Keine Cookies. Kein Tracking. Alle Quellen verlinkt.
+    <a href="methodik.html" class="src">Methodik</a>
+  </p>
+
+</div>
+
+<script>
+function kandidatenProfil() {
+  return {
+    tab: 'person'
+  };
+}
+</script>
+
+</body>
+</html>

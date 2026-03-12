@@ -1,5 +1,21 @@
 # Changelog
 
+## v4.16 - 2026-03-11 - Prioritäten-Check + Methodik + Budget-Redesign
+### Prioritäten-Check (stichwahl4)
+- **Added:** `stichwahl4.html` — Kano-Dualfragen-Tool: 8 Münchner Themen, positive+negative Fragestellung, 5x5-Klassifikationsmatrix (Begeisterung/Leistung/Basis/Indifferent/Rückweisung/Fraglich)
+- **Added:** Kandidaten-Attribution: 5 Themen Krause-nah, 2 Themen Reiter-nah, 1 geteilt
+- **Added:** Per-Kano-Kategorie Erklärungstexte pro Thema
+- **Added:** Reddit-AMA-Positionen eingebaut (50K Wohnungen, Ausbau vor Gratisticket, Backstage-Sicherung)
+- **Fixed:** Share-Text: benennt jetzt stärkeren Kandidaten + gemeinsame Themen statt Kano-Kategorien-Zählung
+### Methodik-Check (methodik-check)
+- **Added:** `methodik-check.html` — Transparenzseite für Prioritäten-Check: Kano-Asymmetrie-Erklärung (Anna/Clara-Beispiel), 5x5-Matrix farbkodiert, Themen-Attributionstabelle mit Quellen, Krause-Tilt-Transparenz (5 von 8)
+### Dein München 2032 (stichwahl3)
+- **Changed:** v2.0 Redesign: 5-Screen-Flow → 3-Screen Live-Instrument (Intro → Instrument → Teilen)
+- **Changed:** Auto-Redistribution → manueller Budget-Counter mit Remaining-Points und Over-Allocation-Cap
+- **Changed:** Live-Match-Balken aktualisieren sich beim Schieben (kein separater Reveal-Screen)
+### Research
+- **Changed:** Research-Dateien in Unterordner reorganisiert: `stichwahl2/research/`, `stichwahl3/research/`, `research/panel/`, `research/thesen/`
+
 ## v4.15 - 2026-03-11 - Stichwahl-Links + Em-Dash Purge
 - **Added:** Stichwahl-Links auf index.html (Startseite, Ergebnisseite, Hamburger-Nav) und methodik.html
 - **Fixed:** Em dashes in allen HTML-Dateien durch Kommas/Doppelpunkte/Bindestriche ersetzt

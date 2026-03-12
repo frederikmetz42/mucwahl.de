@@ -1,5 +1,15 @@
 # Changelog
 
+## v4.17 - 2026-03-12 - München-Check + Kandidaten-Profil + Design Workshop
+### München-Check (stichwahl5)
+- **Added:** `stichwahl5.html` — Kano + Cityscape Fusion: 8 Münchner Themen als Kano-Dualfragen, kombiniert mit Stadtpostkarten-Visualisierung. Überholt stichwahl4 vollständig.
+### Kandidaten-Profil (stichwahl6)
+- **Added:** `stichwahl6.html` — 4-Tab-Profil beider OB-Kandidaten: Person, Bilanz, Kontroversen, Programm. Höchstes Trust-Rating im Voter-Panel.
+- **Changed:** Subtle Party Colours: SPD rot, Grüne grün statt generisches Indigo/Teal über alle Stichwahl-Tools
+### Research & Feedback
+- **Added:** `_internal/feedback/reddit-2026-03-11-stichwahl.md` — Reddit-Feedback zu Stichwahl-Tools archiviert
+- **Added:** `_internal/feedback/design-workshop-2026-03-12.md` — Design Thinking Workshop (3 Panels, 2 Runden): Konsolidierungsplan für 6 Stichwahl-Tools, Kill-Liste (stichwahl4 entfernen, stichwahl2 in stichwahl6 integrieren), Playlist-Startseite geplant
+
 ## v4.16 - 2026-03-11 - Prioritäten-Check + Methodik + Budget-Redesign
 ### Prioritäten-Check (stichwahl4)
 - **Added:** `stichwahl4.html` — Kano-Dualfragen-Tool: 8 Münchner Themen, positive+negative Fragestellung, 5x5-Klassifikationsmatrix (Begeisterung/Leistung/Basis/Indifferent/Rückweisung/Fraglich)

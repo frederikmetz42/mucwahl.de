@@ -2,7 +2,7 @@
 === PROJECT SPEC - DO NOT REMOVE ===
 WORKFLOW: Read this block → update changelog entry → implement changes → update features → write UNCHANGED line → verify against previous features list.
 
-## FEATURES (v2.0)
+## FEATURES (v2.1)
 ### Core Mechanic
 - Budget simulator: 100 Munchen-Punkte distributed across 6 sliders
 - Sliders: Wohnen, Mobilitat, Klima & Grun, Sicherheit & Ordnung, Digital & Wirtschaft, Kultur & Freizeit
@@ -12,7 +12,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
 - Under-allocation allowed: "Noch X Punkte" shown, match still calculates
 
 ### Candidate Match (LIVE)
-- Cosine similarity algorithm comparing user vector to candidate priority vectors
+- Weighted difference algorithm comparing user vector to candidate priority vectors (5-95% spread)
 - Reiter vector: Wohnen 22, Mobilitat 15, Klima 14, Sicherheit 18, Digital 18, Kultur 13
 - Krause vector: Wohnen 20, Mobilitat 22, Klima 22, Sicherheit 13, Digital 14, Kultur 9
 - Non-partisan colours: indigo-500 for candidate A, teal-500 for candidate B
@@ -44,7 +44,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
 ### Share
 - Share text with match percentages + top priority + mucwahl.de/stichwahl3 link
 - navigator.share() with clipboard fallback
-- Cross-nav links to stichwahl.html, stichwahl2.html, index.html
+- Sequential nav: "← Zurück zur Übersicht" linking to stichwahl.html
 
 ### Architecture
 - Single file: stichwahl3.html
@@ -53,6 +53,10 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
 - Fortress Zero: no backend, no cookies, no tracking, no CDN
 
 ## CHANGELOG
+### v2.1 - Scoring fix: weighted difference replaces cosine similarity
+- CHANGED: Scoring algorithm from cosine similarity (88-96% range, no differentiation) to weighted absolute difference (5-95% spread)
+- UNCHANGED: Candidate vectors, non-partisan colours, randomised order, cityscape, sliders, budget counter, share, cross-nav, Fortress Zero
+
 ### v2.0 - Kano redesign: live instrument
 - ADDED: Live candidate match updating as sliders move (was one-shot reveal)
 - ADDED: Manual budget allocation with "Noch X Punkte" counter
@@ -414,15 +418,9 @@ input[type=range]::-moz-range-thumb { width: 28px; height: 28px; border-radius: 
         </button>
       </div>
 
-      <!-- Cross-nav -->
-      <div class="bg-stone-50 rounded-xl p-4 mb-4">
-        <p class="text-sm font-semibold text-stone-600 mb-2">Weitere Tools</p>
-        <a href="stichwahl.html" class="block text-amber-600 font-medium text-sm hover:underline mb-1">Deine Wahl: Thesen-Vergleich</a>
-        <p class="text-xs text-stone-400 mb-3">25 Thesen, Kandidaten im direkten Vergleich.</p>
-        <a href="stichwahl2.html" class="block text-amber-600 font-medium text-sm hover:underline mb-1">Bilanz-Check: Versprochen. Geliefert?</a>
-        <p class="text-xs text-stone-400 mb-3">8 Koalitionsversprechen auf dem Prüfstand.</p>
-        <a href="index.html" class="block text-amber-600 font-medium text-sm hover:underline">Alle 25 Thesen auf mucwahl.de</a>
-        <p class="text-xs text-stone-400">Der vollständige Überblick mit 14 Parteien.</p>
+      <!-- Sequential nav -->
+      <div class="mb-4">
+        <a href="stichwahl.html" class="block text-center text-stone-400 hover:text-stone-600 transition-colors text-sm">← Zurück zur Übersicht</a>
       </div>
 
       <button @click="restart()" class="w-full border-2 border-stone-200 text-stone-600 font-medium py-3 rounded-xl hover:bg-stone-100 transition-colors text-sm mb-4">
@@ -459,16 +457,8 @@ function deinMuenchen() {
     { id: 'kultur', name: 'Kultur & Freizeit', icon: '🎵', value: 16, tint: '#ffe4e6', tooltip: 'Kultur, Sport, Isar, Nachtleben, Vereine' }
   ];
 
-  function cosineSimilarity(a, b) {
-    const keys = Object.keys(a);
-    let dot = 0, magA = 0, magB = 0;
-    for (const k of keys) {
-      dot += a[k] * b[k];
-      magA += a[k] * a[k];
-      magB += b[k] * b[k];
-    }
-    return dot / (Math.sqrt(magA) * Math.sqrt(magB));
-  }
+  // Removed: cosineSimilarity (88-96% range, no differentiation)
+  // Replaced with weighted difference scoring in candidateMatch()
 
   return {
     screen: 'intro',
@@ -513,8 +503,26 @@ function deinMuenchen() {
     },
 
     candidateMatch(key) {
-      const sim = cosineSimilarity(this.userVector, CANDIDATES[key].vector);
-      return Math.round(sim * 100);
+      const uv = this.userVector;
+      const cv = CANDIDATES[key].vector;
+      const cats = Object.keys(uv);
+      const userTotal = cats.reduce((s, k) => s + uv[k], 0) || 1;
+      const candTotal = cats.reduce((s, k) => s + cv[k], 0) || 1;
+
+      // Weighted difference: how far apart are the priority profiles?
+      let weightedDiff = 0;
+      for (const k of cats) {
+        const userPct = uv[k] / userTotal;
+        const candPct = cv[k] / candTotal;
+        // Weight differences by how much the user cares about this category
+        weightedDiff += userPct * Math.abs(userPct - candPct);
+      }
+
+      // Convert to match percentage (0 diff = 95%, max diff = 5%)
+      // Max possible weightedDiff is ~0.8 (all points in one category)
+      const matchRaw = 1 - (weightedDiff / 0.4);
+      const pct = Math.round(5 + Math.max(0, Math.min(1, matchRaw)) * 90);
+      return pct;
     },
 
     get displayCandidates() {

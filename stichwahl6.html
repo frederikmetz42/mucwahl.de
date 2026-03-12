@@ -40,6 +40,23 @@
 /* Tab */
 .tab-active { border-bottom: 2px solid #ea580c; color: #1c1917; font-weight: 600; }
 .tab-inactive { border-bottom: 2px solid transparent; color: #78716c; }
+
+/* Bilanz-Check: vote buttons */
+.bc-vote-btn { transition: all 0.15s ease; cursor: pointer; }
+.bc-vote-btn.bc-active-r { border-color: #e57373; background: #fef5f5; }
+.bc-vote-btn.bc-active-b { border-color: #f59e0b; background: #fffbeb; }
+.bc-vote-btn.bc-active-k { border-color: #66bb6a; background: #f2faf3; }
+@media (hover: hover) { .bc-vote-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.06); } }
+.bc-status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; flex-shrink: 0; }
+.bc-status-red { background: #dc2626; }
+.bc-status-yellow { background: #f59e0b; }
+.bc-status-green { background: #16a34a; }
+@keyframes bcCountUp { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+.bc-count-reveal { animation: bcCountUp 0.5s 0.3s ease-out both; }
+@keyframes bcCardEntry { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.bc-card-enter { animation: bcCardEntry 0.35s ease-out both; }
+.bc-archetype-card { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); }
+.bc-progress-fill { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
 </style>
 </head>
 <body class="bg-stone-50 text-stone-800 min-h-screen font-[Inter,system-ui,sans-serif]" x-data="kandidatenProfil()" x-cloak>
@@ -76,14 +93,16 @@
   </div>
 
   <!-- Tabs -->
-  <div class="flex border-b border-stone-200 mb-4">
-    <button @click="tab = 'person'" class="flex-1 py-3 text-center transition-colors" style="font-size:14px;"
+  <div class="flex border-b border-stone-200 mb-4 overflow-x-auto">
+    <button @click="tab = 'person'" class="flex-1 py-3 text-center transition-colors whitespace-nowrap" style="font-size:13px;"
       :class="tab === 'person' ? 'tab-active' : 'tab-inactive'">Person</button>
-    <button @click="tab = 'bilanz'" class="flex-1 py-3 text-center transition-colors" style="font-size:14px;"
-      :class="tab === 'bilanz' ? 'tab-active' : 'tab-inactive'">Bilanz</button>
-    <button @click="tab = 'kontroversen'" class="flex-1 py-3 text-center transition-colors" style="font-size:14px;"
+    <button @click="tab = 'bilanz'" class="flex-1 py-3 text-center transition-colors whitespace-nowrap" style="font-size:13px;"
+      :class="tab === 'bilanz' ? 'tab-active' : 'tab-inactive'">Überblick</button>
+    <button @click="tab = 'bilanzcheck'" class="flex-1 py-3 text-center transition-colors whitespace-nowrap" style="font-size:13px;"
+      :class="tab === 'bilanzcheck' ? 'tab-active' : 'tab-inactive'">Bilanz-Check</button>
+    <button @click="tab = 'kontroversen'" class="flex-1 py-3 text-center transition-colors whitespace-nowrap" style="font-size:13px;"
       :class="tab === 'kontroversen' ? 'tab-active' : 'tab-inactive'">Kontroversen</button>
-    <button @click="tab = 'programm'" class="flex-1 py-3 text-center transition-colors" style="font-size:14px;"
+    <button @click="tab = 'programm'" class="flex-1 py-3 text-center transition-colors whitespace-nowrap" style="font-size:13px;"
       :class="tab === 'programm' ? 'tab-active' : 'tab-inactive'">Programm</button>
   </div>
 
@@ -295,9 +314,206 @@
 
       <div class="bg-stone-100 rounded-xl p-4 mb-4">
         <p class="text-stone-500" style="font-size:13px;">
-          Detaillierte Bilanz mit 8 Koalitionsversprechen: <a href="stichwahl2.html" class="src">Bilanz-Check öffnen</a>
+          Detaillierte Bilanz mit 8 Koalitionsversprechen: <button @click="tab = 'bilanzcheck'; bilanzScreen = 'cards'; bilanzQ = 0; bilanzVotes = [null,null,null,null,null,null,null,null]" class="src" style="font-size:13px; background:none; border:none; padding:0; cursor:pointer;">Bilanz-Check starten</button>
         </p>
       </div>
+
+    </div>
+  </template>
+
+  <!-- ==================== BILANZ-CHECK ==================== -->
+  <template x-if="tab === 'bilanzcheck'">
+    <div class="fade-in">
+
+      <!-- Progress bar for card flow -->
+      <template x-if="bilanzScreen === 'cards'">
+        <div class="h-1.5 bg-stone-200 rounded-full mb-4 overflow-hidden">
+          <div class="h-full bg-gradient-to-r from-amber-400 to-amber-500 bc-progress-fill rounded-r-full" :style="'width:' + (5 + (bilanzQ / 8) * 95) + '%'"></div>
+        </div>
+      </template>
+
+      <!-- Intro / start -->
+      <template x-if="bilanzScreen === 'intro'">
+        <div class="fade-in">
+          <div class="bg-white rounded-2xl border border-stone-200 p-6 mb-4">
+            <p class="text-stone-600 leading-relaxed mb-4" style="font-size:14px;">
+              Reiter und Krause haben <strong>6 Jahre zusammen regiert</strong>, davon zwei in der Corona-Krise und eins im Energiepreisschock. SPD stellte den OB, Grüne das Mobilitätsreferat. Beide tragen Verantwortung.
+            </p>
+            <p class="text-stone-600 leading-relaxed" style="font-size:14px;">
+              8 Versprechen und Ergebnisse aus dem Koalitionsvertrag 2020. Was wurde daraus? Und wer überzeugt dich jetzt mehr?
+            </p>
+          </div>
+
+          <div class="space-y-3 mb-6" style="font-size:13px;">
+            <div class="flex items-start gap-3 text-stone-500">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-700">1</span>
+              <span>8 Themen, 8 Bilanzen (3 Min.)</span>
+            </div>
+            <div class="flex items-start gap-3 text-stone-500">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-700">2</span>
+              <span>Bei jedem Versprechen: Wer überzeugt dich?</span>
+            </div>
+            <div class="flex items-start gap-3 text-stone-500">
+              <span class="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-700">3</span>
+              <span>Dein Wählertyp + was dein Ergebnis bedeutet</span>
+            </div>
+          </div>
+
+          <button @click="bilanzScreen = 'cards'" class="w-full bg-stone-800 text-white font-semibold py-4 rounded-xl hover:bg-stone-700 active:bg-stone-900 transition-colors" style="font-size:15px;">
+            Bilanz prüfen
+          </button>
+          <p class="text-center text-stone-400 mt-3" style="font-size:11px;">Keine Cookies. Kein Tracking. Alle Quellen verlinkt.</p>
+        </div>
+      </template>
+
+      <!-- Card flow -->
+      <template x-if="bilanzScreen === 'cards'">
+        <div class="fade-in" :key="'bc-' + bilanzQ">
+          <div class="mb-3">
+            <p class="font-medium text-amber-600 mb-1" style="font-size:13px;">Thema <span x-text="bilanzQ + 1"></span> von 8</p>
+            <p class="text-stone-400" style="font-size:12px;" x-text="bcPromises[bilanzQ].category"></p>
+          </div>
+
+          <!-- Promise card -->
+          <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden mb-4">
+            <div class="p-5">
+              <!-- Promise -->
+              <div class="mb-4">
+                <p class="font-semibold text-amber-600 uppercase tracking-wide mb-2" style="font-size:11px;">Versprochen (2020)</p>
+                <p class="font-bold leading-snug" style="font-size:14px;" x-text="bcPromises[bilanzQ].promise"></p>
+                <p class="text-stone-400 mt-1" style="font-size:10px;">Koalitionsvertrag Grün-Rot 2020</p>
+              </div>
+
+              <!-- Status + what happened -->
+              <div class="rounded-xl p-4 mb-4" :class="bcPromises[bilanzQ].status === 'red' ? 'bg-red-50' : bcPromises[bilanzQ].status === 'green' ? 'bg-green-50' : 'bg-amber-50'">
+                <div class="flex items-center gap-2 mb-2">
+                  <span class="bc-status-dot" :class="'bc-status-' + bcPromises[bilanzQ].status"></span>
+                  <span class="font-bold" style="font-size:12px;" :class="bcPromises[bilanzQ].status === 'red' ? 'text-red-700' : bcPromises[bilanzQ].status === 'green' ? 'text-green-700' : 'text-amber-700'"
+                    x-text="bcPromises[bilanzQ].status === 'red' ? 'Nicht geliefert' : bcPromises[bilanzQ].status === 'green' ? 'Geliefert' : 'Teilweise geliefert'"></span>
+                </div>
+                <p class="leading-relaxed" style="font-size:13px;" :class="bcPromises[bilanzQ].status === 'red' ? 'text-red-800' : bcPromises[bilanzQ].status === 'green' ? 'text-green-800' : 'text-amber-800'"
+                  x-text="bcPromises[bilanzQ].reality"></p>
+                <p class="mt-2" style="font-size:10px;" :class="bcPromises[bilanzQ].status === 'red' ? 'text-red-400' : bcPromises[bilanzQ].status === 'green' ? 'text-green-400' : 'text-amber-400'"
+                  x-text="bcPromises[bilanzQ].realitySource"></p>
+              </div>
+
+              <!-- Candidate positions -->
+              <p class="font-semibold text-stone-500 uppercase tracking-wide mb-2" style="font-size:11px;">Was sagen sie jetzt?</p>
+              <div class="grid grid-cols-2 gap-2.5 mb-1">
+                <div class="rounded-lg p-3 bg-r border" style="border-color: #f5d5d5;">
+                  <div class="flex items-center gap-1.5 mb-1.5">
+                    <span class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-white" style="font-size:10px; background:#e57373;">R</span>
+                    <span class="font-semibold" style="font-size:11px;">Reiter (SPD)</span>
+                  </div>
+                  <p class="text-stone-600 leading-relaxed" style="font-size:11px;" x-text="bcPromises[bilanzQ].reiterNow"></p>
+                  <p class="text-stone-400 mt-1" style="font-size:10px;" x-text="bcPromises[bilanzQ].reiterSource"></p>
+                </div>
+                <div class="rounded-lg p-3 bg-k border" style="border-color: #c8e6c9;">
+                  <div class="flex items-center gap-1.5 mb-1.5">
+                    <span class="w-5 h-5 rounded-full flex items-center justify-center font-bold text-white" style="font-size:10px; background:#66bb6a;">K</span>
+                    <span class="font-semibold" style="font-size:11px;">Krause (Grüne)</span>
+                  </div>
+                  <p class="text-stone-600 leading-relaxed" style="font-size:11px;" x-text="bcPromises[bilanzQ].krauseNow"></p>
+                  <p class="text-stone-400 mt-1" style="font-size:10px;" x-text="bcPromises[bilanzQ].krauseSource"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vote buttons -->
+          <p class="font-semibold text-stone-500 text-center mb-2" style="font-size:12px;">Wer überzeugt dich bei diesem Thema?</p>
+          <div class="grid grid-cols-3 gap-2">
+            <button @click="bilanzVote('r')"
+              class="bc-vote-btn border-2 border-stone-200 rounded-xl py-3 px-2 text-center"
+              :class="{ 'bc-active-r': bilanzActiveVote === 'r' }">
+              <span class="block font-bold" style="font-size:12px; color:#e57373;">Reiter</span>
+            </button>
+            <button @click="bilanzVote('b')"
+              class="bc-vote-btn border-2 border-stone-200 rounded-xl py-3 px-2 text-center"
+              :class="{ 'bc-active-b': bilanzActiveVote === 'b' }">
+              <span class="block font-bold text-amber-600" style="font-size:12px;">Beide gleich</span>
+            </button>
+            <button @click="bilanzVote('k')"
+              class="bc-vote-btn border-2 border-stone-200 rounded-xl py-3 px-2 text-center"
+              :class="{ 'bc-active-k': bilanzActiveVote === 'k' }">
+              <span class="block font-bold" style="font-size:12px; color:#66bb6a;">Krause</span>
+            </button>
+          </div>
+        </div>
+      </template>
+
+      <!-- Results -->
+      <template x-if="bilanzScreen === 'results'">
+        <div class="fade-in">
+
+          <!-- Archetype Card -->
+          <div class="bc-archetype-card rounded-2xl border border-amber-200 p-6 mb-4 text-center">
+            <p class="font-semibold text-amber-600 uppercase tracking-wide mb-2" style="font-size:11px;">Dein Wählertyp</p>
+            <p class="font-extrabold mb-2 bc-count-reveal" style="font-size:22px;" x-text="bilanzArchetype.name"></p>
+            <p class="text-stone-600 leading-relaxed" style="font-size:13px;" x-text="bilanzArchetype.desc"></p>
+          </div>
+
+          <!-- Score breakdown -->
+          <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4">
+            <div class="flex justify-center items-center gap-6 mb-3">
+              <div class="text-center">
+                <div class="w-10 h-10 rounded-full text-white font-bold flex items-center justify-center mx-auto mb-1" style="font-size:13px; background:#e57373;">R</div>
+                <div class="font-extrabold" style="font-size:18px;" x-text="bilanzScoreR"></div>
+              </div>
+              <div class="text-center">
+                <div class="w-10 h-10 rounded-full bg-amber-400 text-white font-bold flex items-center justify-center mx-auto mb-1" style="font-size:13px;">=</div>
+                <div class="font-extrabold" style="font-size:18px;" x-text="bilanzScoreB"></div>
+              </div>
+              <div class="text-center">
+                <div class="w-10 h-10 rounded-full text-white font-bold flex items-center justify-center mx-auto mb-1" style="font-size:13px; background:#66bb6a;">K</div>
+                <div class="font-extrabold" style="font-size:18px;" x-text="bilanzScoreK"></div>
+              </div>
+            </div>
+            <p class="text-center text-stone-400" style="font-size:12px;">von 8 Themen</p>
+            <!-- Bar -->
+            <div class="flex h-2.5 rounded-full overflow-hidden bg-stone-100 mt-3">
+              <div class="transition-all" style="background:#e57373;" :style="'width:' + (bilanzScoreR/8*100) + '%'"></div>
+              <div class="bg-amber-400 transition-all" :style="'width:' + (bilanzScoreB/8*100) + '%'"></div>
+              <div class="transition-all" style="background:#66bb6a;" :style="'width:' + (bilanzScoreK/8*100) + '%'"></div>
+            </div>
+          </div>
+
+          <!-- Per-promise breakdown -->
+          <p class="font-semibold text-stone-500 mb-3 px-1" style="font-size:13px;">Deine 8 Bewertungen</p>
+          <template x-for="(p, i) in bcPromises" :key="'bcr-'+i">
+            <div class="bg-white rounded-xl border border-stone-200 px-4 py-3 mb-2 flex items-center gap-3 bc-card-enter">
+              <span class="bc-status-dot flex-shrink-0" :class="'bc-status-' + p.status"></span>
+              <span class="font-medium flex-1" style="font-size:13px;" x-text="p.shortTitle"></span>
+              <span class="font-bold px-2 py-0.5 rounded-full" style="font-size:12px;"
+                :class="bilanzVotes[i] === 'r' ? 'text-white' : bilanzVotes[i] === 'k' ? 'text-white' : 'bg-amber-100 text-amber-700'"
+                :style="bilanzVotes[i] === 'r' ? 'background:#e57373' : bilanzVotes[i] === 'k' ? 'background:#66bb6a' : ''"
+                x-text="bilanzVotes[i] === 'r' ? 'Reiter' : bilanzVotes[i] === 'k' ? 'Krause' : 'Beide'"></span>
+            </div>
+          </template>
+
+          <!-- Context note -->
+          <div class="bg-stone-100 rounded-xl p-4 mt-3 mb-4">
+            <p class="text-stone-500 leading-relaxed" style="font-size:12px;">
+              <strong>Kontext:</strong> Reiter regiert seit 12 Jahren, entsprechend mehr lässt sich überprüfen. Krauses Bilanz als 2. Bürgermeister (seit 2023) ist kürzer, aber nicht leer. Beide tragen als Grün-Rot-Koalition Verantwortung für die Ergebnisse. Die Amtszeit fiel in Corona-Krise (2020-22) und Energiepreisschock (2022-23), was viele Vorhaben verzögert hat.
+            </p>
+          </div>
+
+          <!-- Share -->
+          <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4">
+            <p class="font-semibold mb-3" style="font-size:14px;">Teilen</p>
+            <div class="bg-stone-50 rounded-xl p-4 mb-3">
+              <p class="text-stone-600" style="font-size:13px;" x-text="bilanzShareText"></p>
+            </div>
+            <button @click="bilanzCopyShare()" class="w-full bg-stone-800 text-white font-medium py-3 rounded-xl hover:bg-stone-700 active:bg-stone-900 transition-colors" style="font-size:13px;">
+              <span x-text="bilanzCopied ? 'Kopiert!' : 'Text kopieren'"></span>
+            </button>
+          </div>
+
+          <button @click="bilanzRestart()" class="w-full border-2 border-stone-200 text-stone-600 font-medium py-3 rounded-xl hover:bg-stone-100 transition-colors mb-4" style="font-size:13px;">
+            Nochmal starten
+          </button>
+        </div>
+      </template>
 
     </div>
   </template>
@@ -491,19 +707,12 @@
     </div>
   </template>
 
-  <!-- Cross-nav (always visible) -->
-  <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4">
-    <p class="font-semibold text-stone-600 mb-2" style="font-size:14px;">Weitere Tools</p>
-    <a href="stichwahl.html" class="block text-orange-600 font-medium hover:underline mb-1" style="font-size:14px;">Deine Wahl: Thesen-Vergleich</a>
-    <p class="text-stone-400 mb-2" style="font-size:13px;">Wo unterscheiden sich Reiter und Krause inhaltlich?</p>
-    <a href="stichwahl2.html" class="block text-orange-600 font-medium hover:underline mb-1" style="font-size:14px;">Bilanz-Check: Versprochen. Geliefert?</a>
-    <p class="text-stone-400 mb-2" style="font-size:13px;">8 Versprechen aus dem Koalitionsvertrag 2020.</p>
-    <a href="stichwahl5.html" class="block text-orange-600 font-medium hover:underline mb-1" style="font-size:14px;">München-Check: Kano-Prioritäten</a>
-    <p class="text-stone-400 mb-2" style="font-size:13px;">Was ist dir Pflicht, was begeistert dich?</p>
-    <a href="stichwahl3.html" class="block text-orange-600 font-medium hover:underline mb-1" style="font-size:14px;">Dein München 2032: Budget-Simulator</a>
-    <p class="text-stone-400 mb-2" style="font-size:13px;">100 Punkte, 6 Themen, dein Stadtprofil.</p>
-    <a href="index.html" class="block text-orange-600 font-medium hover:underline" style="font-size:14px;">Alle 25 Thesen auf mucwahl.de</a>
-    <p class="text-stone-400" style="font-size:13px;">Der vollständige Überblick mit 14 Parteien.</p>
+  <!-- Sequential nav -->
+  <div class="mb-4">
+    <a href="stichwahl5.html" class="block bg-stone-800 text-white font-semibold py-4 rounded-xl text-center hover:bg-stone-700 active:bg-stone-900 transition-colors mb-3" style="font-size:15px;">
+      Nächster Schritt: München-Check →
+    </a>
+    <a href="stichwahl.html" class="block text-center text-stone-400 hover:text-stone-600 transition-colors" style="font-size:13px;">← Zurück zur Übersicht</a>
   </div>
 
   <p class="text-center text-stone-400 mb-4" style="font-size:13px;">
@@ -515,8 +724,191 @@
 
 <script>
 function kandidatenProfil() {
+  const BC_PROMISES = [
+    {
+      shortTitle: 'Autofreie Altstadt',
+      category: 'Mobilität',
+      promise: 'Du solltest bis 2025 autofrei durch die Altstadt laufen können. Kein privater Autoverkehr innerhalb des Altstadtrings.',
+      status: 'red',
+      reality: 'Aus "autofrei" wurde "autoreduziert", dann "Altstadt für alle". Reiter erklärte 2021: "München wird erstmal nicht autofrei." Kein systematischer Autoausschluss umgesetzt.',
+      realitySource: 'AZ München, stadt.muenchen.de, Koalitionsvertrag 2020',
+      reiterNow: '"Ausgewogener Verkehrsmix ohne ideologische Grabenkämpfe." Will niemanden aus dem Auto zwingen.',
+      reiterSource: 'SPD Wahlprogramm 2026',
+      krauseNow: 'Fußgängerzonen erweitern, Autoverkehr reduzieren. Radentscheid vollständig umsetzen.',
+      krauseSource: 'dominik-krause.de/themen'
+    },
+    {
+      shortTitle: 'Wohnungsbau',
+      category: 'Wohnen',
+      promise: 'Jedes Jahr sollten 8.500 neue Wohnungen entstehen, damit du dir München noch leisten kannst.',
+      status: 'yellow',
+      reality: '2024 wurden 7.100 Wohnungen fertiggestellt. Neuvermietung liegt bei über 20 Euro/qm. Ziel knapp verfehlt, Richtung stimmt.',
+      realitySource: 'Mietspiegel 2025, Planungsreferat München',
+      reiterNow: 'Keine konkreten Neubauzahlen im neuen Programm. "Bezahlbar bauen, wo Platz ist."',
+      reiterSource: 'SPD Wahlprogramm 2026',
+      krauseNow: '50.000 neue Wohnungen in 3 Säulen. 10.000 davon aus Büroleerstand. Konkrete Finanzierung offen.',
+      krauseSource: 'dominik-krause.de/themen'
+    },
+    {
+      shortTitle: '5 Tramlinien',
+      category: 'ÖPNV',
+      promise: '5 neue Tramlinien und 15+ km neues Tramnetz sollten deinen Weg zur Arbeit schneller machen.',
+      status: 'red',
+      reality: 'Nur 1 Teilstück gebaut (Tram 14, Westtangente, seit Feb 2026). Tram 23 und 24 frühestens 2027-2029. 4 von 5 Linien nicht mal begonnen.',
+      realitySource: 'tramreport.de, MVG Bauprojekte',
+      reiterNow: 'Unterstützt U5 und U9 Großprojekte. Tram-Ausbau nicht prominent im Programm.',
+      reiterSource: 'SPD Wahlprogramm 2026',
+      krauseNow: 'Tram + U-Bahn + eigene Busspuren. Grüne hatten das Mobilitätsreferat, konnten den Ausbau nicht beschleunigen.',
+      krauseSource: 'dominik-krause.de/themen, Mobilitätsreferat München'
+    },
+    {
+      shortTitle: 'Radentscheid',
+      category: 'Mobilität',
+      promise: '1,6 Milliarden Euro für sichere Radwege. 560 km geschützte Radinfrastruktur bis 2025. Das war das Versprechen an 160.000 Münchner, die unterschrieben haben.',
+      status: 'red',
+      reality: '70 Millionen von 1,6 Milliarden ausgegeben (4,4%). Etwa 30 von 560 km umgesetzt. Bei diesem Tempo wäre der Radentscheid im Jahr 2175 fertig.',
+      realitySource: 'Radentscheid München Pressemitteilung, AZ München',
+      reiterNow: 'SPD stimmte 2022 mit CSU für einen 3-km-Autotunnel (BMW). Radentscheid nicht im Fokus.',
+      reiterSource: 'AZ München, SPD Wahlprogramm 2026',
+      krauseNow: 'Radentscheid vollständig umsetzen. Grüne hatten das Mobilitätsreferat, tragen Mitverantwortung für das Tempo.',
+      krauseSource: 'dominik-krause.de/themen, Grüne Fraktion'
+    },
+    {
+      shortTitle: 'Klimaneutralität 2035',
+      category: 'Klima & Energie',
+      promise: 'München sollte bis 2035 klimaneutral werden. Jeder freie Euro in Energiewende und Klimaschutz.',
+      status: 'yellow',
+      reality: 'SWM erzeugt rechnerisch 100% Ökostrom. PV-Ausbau verdoppelt, aber unter Landesdurchschnitt. Mobilitätswende stockt. Fahrplan steht, Tempo reicht nicht.',
+      realitySource: 'SWM Energiewende, Öko-Institut München',
+      reiterNow: '"Sozial verträglicher Klimaschutz." Klimaneutralität bleibt Ziel, aber nicht auf Kosten anderer Prioritäten.',
+      reiterSource: 'SPD Wahlprogramm 2026',
+      krauseNow: 'Klimaneutralität beschleunigen. Solar- und Geothermie-Ausbau. Tausende zusätzliche Bäume.',
+      krauseSource: 'dominik-krause.de/themen'
+    },
+    {
+      shortTitle: 'Kita-Ausbau',
+      category: 'Familie & Soziales',
+      promise: 'Betreuungsgarantie für alle Kinder. Genug Kita-Plätze, damit du arbeiten gehen kannst.',
+      status: 'yellow',
+      reality: '3.200 neue Plätze seit 2020 geschaffen. Aber: Noch rund 5.000 Plätze fehlen. Warteliste in manchen Stadtteilen über 12 Monate.',
+      realitySource: 'Referat für Bildung und Sport, Stadtratsbericht 2024',
+      reiterNow: 'Kita-Ausbau bleibt Kernversprechen. Betreuungsgarantie als Priorität.',
+      reiterSource: 'SPD Wahlprogramm 2026',
+      krauseNow: 'Kita-Gebühren senken. Ausbau fortsetzen, aber auch Qualität der Betreuung verbessern.',
+      krauseSource: 'dominik-krause.de/themen'
+    },
+    {
+      shortTitle: 'Bildungsbauoffensive',
+      category: 'Bildung & Infrastruktur',
+      promise: 'München sollte massiv in Schulen und Kitas investieren, das größte kommunale Schulbauprogramm Deutschlands.',
+      status: 'green',
+      reality: '9,4 Milliarden Euro bewilligt. Dutzende Schulen und Kitas gebaut oder saniert. Größtes kommunales Bildungsbauprogramm der Republik.',
+      realitySource: 'Referat für Bildung und Sport, Stadtratsbeschluss',
+      reiterNow: 'Programm fortsetzen und beschleunigen. Bildung bleibt Kernthema.',
+      reiterSource: 'SPD Wahlprogramm 2026',
+      krauseNow: 'Investitionen beibehalten, Qualität stärken. Grüne haben das Programm mitgetragen und mitbeschlossen.',
+      krauseSource: 'dominik-krause.de/themen, Grüne Fraktion'
+    },
+    {
+      shortTitle: 'Ökostrom & Geothermie',
+      category: 'Klima & Energie',
+      promise: 'Die Stadtwerke sollten München mit erneuerbarer Energie versorgen und die Geothermie ausbauen.',
+      status: 'green',
+      reality: 'SWM erzeugt rechnerisch 100% Ökostrom aus eigenen Anlagen weltweit. Geothermie-Ausbau macht München zum Vorreiter unter den deutschen Großstädten.',
+      realitySource: 'SWM Geschäftsbericht, Geothermie-Allianz München',
+      reiterNow: 'Geothermie weiter ausbauen. SWM als Treiber der Energiewende erhalten.',
+      reiterSource: 'SPD Wahlprogramm 2026',
+      krauseNow: 'Ausbau beschleunigen, Fernwärme aus Geothermie verdoppeln. Grüne haben den Geothermie-Ausbau im Koalitionsvertrag verankert.',
+      krauseSource: 'dominik-krause.de/themen, Koalitionsvertrag 2020'
+    }
+  ];
+
+  const BC_ARCHETYPES = {
+    wechsel: {
+      name: 'Der Wechselwähler',
+      desc: 'Du hältst die Bilanz für unzureichend und traust dem Herausforderer mehr zu. Du willst Erneuerung, nicht Kontinuität.',
+      emoji: '\u{1F504}'
+    },
+    pragmatiker: {
+      name: 'Der Pragmatiker',
+      desc: 'Du setzt auf Erfahrung. Nicht alles wurde geliefert, aber du traust dem Amtsinhaber eher zu, es besser zu machen.',
+      emoji: '\u{2696}\u{FE0F}'
+    },
+    skeptiker: {
+      name: 'Der Skeptiker',
+      desc: 'Du traust keinem von beiden vollständig. Beide haben regiert, beide tragen Verantwortung. Dein Urteil: Noch nicht entschieden.',
+      emoji: '\u{1F914}'
+    },
+    abwaegend: {
+      name: 'Der Abwägende',
+      desc: 'Du siehst Stärken und Schwächen auf beiden Seiten. Dein Ergebnis zeigt: Die Entscheidung ist enger als du vielleicht dachtest.',
+      emoji: '\u{1F50D}'
+    }
+  };
+
+  // Deep-link support
+  const initTab = window.location.hash === '#bilanz-check' ? 'bilanzcheck' : 'person';
+  const initBilanzScreen = window.location.hash === '#bilanz-check' ? 'intro' : 'intro';
+
   return {
-    tab: 'person'
+    tab: initTab,
+
+    // Bilanz-Check state
+    bilanzScreen: initBilanzScreen,
+    bilanzQ: 0,
+    bilanzVotes: [null, null, null, null, null, null, null, null],
+    bilanzActiveVote: null,
+    bilanzCopied: false,
+    bcPromises: BC_PROMISES,
+
+    get bilanzScoreR() { return this.bilanzVotes.filter(v => v === 'r').length; },
+    get bilanzScoreK() { return this.bilanzVotes.filter(v => v === 'k').length; },
+    get bilanzScoreB() { return this.bilanzVotes.filter(v => v === 'b').length; },
+
+    get bilanzArchetype() {
+      const r = this.bilanzScoreR, k = this.bilanzScoreK, b = this.bilanzScoreB;
+      if (k >= 5) return BC_ARCHETYPES.wechsel;
+      if (r >= 5) return BC_ARCHETYPES.pragmatiker;
+      if (b >= 4) return BC_ARCHETYPES.skeptiker;
+      return BC_ARCHETYPES.abwaegend;
+    },
+
+    get bilanzShareText() {
+      const a = this.bilanzArchetype;
+      return 'Mein Bilanz-Check zur Münchner Stichwahl: ' + a.emoji + ' ' + a.name + '. Reiter ' + this.bilanzScoreR + '\u00D7 | Beide ' + this.bilanzScoreB + '\u00D7 | Krause ' + this.bilanzScoreK + '\u00D7. Was bist du? mucwahl.de/stichwahl6#bilanz-check';
+    },
+
+    bilanzVote(choice) {
+      if (this.bilanzVotes[this.bilanzQ] !== null) return;
+      this.bilanzVotes[this.bilanzQ] = choice;
+      this.bilanzActiveVote = choice;
+      setTimeout(() => { this.bilanzActiveVote = null; }, 200);
+      setTimeout(() => {
+        if (this.bilanzQ >= 7) {
+          this.bilanzScreen = 'results';
+          window.scrollTo(0, 0);
+        } else {
+          this.bilanzQ++;
+        }
+      }, 400);
+    },
+
+    async bilanzCopyShare() {
+      try {
+        await navigator.clipboard.writeText(this.bilanzShareText);
+        this.bilanzCopied = true;
+        setTimeout(() => this.bilanzCopied = false, 2000);
+      } catch(e) {}
+    },
+
+    bilanzRestart() {
+      this.bilanzScreen = 'intro';
+      this.bilanzQ = 0;
+      this.bilanzVotes = [null, null, null, null, null, null, null, null];
+      this.bilanzCopied = false;
+      this.bilanzActiveVote = null;
+      window.scrollTo(0, 0);
+    }
   };
 }
 </script>

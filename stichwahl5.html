@@ -535,17 +535,12 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
         </div>
       </div>
 
-      <!-- Cross-nav -->
-      <div class="bg-stone-100 rounded-xl p-4 mb-5 slide-up" style="animation-delay: 0.8s">
-        <p class="font-semibold text-stone-600 mb-2" style="font-size:14px;">Weitere Tools</p>
-        <a href="stichwahl.html" class="block text-orange-600 font-medium hover:underline mb-1" style="font-size:14px;">Deine Wahl: Thesen-Vergleich</a>
-        <p class="text-stone-400 mb-3" style="font-size:13px;">Wo unterscheiden sich Reiter und Krause inhaltlich?</p>
-        <a href="stichwahl2.html" class="block text-orange-600 font-medium hover:underline mb-1" style="font-size:14px;">Bilanz-Check: Versprochen. Geliefert?</a>
-        <p class="text-stone-400 mb-3" style="font-size:13px;">8 Versprechen aus dem Koalitionsvertrag 2020.</p>
-        <a href="stichwahl3.html" class="block text-orange-600 font-medium hover:underline mb-1" style="font-size:14px;">Dein München 2032: Budget-Simulator</a>
-        <p class="text-stone-400 mb-3" style="font-size:13px;">100 Punkte, 6 Themen, dein Stadtprofil.</p>
-        <a href="index.html" class="block text-orange-600 font-medium hover:underline" style="font-size:14px;">Alle 25 Thesen auf mucwahl.de</a>
-        <p class="text-stone-400" style="font-size:13px;">Der vollständige Überblick mit 14 Parteien.</p>
+      <!-- Sequential nav -->
+      <div class="slide-up" style="animation-delay: 0.8s">
+        <a href="stichwahl1.html" class="block bg-stone-800 text-white font-semibold py-4 rounded-xl text-center hover:bg-stone-700 active:bg-stone-900 transition-colors mb-3" style="font-size:15px;">
+          Nächster Schritt: Deine Wahl →
+        </a>
+        <a href="stichwahl.html" class="block text-center text-stone-400 hover:text-stone-600 transition-colors" style="font-size:13px;">← Zurück zur Übersicht</a>
       </div>
 
       <button @click="restart()" class="w-full border-2 border-stone-200 text-stone-600 font-medium py-3 rounded-xl hover:bg-stone-100 transition-colors mb-4" style="font-size:14px;">

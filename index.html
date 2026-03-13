@@ -849,22 +849,22 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
       <p class="text-stone-400 text-center mt-3" style="font-size:11px;">Wichtig = Begeistert dich / Erwarte ich · Match = passt zu deiner Tendenz</p>
     </div>
 
-    <!-- Share -->
-    <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4">
-      <button @click="share()" class="w-full bg-orange-500 text-white font-semibold py-3 rounded-xl hover:bg-orange-600 active:bg-orange-700 transition-colors mb-3" style="font-size:15px;">
-        <span x-text="copied ? '✓ Kopiert!' : 'Ergebnis teilen'"></span>
+    <!-- Share + Restart (secondary, result-image-related) -->
+    <div class="flex gap-3 mb-4">
+      <button @click="share()" class="flex-1 border-2 border-stone-200 text-stone-600 font-medium py-3 rounded-xl hover:bg-stone-100 transition-colors" style="font-size:14px;">
+        <span x-text="copied ? '✓ Kopiert!' : '📤 Bild teilen'"></span>
       </button>
-      <button @click="restart()" class="w-full border-2 border-stone-200 text-stone-600 font-medium py-3 rounded-xl hover:bg-stone-100 transition-colors" style="font-size:14px;">
-        Nochmal starten
+      <button @click="restart()" class="flex-1 border-2 border-stone-200 text-stone-600 font-medium py-3 rounded-xl hover:bg-stone-100 transition-colors" style="font-size:14px;">
+        🔄 Nochmal
       </button>
     </div>
 
-    <!-- Donate -->
+    <!-- Donate (main CTA) -->
     <div class="bg-orange-50 border border-orange-200 rounded-2xl p-5 mb-4">
       <p class="font-bold text-stone-800 mb-1" style="font-size:15px;">MUCwahl ist ein 1-Mann-Projekt.</p>
-      <p class="text-stone-600 leading-relaxed mb-3" style="font-size:14px;">Kein Verlag, keine Partei, kein Budget. Wenn dir der Guide geholfen hat, freue ich mich über einen Kaffee.</p>
-      <a href="https://paypal.me/frederikmetz" target="_blank" rel="noopener" class="block w-full bg-orange-500 text-white font-semibold py-3 rounded-xl text-center hover:bg-orange-600 active:bg-orange-700 transition-colors" style="font-size:15px;">
-        Unterstützen via PayPal
+      <p class="text-stone-600 leading-relaxed mb-3" style="font-size:14px;">Kein Verlag, keine Partei, kein Budget. Wenn dir der Guide geholfen hat, freue ich mich über eine Spezi.</p>
+      <a href="https://paypal.me/frederikmetz" target="_blank" rel="noopener" class="block w-full bg-orange-500 text-white font-bold py-4 rounded-xl text-center hover:bg-orange-600 active:bg-orange-700 transition-colors shadow-lg shadow-orange-500/25" style="font-size:16px;">
+        🍺 Unterstützen via PayPal
       </a>
     </div>
 
@@ -1332,8 +1332,106 @@ function stichwahlGuide() {
       return this.archetype.emoji + ' ' + this.archetype.label + '. ' + this.tendenzShort + '. Was bist du? mucwahl.de/stichwahl-guide';
     },
 
+    generateShareImage() {
+      const W = 1080, H = 1080;
+      const c = document.createElement('canvas');
+      c.width = W; c.height = H;
+      const ctx = c.getContext('2d');
+
+      // Background
+      ctx.fillStyle = '#fafaf9'; ctx.fillRect(0, 0, W, H);
+
+      // Header: archetype emoji + label + tendency
+      ctx.textAlign = 'center';
+      ctx.font = '64px sans-serif';
+      ctx.fillText(this.archetype.emoji, W/2, 90);
+      ctx.fillStyle = '#1c1917'; ctx.font = 'bold 42px Inter, system-ui, sans-serif';
+      ctx.fillText(this.archetype.label, W/2, 150);
+      ctx.fillStyle = '#78716c'; ctx.font = '24px Inter, system-ui, sans-serif';
+      ctx.fillText(this.tendenzShort, W/2, 190);
+
+      // Tendency bar
+      const barY = 220, barH = 12, barX = 120, barW = W - 240;
+      const grad = ctx.createLinearGradient(barX, 0, barX + barW, 0);
+      grad.addColorStop(0, '#e57373'); grad.addColorStop(0.5, '#d6d3d1'); grad.addColorStop(1, '#66bb6a');
+      ctx.fillStyle = grad;
+      ctx.beginPath(); ctx.roundRect(barX, barY, barW, barH, 6); ctx.fill();
+      // Marker
+      const mx = barX + (this.tendenzPct / 100) * barW;
+      ctx.fillStyle = '#57534e'; ctx.beginPath(); ctx.arc(mx, barY + barH/2, 10, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#fff'; ctx.lineWidth = 3; ctx.stroke();
+      // Labels
+      ctx.fillStyle = '#e57373'; ctx.font = 'bold 18px Inter, system-ui, sans-serif'; ctx.textAlign = 'left';
+      ctx.fillText('Reiter', barX, barY + 40);
+      ctx.fillStyle = '#66bb6a'; ctx.textAlign = 'right';
+      ctx.fillText('Krause', barX + barW, barY + 40);
+
+      // Quadrant grid
+      const q = this.priorityQuadrants;
+      const gX = 60, gY = 300, gW = (W - 140) / 2, gH = 260, gap = 20;
+      const quads = [
+        { data: q.topLeft, title: '✅ Passt & wichtig', bg: '#f0fdf4', border: '#bbf7d0', titleColor: '#166534', pillBg: '#dcfce7', pillText: '#166534', x: gX, y: gY },
+        { data: q.topRight, title: '⚠️ Achtung', bg: '#fff7ed', border: '#fed7aa', titleColor: '#9a3412', pillBg: '#ffedd5', pillText: '#9a3412', x: gX + gW + gap, y: gY },
+        { data: q.bottomLeft, title: '🎁 Bonus', bg: '#ecfdf5', border: '#a7f3d0', titleColor: '#047857', pillBg: '#d1fae5', pillText: '#047857', x: gX, y: gY + gH + gap },
+        { data: q.bottomRight, title: '🤷 Egal', bg: '#f5f5f4', border: '#d6d3d1', titleColor: '#78716c', pillBg: '#e7e5e4', pillText: '#57534e', x: gX + gW + gap, y: gY + gH + gap },
+      ];
+
+      quads.forEach(({ data, title, bg, border, titleColor, pillBg, pillText, x, y }) => {
+        // Card background
+        ctx.fillStyle = bg; ctx.strokeStyle = border; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.roundRect(x, y, gW, gH, 16); ctx.fill(); ctx.stroke();
+        // Title
+        ctx.fillStyle = titleColor; ctx.font = 'bold 20px Inter, system-ui, sans-serif'; ctx.textAlign = 'left';
+        ctx.fillText(title, x + 20, y + 36);
+        // Pills
+        let px = x + 20, py = y + 60;
+        ctx.font = '22px Inter, system-ui, sans-serif';
+        data.forEach(t => {
+          const text = t.emoji + ' ' + t.label;
+          const tw = ctx.measureText(text).width + 24;
+          if (px + tw > x + gW - 20) { px = x + 20; py += 44; }
+          ctx.fillStyle = pillBg;
+          ctx.beginPath(); ctx.roundRect(px, py, tw, 34, 8); ctx.fill();
+          ctx.fillStyle = pillText; ctx.textAlign = 'left';
+          ctx.fillText(text, px + 12, py + 24);
+          px += tw + 8;
+        });
+        if (data.length === 0) {
+          ctx.fillStyle = titleColor; ctx.globalAlpha = 0.4;
+          ctx.font = '20px Inter, system-ui, sans-serif';
+          ctx.fillText('—', x + 20, y + 80);
+          ctx.globalAlpha = 1;
+        }
+      });
+
+      // Axis labels
+      const axY = gY + gH + gap/2;
+      ctx.fillStyle = '#a8a29e'; ctx.font = '16px Inter, system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('Wichtig = Begeistert dich / Erwarte ich · Match = passt zu deiner Tendenz', W/2, gY + 2*gH + 2*gap + 30);
+
+      // Footer branding
+      ctx.fillStyle = '#d6d3d1';
+      ctx.fillRect(0, H - 80, W, 80);
+      ctx.fillStyle = '#78716c'; ctx.font = 'bold 28px Inter, system-ui, sans-serif'; ctx.textAlign = 'center';
+      ctx.fillText('mucwahl.de', W/2, H - 38);
+      ctx.fillStyle = '#a8a29e'; ctx.font = '18px Inter, system-ui, sans-serif';
+      ctx.fillText('Stichwahl München 2026 · Kein Tracking', W/2, H - 14);
+
+      return c;
+    },
+
     async share() {
       const text = this.shareText;
+      try {
+        const canvas = this.generateShareImage();
+        const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+        const file = new File([blob], 'mucwahl-profil.png', { type: 'image/png' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({ text, files: [file] });
+          return;
+        }
+      } catch(e) {}
+      // Fallback: text only
       if (navigator.share) {
         try { await navigator.share({ text }); return; } catch(e) {}
       }

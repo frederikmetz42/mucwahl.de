@@ -2,7 +2,7 @@
 === PROJECT SPEC — DO NOT REMOVE ===
 WORKFLOW: Read this block → update changelog entry → implement changes → update features → write UNCHANGED line → verify against previous features list.
 
-## FEATURES (v1.3)
+## FEATURES (v1.4)
 ### Navigation
 - 4-step wizard: intro → profiles → bilanz → kano → result
 - Progress bar (4 segments, fills orange per step)
@@ -22,7 +22,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
 - 8 coalition promise cards, one at a time
 - Traffic-light status indicator (red/yellow/green)
 - Promise text, reality, both candidates' positions (neutralised)
-- Vote buttons: Reiter / Keiner / Krause
+- Vote buttons: Reiter / Weiß nicht / Krause
 - Auto-advance after 400ms delay
 - Dot progress indicator (8 dots)
 
@@ -37,9 +37,9 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
 - Hero: archetype emoji + name + description
 - Tendency bar: gradient Reiter←→Krause with orange marker
 - Breakdown: Kano categories per theme + Bilanz tally
-- Kano labels: Begeistert dich / Muss sein / Egal / Dagegen / Unklar
+- Kano labels: Begeistert dich / Erwarte ich / Egal / Dagegen / Passt nicht zusammen
 - Expandable Kano detail accordion per theme
-- Cityscape postcard (München 2032, driven by Kano weights)
+- Priority quadrant (2×2 grid: Passt & wichtig / Achtung / Bonus / Egal, driven by Kano importance + tendency match)
 - Share: navigator.share() + clipboard fallback
 - "Nochmal starten" reset button
 
@@ -57,15 +57,23 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
 - Party colours: #e57373 (Reiter/SPD), #66bb6a (Krause/Grüne)
 
 ## CHANGELOG
+### v1.4 — Priority quadrant replaces cityscape
+- REPLACED: Cityscape postcard with 2×2 priority quadrant grid (Passt & wichtig / Achtung / Bonus / Egal)
+- ADDED: `get priorityQuadrants()` computed property (importance × tendency-match classification)
+- REMOVED: cityVal() method, all cityscape CSS (.cityscape, .city-layer, .building, .tree*, .tram-line, .bike-dot, .streetlight, .light-glow, .wifi-arc, .isar-stripe, .postcard-label)
+- REMOVED: cityId field on KANO_TOPICS no longer drives visualisation (field retained for data completeness)
+- CHANGED: Intro step 4 label from "München 2032" to "Prioritäten-Profil"
+- UNCHANGED: scoring, archetypes, tendency bar, Kano breakdown, share, donate, navigation
+
 ### v1.3 — Neutrality fix + Kano 3×3 + label overhaul
 - CHANGED: Kano from 5×5 matrix to 3×3 (L category removed)
 - CHANGED: Kano UI from 5 emoji buttons to 3 text buttons (Freut mich / Egal / Stört mich)
-- CHANGED: Kano labels to everyday German (Begeistert dich, Muss sein, Egal, Dagegen, Unklar)
+- CHANGED: Kano labels to everyday German (Begeistert dich, Erwarte ich, Egal, Dagegen, Passt nicht zusammen)
 - CHANGED: Topic attribution rebalanced to 3 Krause / 3 Reiter / 2 both (Wohnen→both, Sicherheit→reiter)
 - CHANGED: candidateScore() and archetype indices updated for new attribution
 - FIXED: Bilanz texts neutralised (editorial language removed from reiterNow, Krause credit-claiming on GREEN cards removed)
 - REMOVED: L-explainer from all 8 Kano topics
-- UNCHANGED: navigation, step 1 profiles, result screen layout, cityscape, share, archetypes, combined tendency formula
+- UNCHANGED: navigation, step 1 profiles, result screen layout, share, archetypes, combined tendency formula
 
 ### v1.2 — Homepage promotion + PayPal + cleanup
 - CHANGED: Guide is now index.html (was stichwahl-guide.html)
@@ -97,7 +105,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
 - Silent data collection (no per-step results, everything builds toward combined result)
 - 3 text buttons for Kano (Freut mich / Egal / Stört mich — replaced 5 emoji scale)
 - One-at-a-time Bilanz cards (proven UX)
-- Cityscape on result only (not during Kano questions)
+- Priority quadrant on result only (not during Kano questions)
 - 70/30 Kano/Bilanz weighting (priorities dominate over track record)
 - Party colours: #e57373 SPD red, #66bb6a Grüne green
 - Fortress Zero compliance
@@ -212,26 +220,8 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
 .kano-rueckweisung { background: #fee2e2; color: #991b1b; }
 .kano-fraglich { background: #fef3c7; color: #92400e; }
 
-/* Cityscape */
-.cityscape { position: relative; width: 100%; height: 180px; border-radius: 12px; overflow: hidden; background: linear-gradient(180deg, #bae6fd 0%, #e0f2fe 40%, #f0fdf4 100%); }
-.city-layer { position: absolute; bottom: 0; left: 0; right: 0; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.layer-wohnen { display: flex; align-items: flex-end; justify-content: center; gap: 3px; padding: 0 10px; z-index: 2; }
-.building { background: #78716c; border-radius: 3px 3px 0 0; transition: height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.layer-klima { display: flex; align-items: flex-end; justify-content: space-around; padding: 0 16px; z-index: 3; }
-.tree { width: 14px; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
-.tree-top { background: #22c55e; border-radius: 50%; margin: 0 auto; }
-.tree-trunk { width: 3px; background: #92400e; margin: 0 auto; }
-.layer-mobil { height: 20px; z-index: 4; display: flex; align-items: center; padding: 0 12px; }
-.tram-line { height: 2px; background: #0ea5e9; border-radius: 2px; transition: width 0.4s ease; }
-.bike-dot { width: 6px; height: 6px; border-radius: 50%; background: #0ea5e9; margin-left: 4px; transition: opacity 0.3s; }
-.layer-sicher { display: flex; align-items: flex-end; justify-content: space-around; padding: 0 24px; z-index: 5; }
-.streetlight { width: 2px; background: #fbbf24; border-radius: 2px; transition: height 0.4s ease; }
-.light-glow { width: 10px; height: 10px; background: radial-gradient(circle, rgba(251,191,36,0.6) 0%, transparent 70%); border-radius: 50%; margin: 0 auto -3px auto; transition: opacity 0.3s; }
-.layer-digital { position: absolute; top: 14px; right: 14px; z-index: 6; }
-.wifi-arc { border: 2px solid rgba(99,102,241,0.5); border-radius: 50%; border-bottom: none; border-left: none; transition: opacity 0.3s; }
-.layer-kultur { z-index: 1; }
-.isar-stripe { height: 6px; background: linear-gradient(90deg, #67e8f9, #22d3ee, #67e8f9); transition: opacity 0.4s; }
-.postcard-label { position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; z-index: 10; }
+/* Priority quadrant pills */
+.pq-pill { display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; white-space: nowrap; }
 
 /* Step 1 tabs */
 .s1-tab { padding: 8px 0; font-size: 14px; font-weight: 600; color: #78716c; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.15s ease; text-align: center; }
@@ -330,7 +320,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
           </div>
           <div class="flex gap-3 items-start">
             <span class="text-orange-500 font-bold mt-0.5">4</span>
-            <p class="text-stone-600"><strong>Dein Ergebnis</strong> — Tendenz, Archetype, dein München 2032</p>
+            <p class="text-stone-600"><strong>Dein Ergebnis</strong> — Tendenz, Wahl-Profil, Prioritäten</p>
           </div>
         </div>
       </div>
@@ -502,7 +492,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
             </div>
             <div class="px-4 py-3" style="font-size:13px;">
               <p class="font-semibold mb-1" style="color:#66bb6a;">Krause</p>
-              <p class="text-stone-600">50.000 Wohnungen, SEM Nord, Umwandlungsagentur</p>
+              <p class="text-stone-600">50.000 Wohnungen, SEM Nord (großes Bauprojekt im Münchner Norden), Umwandlungsagentur</p>
             </div>
           </div>
         </div>
@@ -517,7 +507,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
             </div>
             <div class="px-4 py-3" style="font-size:13px;">
               <p class="font-semibold mb-1" style="color:#66bb6a;">Krause</p>
-              <p class="text-stone-600">Tramausbau, Radentscheid umsetzen, Straßenraum umverteilen</p>
+              <p class="text-stone-600">Tramausbau, Radentscheid (Bürgerabstimmung für bessere Radwege) umsetzen, Straßenraum umverteilen</p>
             </div>
           </div>
         </div>
@@ -532,7 +522,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
             </div>
             <div class="px-4 py-3" style="font-size:13px;">
               <p class="font-semibold mb-1" style="color:#66bb6a;">Krause</p>
-              <p class="text-stone-600">Klimaneutral 2035, PV auf städtischen Dächern</p>
+              <p class="text-stone-600">Klimaneutral (kein CO₂ mehr) bis 2035, PV auf städtischen Dächern</p>
             </div>
           </div>
         </div>
@@ -618,6 +608,9 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
       </template>
     </div>
 
+    <!-- Status legend -->
+    <p x-show="bilanzQ === 0" class="text-center text-stone-400 mb-3" style="font-size:12px;">🟢 Umgesetzt · 🟡 Teilweise · 🔴 Nicht umgesetzt</p>
+
     <!-- Current card -->
     <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden mb-4" :key="bilanzQ">
       <div class="px-5 py-4">
@@ -649,7 +642,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
         <!-- Vote buttons -->
         <div class="flex gap-2" x-show="bilanzVotes[bilanzQ] === null">
           <button @click="bilanzVote('r')" class="bc-vote-btn flex-1 border-2 border-stone-200 rounded-xl py-3 text-center font-semibold" style="font-size:14px; color:#e57373;">Reiter</button>
-          <button @click="bilanzVote('b')" class="bc-vote-btn flex-1 border-2 border-stone-200 rounded-xl py-3 text-center font-semibold text-stone-400" style="font-size:14px;">Keiner</button>
+          <button @click="bilanzVote('b')" class="bc-vote-btn flex-1 border-2 border-stone-200 rounded-xl py-3 text-center font-semibold text-stone-400" style="font-size:14px;">Weiß nicht</button>
           <button @click="bilanzVote('k')" class="bc-vote-btn flex-1 border-2 border-stone-200 rounded-xl py-3 text-center font-semibold" style="font-size:14px; color:#66bb6a;">Krause</button>
         </div>
         <div x-show="bilanzVotes[bilanzQ] !== null" class="text-center py-3">
@@ -733,7 +726,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
         </div>
         <span class="font-bold" style="font-size:13px; color:#66bb6a;">Krause</span>
       </div>
-      <p class="text-stone-400 text-center" style="font-size:12px;">Kombiniert: Kano-Prioritäten (70%) + Bilanz (30%)</p>
+      <p class="text-stone-400 text-center" style="font-size:12px;">Dein Ergebnis aus Prioritäten und Bilanz</p>
     </div>
 
     <!-- Breakdown -->
@@ -752,7 +745,8 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
       </div>
 
       <!-- Bilanz tally -->
-      <p class="text-stone-500 font-semibold mb-2" style="font-size:13px;">Bilanz-Check</p>
+      <p class="text-stone-500 font-semibold mb-1" style="font-size:13px;">Bilanz-Check</p>
+      <p class="text-stone-400 mb-2" style="font-size:12px;">Was wurde geschafft?</p>
       <div class="flex gap-3">
         <div class="flex-1 bg-red-50 rounded-xl p-3 text-center">
           <p class="font-bold" style="font-size:20px; color:#e57373;" x-text="bilanzScoreR"></p>
@@ -760,7 +754,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
         </div>
         <div class="flex-1 bg-stone-50 rounded-xl p-3 text-center">
           <p class="font-bold text-stone-400" style="font-size:20px;" x-text="bilanzScoreB"></p>
-          <p class="text-stone-400" style="font-size:12px;">Keiner</p>
+          <p class="text-stone-400" style="font-size:12px;">Weiß nicht</p>
         </div>
         <div class="flex-1 bg-green-50 rounded-xl p-3 text-center">
           <p class="font-bold" style="font-size:20px; color:#66bb6a;" x-text="bilanzScoreK"></p>
@@ -772,7 +766,7 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
     <!-- Expandable Kano detail -->
     <div class="bg-white rounded-2xl border border-stone-200 overflow-hidden mb-4">
       <button @click="showKanoDetail = !showKanoDetail" class="w-full px-5 py-4 flex items-center justify-between hover:bg-stone-50 transition-colors">
-        <span class="font-bold" style="font-size:15px;">Detaillierte Kano-Analyse</span>
+        <span class="font-bold" style="font-size:15px;">Deine Themen im Detail</span>
         <span class="text-stone-400 transition-transform" :class="showKanoDetail ? 'rotate-180' : ''" style="font-size:18px;">▼</span>
       </button>
       <div x-show="showKanoDetail" class="px-5 pb-4">
@@ -789,51 +783,60 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
       </div>
     </div>
 
-    <!-- Cityscape -->
-    <div class="mb-4">
-      <p class="font-bold mb-2" style="font-size:15px;">Dein München 2032</p>
-      <div class="cityscape shadow-sm">
-        <div class="city-layer layer-kultur" style="bottom: 0;">
-          <div class="isar-stripe" :style="'opacity:' + cityVal('kultur')"></div>
+    <!-- Priority Quadrant -->
+    <div class="bg-white rounded-2xl border border-stone-200 p-5 mb-4">
+      <p class="font-bold mb-3" style="font-size:15px;">Dein Prioritäten-Profil</p>
+      <div class="grid grid-cols-2 gap-2">
+        <!-- Top-left: Passt & wichtig -->
+        <div class="rounded-xl p-3 bg-green-50 border border-green-200 min-h-[80px]">
+          <p class="font-semibold text-green-800 mb-2" style="font-size:12px;">✅ Passt &amp; wichtig</p>
+          <div class="flex flex-wrap gap-1">
+            <template x-for="t in priorityQuadrants.topLeft">
+              <span class="pq-pill bg-green-100 text-green-800" x-text="t.emoji + ' ' + t.label"></span>
+            </template>
+            <template x-if="priorityQuadrants.topLeft.length === 0">
+              <span class="text-green-400" style="font-size:12px;">—</span>
+            </template>
+          </div>
         </div>
-        <div class="city-layer layer-mobil" style="bottom: 6px;">
-          <div class="tram-line" :style="'width:' + (cityVal('mobil') * 100) + '%'"></div>
-          <template x-for="n in Math.min(Math.floor(cityVal('mobil') * 4), 4)">
-            <div class="bike-dot"></div>
-          </template>
+        <!-- Top-right: Achtung -->
+        <div class="rounded-xl p-3 bg-orange-50 border border-orange-200 min-h-[80px]">
+          <p class="font-semibold text-orange-800 mb-2" style="font-size:12px;">⚠️ Achtung</p>
+          <div class="flex flex-wrap gap-1">
+            <template x-for="t in priorityQuadrants.topRight">
+              <span class="pq-pill bg-orange-100 text-orange-800" x-text="t.emoji + ' ' + t.label"></span>
+            </template>
+            <template x-if="priorityQuadrants.topRight.length === 0">
+              <span class="text-orange-400" style="font-size:12px;">—</span>
+            </template>
+          </div>
         </div>
-        <div class="city-layer layer-wohnen" style="bottom: 18px;">
-          <div class="building" :style="'width:12px; height:' + (10 + cityVal('wohnen') * 60) + 'px; background:#78716c'"></div>
-          <div class="building" :style="'width:9px; height:' + (16 + cityVal('wohnen') * 70) + 'px; background:#a8a29e'"></div>
-          <div class="building" :style="'width:14px; height:' + (8 + cityVal('wohnen') * 45) + 'px; background:#57534e'"></div>
-          <div class="building" :style="'width:11px; height:' + (13 + cityVal('wohnen') * 55) + 'px; background:#78716c'"></div>
-          <div class="building" :style="'width:13px; height:' + (10 + cityVal('wohnen') * 50) + 'px; background:#a8a29e'"></div>
-          <div class="building" :style="'width:8px; height:' + (18 + cityVal('wohnen') * 65) + 'px; background:#57534e'"></div>
+        <!-- Bottom-left: Bonus -->
+        <div class="rounded-xl p-3 bg-emerald-50 border border-emerald-100 min-h-[80px]">
+          <p class="font-semibold text-emerald-700 mb-2" style="font-size:12px;">🎁 Bonus</p>
+          <div class="flex flex-wrap gap-1">
+            <template x-for="t in priorityQuadrants.bottomLeft">
+              <span class="pq-pill bg-emerald-100 text-emerald-700" x-text="t.emoji + ' ' + t.label"></span>
+            </template>
+            <template x-if="priorityQuadrants.bottomLeft.length === 0">
+              <span class="text-emerald-400" style="font-size:12px;">—</span>
+            </template>
+          </div>
         </div>
-        <div class="city-layer layer-klima" style="bottom: 16px;">
-          <template x-for="n in Math.min(Math.floor(cityVal('klima') * 6) + 1, 6)">
-            <div class="tree">
-              <div class="tree-top" :style="'width:' + (6 + cityVal('klima') * 6) + 'px; height:' + (6 + cityVal('klima') * 6) + 'px'"></div>
-              <div class="tree-trunk" :style="'height:' + (4 + cityVal('klima') * 4) + 'px'"></div>
-            </div>
-          </template>
-        </div>
-        <div class="city-layer layer-sicher" style="bottom: 18px;">
-          <template x-for="n in Math.min(Math.floor(cityVal('sicher') * 4) + 1, 3)">
-            <div>
-              <div class="light-glow" :style="'opacity:' + cityVal('sicher')"></div>
-              <div class="streetlight" :style="'height:' + (12 + cityVal('sicher') * 40) + 'px'"></div>
-            </div>
-          </template>
-        </div>
-        <div class="layer-digital">
-          <div class="wifi-arc" :style="'width:14px; height:14px; opacity:' + Math.min(cityVal('digital') * 2, 1)"></div>
-          <div class="wifi-arc" :style="'width:22px; height:22px; margin-top:-18px; margin-left:-4px; opacity:' + Math.min(cityVal('digital') * 1.5, 1)"></div>
-        </div>
-        <div class="postcard-label">
-          <p class="text-white font-bold drop-shadow-lg" style="font-size:13px;">Dein München 2032</p>
+        <!-- Bottom-right: Egal -->
+        <div class="rounded-xl p-3 bg-stone-100 border border-stone-200 min-h-[80px]">
+          <p class="font-semibold text-stone-500 mb-2" style="font-size:12px;">🤷 Egal</p>
+          <div class="flex flex-wrap gap-1">
+            <template x-for="t in priorityQuadrants.bottomRight">
+              <span class="pq-pill bg-stone-200 text-stone-600" x-text="t.emoji + ' ' + t.label"></span>
+            </template>
+            <template x-if="priorityQuadrants.bottomRight.length === 0">
+              <span class="text-stone-400" style="font-size:12px;">—</span>
+            </template>
+          </div>
         </div>
       </div>
+      <p class="text-stone-400 text-center mt-3" style="font-size:11px;">Wichtig = Begeistert dich / Erwarte ich · Match = passt zu deiner Tendenz</p>
     </div>
 
     <!-- Share -->
@@ -934,13 +937,13 @@ function stichwahlGuide() {
       krauseNow: 'Radentscheid vollständig umsetzen. Grüne tragen Mitverantwortung für das Tempo.'
     },
     {
-      shortTitle: 'Klimaneutralität 2035',
+      shortTitle: 'Klimaneutral bis 2035',
       category: 'Klima & Energie',
-      promise: 'München sollte bis 2035 klimaneutral werden. Jeder freie Euro in Energiewende und Klimaschutz.',
+      promise: 'München sollte bis 2035 klimaneutral werden (kein CO₂ mehr). Jeder freie Euro in Energiewende und Klimaschutz.',
       status: 'yellow',
       reality: 'SWM erzeugt rechnerisch 100% Ökostrom. PV-Ausbau verdoppelt, aber unter Landesdurchschnitt. Mobilitätswende stockt. Fahrplan steht, Tempo reicht nicht.',
-      reiterNow: '"Sozial verträglicher Klimaschutz." Klimaneutralität bleibt Ziel, aber nicht auf Kosten anderer Prioritäten.',
-      krauseNow: 'Klimaneutralität beschleunigen. Solar- und Geothermie-Ausbau forcieren.'
+      reiterNow: '"Sozial verträglicher Klimaschutz." Klimaneutral bleibt Ziel, aber nicht auf Kosten anderer Prioritäten.',
+      krauseNow: 'Schneller klimaneutral werden. Solar- und Erdwärme-Ausbau forcieren.'
     },
     {
       shortTitle: 'Kita-Ausbau',
@@ -961,13 +964,13 @@ function stichwahlGuide() {
       krauseNow: 'Investitionen beibehalten, Qualität stärken, Schulbau entbürokratisieren.'
     },
     {
-      shortTitle: 'Ökostrom & Geothermie',
+      shortTitle: 'Ökostrom & Erdwärme',
       category: 'Klima & Energie',
-      promise: 'Die Stadtwerke sollten München mit erneuerbarer Energie versorgen und die Geothermie ausbauen.',
+      promise: 'Die Stadtwerke sollten München mit erneuerbarer Energie versorgen und die Erdwärme (Geothermie) ausbauen.',
       status: 'green',
-      reality: 'SWM erzeugt rechnerisch 100% Ökostrom aus eigenen Anlagen weltweit. Geothermie-Ausbau macht München zum Vorreiter unter den deutschen Großstädten.',
-      reiterNow: 'Geothermie weiter ausbauen. SWM als Treiber der Energiewende stärken und verstetigen.',
-      krauseNow: 'Fernwärme aus Geothermie verdoppeln. Ausbau-Tempo erhöhen.'
+      reality: 'SWM erzeugt rechnerisch 100% Ökostrom aus eigenen Anlagen weltweit. Der Erdwärme-Ausbau macht München zum Vorreiter unter den deutschen Großstädten.',
+      reiterNow: 'Erdwärme weiter ausbauen. SWM als Treiber der Energiewende stärken und verstetigen.',
+      krauseNow: 'Fernwärme aus Erdwärme verdoppeln. Ausbau-Tempo erhöhen.'
     }
   ];
 
@@ -979,7 +982,7 @@ function stichwahlGuide() {
     ['B', 'A', 'F'],
   ];
 
-  const KANO_LABELS = { B: 'Begeistert dich', A: 'Muss sein', I: 'Egal', R: 'Dagegen', F: 'Unklar' };
+  const KANO_LABELS = { B: 'Begeistert dich', A: 'Erwarte ich', I: 'Egal', R: 'Dagegen', F: 'Passt nicht zusammen' };
   const KANO_KEYS = { B: 'begeisterung', A: 'basis', I: 'indifferent', R: 'rueckweisung', F: 'fraglich' };
   const KANO_WEIGHTS = { B: 3, A: 1, I: 0, R: -2, F: 0 };
 
@@ -1024,7 +1027,7 @@ function stichwahlGuide() {
       }
     },
     {
-      label: 'Klima & Energie', emoji: '\u{2600}\u{FE0F}', desc: 'Klimaneutralität, PV-Ausbau, Geothermie',
+      label: 'Klima & Energie', emoji: '\u{2600}\u{FE0F}', desc: 'Klimaneutral werden, PV-Ausbau, Erdwärme',
       candidateId: 'krause', cityId: 'klima',
       posQ: 'Wie fändest du es, wenn der nächste OB München bis 2035 klimaneutral macht und PV-Anlagen auf alle städtischen Dächer bringt?',
       negQ: 'Wie fändest du es, wenn der nächste OB Klimaschutz anderen Prioritäten unterordnet und keinen festen Zeitplan setzt?',
@@ -1227,19 +1230,22 @@ function stichwahlGuide() {
       return KANO_TOPICS[topicIdx].explainers[code] || '';
     },
 
-    // === Cityscape ===
-    cityVal(cityId) {
-      const topicIndices = KANO_TOPICS.map((t, i) => ({ idx: i, city: t.cityId }))
-        .filter(t => t.city === cityId);
-      if (topicIndices.length === 0) return 0.3;
-      let total = 0, count = 0;
-      for (const t of topicIndices) {
-        const code = this.getKanoCode(t.idx);
-        const w = KANO_WEIGHTS[code] || 0;
-        total += Math.max(0.1, Math.min(1.0, (w + 2) / 5));
-        count++;
-      }
-      return count > 0 ? total / count : 0.3;
+    // === Priority Quadrant ===
+    get priorityQuadrants() {
+      const tend = this.tendency; // >0 = Krause, <=0 = Reiter
+      const topLeft = [], topRight = [], bottomLeft = [], bottomRight = [];
+      KANO_TOPICS.forEach((t, i) => {
+        const code = this.getKanoCode(i);
+        const important = (code === 'B' || code === 'A');
+        const cid = t.candidateId;
+        const match = cid === 'both' || (tend > 0 && cid === 'krause') || (tend <= 0 && cid === 'reiter');
+        const item = { emoji: t.emoji, label: t.label };
+        if (important && match) topLeft.push(item);
+        else if (important && !match) topRight.push(item);
+        else if (!important && match) bottomLeft.push(item);
+        else bottomRight.push(item);
+      });
+      return { topLeft, topRight, bottomLeft, bottomRight };
     },
 
     // === Candidate Scoring (weighted difference) ===

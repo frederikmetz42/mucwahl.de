@@ -1,5 +1,19 @@
 # Changelog
 
+## v4.20 - 2026-03-13 - Kano 3×3 + Neutralität + Verständlichkeit
+- **Changed:** Kano von 5×5 auf 3×3 Matrix (L-Kategorie entfällt), 5 Emoji-Buttons → 3 Klartext-Buttons (Freut mich / Egal / Stört mich)
+- **Changed:** Kano-Labels vereinfacht: Muss sein → Erwarte ich, Unklar → Passt nicht zusammen
+- **Changed:** Topic-Attribution rebalanciert: 3 Krause / 3 Reiter / 2 both (war 5/2/1)
+- **Changed:** Bilanz-Texte neutralisiert (editorialisierende Sprache entfernt)
+- **Changed:** 12+ Fachbegriffe durch Alltagssprache ersetzt (SEM Nord, Radentscheid, Geothermie, Klimaneutral erklärt)
+- **Changed:** Bilanz-Button "Keiner" → "Weiß nicht", Ergebnis-Erklärung vereinfacht
+- **Added:** Sticky-Navbar mit Logo + Burger-Menü, Footer, floating "Jetzt starten" CTA
+- **Added:** Prioritäten-Profil (2×2 Quadrant: Passt & wichtig / Achtung / Bonus / Egal) ersetzt Cityscape
+- **Added:** Bilanz-Legende (🟢 Umgesetzt · 🟡 Teilweise · 🔴 Nicht umgesetzt)
+- **Added:** Optional Chaining für Alpine.js Template-Expressions (kanoTopics[kanoQ]?.)
+- **Removed:** Cityscape-Visualisierung (CSS + HTML + cityVal() Methode)
+- **Removed:** L-Explainer aus allen 8 Kano-Topics
+
 ## v4.19 - 2026-03-13 - Unified Stichwahl-Guide als Homepage
 - **Added:** `index.html` — Unified 4-step Stichwahl-Wizard (Kandidaten-Profil → Bilanz-Check → München-Check → Ergebnis) als Homepage
 - **Added:** `kommunalwahl.html` — 25-Thesen-Quiz (Kopie des alten index.html) unter eigener URL

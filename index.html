@@ -2,7 +2,7 @@
 === PROJECT SPEC — DO NOT REMOVE ===
 WORKFLOW: Read this block → update changelog entry → implement changes → update features → write UNCHANGED line → verify against previous features list.
 
-## FEATURES (v1.4)
+## FEATURES (v1.5)
 ### Navigation
 - 4-step wizard: intro → profiles → bilanz → kano → result
 - Progress bar (4 segments, fills orange per step)
@@ -27,8 +27,10 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
 - Dot progress indicator (8 dots)
 
 ### Step 3 — Was ist dir wichtig?
-- 8 Kano themes, one at a time
+- 8 Kano themes, one at a time, randomized order (Fisher-Yates shuffle)
 - Dual questions per theme (positive + negative) both visible on screen
+- Neutral stone-coloured question boxes with "Wenn umgesetzt:" / "Wenn nicht umgesetzt:" labels
+- Pos/neg question position randomly flipped per theme (anti-bias)
 - 3 text buttons: Freut mich / Egal / Stört mich
 - Auto-advance after both answered (500ms delay)
 - Dot progress indicator (8 dots)
@@ -57,6 +59,14 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
 - Party colours: #e57373 (Reiter/SPD), #66bb6a (Krause/Grüne)
 
 ## CHANGELOG
+### v1.5 — Kano neutrality and randomization
+- CHANGED: Kano-Fragenboxen neutral statt grün/rot, Themenreihenfolge und pos/neg-Position randomisiert
+- ADDED: "Wenn umgesetzt:" / "Wenn nicht umgesetzt:" labels on question boxes
+- ADDED: Fisher-Yates shuffle for theme order (kanoOrder array)
+- ADDED: Random pos/neg flip per theme (kanoFlip array)
+- CHANGED: Selected button style from green/red to neutral stone
+- UNCHANGED: everything else
+
 ### v1.4 — Priority quadrant replaces cityscape
 - REPLACED: Cityscape postcard with 2×2 priority quadrant grid (Passt & wichtig / Achtung / Bonus / Egal)
 - ADDED: `get priorityQuadrants()` computed property (importance × tendency-match classification)
@@ -672,45 +682,81 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
     <!-- Dot progress -->
     <div class="flex justify-center gap-2 mb-5">
       <template x-for="i in 8">
-        <div class="w-2.5 h-2.5 rounded-full transition-colors" :class="(kanoAnswers[i-1].pos !== null && kanoAnswers[i-1].neg !== null) ? 'bg-orange-500' : (kanoQ === i-1 ? 'bg-stone-400' : 'bg-stone-200')"></div>
+        <div class="w-2.5 h-2.5 rounded-full transition-colors" :class="(kanoAnswers[kanoOrder[i-1]].pos !== null && kanoAnswers[kanoOrder[i-1]].neg !== null) ? 'bg-orange-500' : (kanoQ === i-1 ? 'bg-stone-400' : 'bg-stone-200')"></div>
       </template>
     </div>
 
     <!-- Current theme -->
     <div :key="kanoQ">
       <div class="text-center mb-4">
-        <span style="font-size:28px;" x-text="kanoTopics[kanoQ]?.emoji"></span>
-        <p class="font-bold mt-1" style="font-size:16px;" x-text="kanoTopics[kanoQ]?.label"></p>
-        <p class="text-stone-400" style="font-size:13px;" x-text="kanoTopics[kanoQ]?.desc"></p>
+        <span style="font-size:28px;" x-text="kanoTopics[kanoOrder[kanoQ]]?.emoji"></span>
+        <p class="font-bold mt-1" style="font-size:16px;" x-text="kanoTopics[kanoOrder[kanoQ]]?.label"></p>
+        <p class="text-stone-400" style="font-size:13px;" x-text="kanoTopics[kanoOrder[kanoQ]]?.desc"></p>
       </div>
 
-      <!-- Positive question -->
-      <div class="bg-green-50 border border-green-200 rounded-xl p-4 mb-3">
-        <p class="text-stone-700 mb-3" style="font-size:14px;" x-text="kanoTopics[kanoQ]?.posQ"></p>
-        <div class="flex gap-2">
-          <template x-for="(opt, idx) in emojiScale">
-            <button @click="kanoAnswers[kanoQ].pos = idx; checkKanoAdvance()"
-              class="kano-opt flex-1 py-2.5 rounded-xl border-2 text-center font-medium transition-all"
-              :class="kanoAnswers[kanoQ]?.pos === idx ? 'border-green-500 bg-green-100 text-green-700' : 'border-stone-200 text-stone-500 hover:border-stone-300'"
-              style="font-size:13px;"
-              x-text="opt.label"></button>
-          </template>
+      <!-- Positive question (first when not flipped) -->
+      <template x-if="!kanoFlip[kanoOrder[kanoQ]]">
+        <div>
+          <div class="bg-stone-50 border border-stone-200 rounded-xl p-4 mb-3">
+            <p class="font-bold text-stone-500 mb-2" style="font-size:12px;">Wenn umgesetzt:</p>
+            <p class="text-stone-700 mb-3" style="font-size:14px;" x-text="kanoTopics[kanoOrder[kanoQ]]?.posQ"></p>
+            <div class="flex gap-2">
+              <template x-for="(opt, idx) in emojiScale">
+                <button @click="kanoAnswers[kanoOrder[kanoQ]].pos = idx; checkKanoAdvance()"
+                  class="kano-opt flex-1 py-2.5 rounded-xl border-2 text-center font-medium transition-all"
+                  :class="kanoAnswers[kanoOrder[kanoQ]]?.pos === idx ? 'border-stone-500 bg-stone-200 text-stone-700' : 'border-stone-200 text-stone-500 hover:border-stone-300'"
+                  style="font-size:13px;"
+                  x-text="opt.label"></button>
+              </template>
+            </div>
+          </div>
+          <div class="bg-stone-50 border border-stone-200 rounded-xl p-4 mb-3">
+            <p class="font-bold text-stone-500 mb-2" style="font-size:12px;">Wenn nicht umgesetzt:</p>
+            <p class="text-stone-700 mb-3" style="font-size:14px;" x-text="kanoTopics[kanoOrder[kanoQ]]?.negQ"></p>
+            <div class="flex gap-2">
+              <template x-for="(opt, idx) in emojiScale">
+                <button @click="kanoAnswers[kanoOrder[kanoQ]].neg = idx; checkKanoAdvance()"
+                  class="kano-opt flex-1 py-2.5 rounded-xl border-2 text-center font-medium transition-all"
+                  :class="kanoAnswers[kanoOrder[kanoQ]]?.neg === idx ? 'border-stone-500 bg-stone-200 text-stone-700' : 'border-stone-200 text-stone-500 hover:border-stone-300'"
+                  style="font-size:13px;"
+                  x-text="opt.label"></button>
+              </template>
+            </div>
+          </div>
         </div>
-      </div>
+      </template>
 
-      <!-- Negative question -->
-      <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-3">
-        <p class="text-stone-700 mb-3" style="font-size:14px;" x-text="kanoTopics[kanoQ]?.negQ"></p>
-        <div class="flex gap-2">
-          <template x-for="(opt, idx) in emojiScale">
-            <button @click="kanoAnswers[kanoQ].neg = idx; checkKanoAdvance()"
-              class="kano-opt flex-1 py-2.5 rounded-xl border-2 text-center font-medium transition-all"
-              :class="kanoAnswers[kanoQ]?.neg === idx ? 'border-red-400 bg-red-100 text-red-700' : 'border-stone-200 text-stone-500 hover:border-stone-300'"
-              style="font-size:13px;"
-              x-text="opt.label"></button>
-          </template>
+      <!-- Negative question first (when flipped) -->
+      <template x-if="kanoFlip[kanoOrder[kanoQ]]">
+        <div>
+          <div class="bg-stone-50 border border-stone-200 rounded-xl p-4 mb-3">
+            <p class="font-bold text-stone-500 mb-2" style="font-size:12px;">Wenn nicht umgesetzt:</p>
+            <p class="text-stone-700 mb-3" style="font-size:14px;" x-text="kanoTopics[kanoOrder[kanoQ]]?.negQ"></p>
+            <div class="flex gap-2">
+              <template x-for="(opt, idx) in emojiScale">
+                <button @click="kanoAnswers[kanoOrder[kanoQ]].neg = idx; checkKanoAdvance()"
+                  class="kano-opt flex-1 py-2.5 rounded-xl border-2 text-center font-medium transition-all"
+                  :class="kanoAnswers[kanoOrder[kanoQ]]?.neg === idx ? 'border-stone-500 bg-stone-200 text-stone-700' : 'border-stone-200 text-stone-500 hover:border-stone-300'"
+                  style="font-size:13px;"
+                  x-text="opt.label"></button>
+              </template>
+            </div>
+          </div>
+          <div class="bg-stone-50 border border-stone-200 rounded-xl p-4 mb-3">
+            <p class="font-bold text-stone-500 mb-2" style="font-size:12px;">Wenn umgesetzt:</p>
+            <p class="text-stone-700 mb-3" style="font-size:14px;" x-text="kanoTopics[kanoOrder[kanoQ]]?.posQ"></p>
+            <div class="flex gap-2">
+              <template x-for="(opt, idx) in emojiScale">
+                <button @click="kanoAnswers[kanoOrder[kanoQ]].pos = idx; checkKanoAdvance()"
+                  class="kano-opt flex-1 py-2.5 rounded-xl border-2 text-center font-medium transition-all"
+                  :class="kanoAnswers[kanoOrder[kanoQ]]?.pos === idx ? 'border-stone-500 bg-stone-200 text-stone-700' : 'border-stone-200 text-stone-500 hover:border-stone-300'"
+                  style="font-size:13px;"
+                  x-text="opt.label"></button>
+              </template>
+            </div>
+          </div>
         </div>
-      </div>
+      </template>
     </div>
   </div>
 
@@ -1000,8 +1046,8 @@ function stichwahlGuide() {
     {
       label: 'Wohnen', emoji: '\u{1F3E0}', desc: 'Bezahlbare Wohnungen, Neubau, Mieterschutz',
       candidateId: 'both', cityId: 'wohnen',
-      posQ: 'Wie fändest du es, wenn der nächste OB 50.000 neue bezahlbare Wohnungen baut und eine Agentur gegen Spekulation gründet?',
-      negQ: 'Wie fändest du es, wenn der nächste OB den Wohnungsbau dem Markt überlässt und keine neuen Bauziele setzt?',
+      posQ: 'Wie fändest du es, wenn der nächste OB massiv in sozialen Wohnungsbau investiert, auch wenn dafür andere Projekte (Schulen, Sportstätten) zurückgestellt werden?',
+      negQ: 'Wie fändest du es, wenn der nächste OB beim Wohnungsbau vor allem auf private Investoren setzt, um den städtischen Haushalt zu schonen?',
       explainers: {
         B: 'Wohnen begeistert dich. Beide Kandidaten versprechen Neubau, Krause mit konkreteren Zahlen (50.000), Reiter mit Fokus auf städtische Wohnbaugesellschaften.',
         A: 'Wohnen ist für dich Pflicht. Wenn hier nichts passiert, ist alles andere egal.',
@@ -1013,8 +1059,8 @@ function stichwahlGuide() {
     {
       label: 'ÖPNV & Mobilität', emoji: '\u{1F68B}', desc: 'Tramausbau, Takte, Ticketpreise',
       candidateId: 'krause', cityId: 'mobil',
-      posQ: 'Wie fändest du es, wenn der nächste OB Tramlinien massiv ausbaut und bessere Takte ermöglicht?',
-      negQ: 'Wie fändest du es, wenn der nächste OB beim ÖPNV nichts Neues baut und auf Bundesgelder wartet?',
+      posQ: 'Wie fändest du es, wenn der nächste OB neue Tramlinien baut, auch wenn das jahrelang Baustellen und höhere Ticketpreise bedeutet?',
+      negQ: 'Wie fändest du es, wenn der nächste OB das ÖPNV-Netz erstmal stabilisiert, statt neue Linien zu bauen?',
       explainers: {
         B: 'Tram-Ausbau begeistert dich. Krause will Ausbau vor Gratisticket.',
         A: 'ÖPNV-Ausbau ist für dich selbstverständlich. Ohne Fortschritt wärst du enttäuscht.',
@@ -1026,7 +1072,7 @@ function stichwahlGuide() {
     {
       label: 'Verkehr & Straßenraum', emoji: '\u{1F6B6}', desc: 'Autoverkehr, Fuß, Rad, Aufenthaltsqualität',
       candidateId: 'krause', cityId: 'mobil',
-      posQ: 'Wie fändest du es, wenn der nächste OB Autoverkehr in der Innenstadt zugunsten von Fuß, Rad und Aufenthalt zurückbaut?',
+      posQ: 'Wie fändest du es, wenn der nächste OB Fahrspuren in der Innenstadt für Fuß und Rad umwidmet, auch wenn Autofahrer längere Umwege fahren müssen?',
       negQ: 'Wie fändest du es, wenn der nächste OB den Straßenraum so lässt wie er ist und keine Flächen umverteilt?',
       explainers: {
         B: 'Weniger Autos, mehr Lebensqualität begeistert dich. Krause will Straßenraum umverteilen.',
@@ -1039,8 +1085,8 @@ function stichwahlGuide() {
     {
       label: 'Klima & Energie', emoji: '\u{2600}\u{FE0F}', desc: 'Klimaneutral werden, PV-Ausbau, Erdwärme',
       candidateId: 'krause', cityId: 'klima',
-      posQ: 'Wie fändest du es, wenn der nächste OB München bis 2035 klimaneutral macht und PV-Anlagen auf alle städtischen Dächer bringt?',
-      negQ: 'Wie fändest du es, wenn der nächste OB Klimaschutz anderen Prioritäten unterordnet und keinen festen Zeitplan setzt?',
+      posQ: 'Wie fändest du es, wenn der nächste OB Klimaneutralität bis 2035 als verbindliches Ziel setzt, auch wenn das Bauvorschriften verschärft und Mehrkosten verursacht?',
+      negQ: 'Wie fändest du es, wenn der nächste OB Klimaschutz pragmatisch angeht und kein festes Zieljahr festlegt, um Wirtschaft und Bürger nicht zu überfordern?',
       explainers: {
         B: 'Ambitionierter Klimaschutz begeistert dich. Krause will 2035 als festes Ziel.',
         A: 'Klimaschutz ist für dich Grundvoraussetzung.',
@@ -1052,8 +1098,8 @@ function stichwahlGuide() {
     {
       label: 'Sicherheit & Ordnung', emoji: '\u{1F6E1}\u{FE0F}', desc: 'Polizeipräsenz, Sozialarbeit, Prävention',
       candidateId: 'reiter', cityId: 'sicher',
-      posQ: 'Wie fändest du es, wenn der nächste OB mehr Polizeipräsenz mit Sozialarbeit und Prävention kombiniert?',
-      negQ: 'Wie fändest du es, wenn der nächste OB bei Sicherheit und Ordnung keine neuen Akzente setzt?',
+      posQ: 'Wie fändest du es, wenn der nächste OB deutlich mehr für Polizeipräsenz und Streetwork ausgibt, auch wenn das den Haushalt belastet?',
+      negQ: 'Wie fändest du es, wenn der nächste OB die Sicherheitslage als stabil einschätzt und keine zusätzlichen Maßnahmen ergreift?',
       explainers: {
         B: 'Sicherheit begeistert dich. Reiter setzt auf mehr Polizeipräsenz kombiniert mit Prävention.',
         A: 'Sicherheit ist Pflicht. Wenn der OB hier nicht liefert, hilft alles andere nicht.',
@@ -1065,8 +1111,8 @@ function stichwahlGuide() {
     {
       label: 'Digitale Verwaltung', emoji: '\u{1F4F1}', desc: 'Online-Behördengänge, München-App',
       candidateId: 'reiter', cityId: 'digital',
-      posQ: 'Wie fändest du es, wenn der nächste OB alle Behördengänge digital ermöglicht und eine München-App einführt?',
-      negQ: 'Wie fändest du es, wenn Behördengänge weiterhin Wartezeit und persönliches Erscheinen erfordern?',
+      posQ: 'Wie fändest du es, wenn der nächste OB alle Behördengänge digitalisiert, auch wenn das eine teure München-App und weniger Beratung vor Ort bedeutet?',
+      negQ: 'Wie fändest du es, wenn die Verwaltung weiterhin auf persönliche Beratung setzt und Digitalisierung nur schrittweise umsetzt?',
       explainers: {
         B: 'Digitale Verwaltung begeistert dich. Reiter hat hier ein laufendes Digitalisierungsprogramm.',
         A: 'Digitale Behördengänge sind für dich selbstverständlich.',
@@ -1078,8 +1124,8 @@ function stichwahlGuide() {
     {
       label: 'Kultur & Subkultur', emoji: '\u{1F3A8}', desc: 'Subkulturschutz, Zwischennutzung, Ateliers',
       candidateId: 'krause', cityId: 'kultur',
-      posQ: 'Wie fändest du es, wenn der nächste OB Subkultur aktiv schützt, Zwischennutzung fördert und bezahlbare Ateliers sichert?',
-      negQ: 'Wie fändest du es, wenn der nächste OB Kulturförderung dem Markt überlässt und keine Räume für Subkultur schafft?',
+      posQ: 'Wie fändest du es, wenn der nächste OB Subkultur-Räume mit Steuergeldern sichert, auch wenn das bei knappem Haushalt zulasten anderer Bereiche geht?',
+      negQ: 'Wie fändest du es, wenn der nächste OB Kulturförderung nicht ausweitet und vorhandene Mittel auf etablierte Einrichtungen konzentriert?',
       explainers: {
         B: 'Subkulturschutz begeistert dich. Krause hat sich konkret für Zwischennutzung eingesetzt.',
         A: 'Kulturförderung ist Grunderwartung.',
@@ -1092,7 +1138,7 @@ function stichwahlGuide() {
       label: 'Amtserfahrung & Kontinuität', emoji: '\u{1F3DB}\u{FE0F}', desc: 'Verwaltungskompetenz, gewachsene Netzwerke',
       candidateId: 'reiter', cityId: 'sicher',
       posQ: 'Wie fändest du es, wenn der nächste OB die Verwaltung seit Jahren kennt, ein eingespieltes Netzwerk hat und sofort loslegen kann?',
-      negQ: 'Wie fändest du es, wenn der nächste OB erst in die Rolle hineinwachsen muss und die internen Abläufe neu lernt?',
+      negQ: 'Wie fändest du es, wenn der nächste OB frisch ins Amt kommt und einen neuen Blick auf eingefahrene Strukturen mitbringt?',
       explainers: {
         B: 'Erfahrung begeistert dich. Reiter hat 12 Jahre Amtserfahrung.',
         A: 'Amtserfahrung ist Pflicht.',
@@ -1122,6 +1168,16 @@ function stichwahlGuide() {
     { emoji: 'Stört mich', label: 'Stört mich' }
   ];
 
+  // Randomize theme order (Fisher-Yates)
+  const kanoOrder = [0,1,2,3,4,5,6,7];
+  for (let i = kanoOrder.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [kanoOrder[i], kanoOrder[j]] = [kanoOrder[j], kanoOrder[i]];
+  }
+
+  // Randomize pos/neg question flip per theme
+  const kanoFlip = Array.from({length: 8}, () => Math.random() < 0.5);
+
   return {
     step: 'intro',
     stepHistory: [],
@@ -1138,6 +1194,8 @@ function stichwahlGuide() {
 
     // Step 3 state
     kanoQ: 0,
+    kanoOrder: kanoOrder,
+    kanoFlip: kanoFlip,
     kanoAnswers: Array.from({ length: 8 }, () => ({ pos: null, neg: null })),
     kanoTopics: KANO_TOPICS,
     emojiScale: EMOJI_SCALE,
@@ -1208,7 +1266,7 @@ function stichwahlGuide() {
 
     // === Step 3: Kano ===
     checkKanoAdvance() {
-      const a = this.kanoAnswers[this.kanoQ];
+      const a = this.kanoAnswers[this.kanoOrder[this.kanoQ]];
       if (a.pos !== null && a.neg !== null) {
         setTimeout(() => {
           if (this.kanoQ >= 7) {

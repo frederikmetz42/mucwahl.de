@@ -1,5 +1,12 @@
 # Changelog
 
+## v4.20b - 2026-03-14 - Bugfixes + Impressum + Quellenbereinigung
+- **Fixed:** Mobile Pill-Overflow: `white-space: nowrap` aus `.pq-pill` entfernt, lange Labels wrappen jetzt korrekt
+- **Fixed:** Share-Image Footer: light gray bar → dark stone-800 Banner (passend zur Homepage-Nav)
+- **Changed:** Impressum: Adresse Ridlerstr. 29f → Ridlerstr. 9
+- **Removed:** München-O-Mat Thesenbuch aus methodik-check.html Quellen-Sektion
+- **Discovered:** Google Ads EU-weit geblockt (Political Ads Ban seit Okt 2025), Kampagnendaten gesichert
+
 ## v4.20 - 2026-03-13 - Kano 3×3 + Neutralität + Verständlichkeit
 - **Changed:** Kano von 5×5 auf 3×3 Matrix (L-Kategorie entfällt), 5 Emoji-Buttons → 3 Klartext-Buttons (Freut mich / Egal / Stört mich)
 - **Changed:** Kano-Labels vereinfacht: Muss sein → Erwarte ich, Unklar → Passt nicht zusammen

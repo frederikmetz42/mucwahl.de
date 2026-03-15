@@ -795,7 +795,10 @@ WORKFLOW: Read this block → update changelog entry → implement changes → u
         <template x-for="(t, i) in kanoTopics">
           <div class="flex items-center justify-between">
             <span class="text-stone-600" style="font-size:13px;" x-text="t.emoji + ' ' + t.label"></span>
-            <span class="kano-pill" :class="'kano-' + getKanoKey(i)" x-text="getKanoLabel(i)"></span>
+            <div class="flex items-center gap-2">
+              <span class="kano-pill" :class="'kano-' + getKanoKey(i)" x-text="getKanoLabel(i)"></span>
+              <span x-show="getKanoDirection(i).text" style="font-size:11px; font-weight:600; min-width:68px; text-align:right;" :style="'color:' + getKanoDirection(i).color" x-text="getKanoDirection(i).text"></span>
+            </div>
           </div>
         </template>
       </div>
@@ -1296,6 +1299,18 @@ function stichwahlGuide() {
     getKanoExplainer(topicIdx) {
       const code = this.getKanoCode(topicIdx);
       return KANO_TOPICS[topicIdx].explainers[code] || '';
+    },
+
+    getKanoDirection(topicIdx) {
+      const code = this.getKanoCode(topicIdx);
+      const weight = KANO_WEIGHTS[code] || 0;
+      if (weight === 0) return { text: '', color: '' };
+      const cid = KANO_TOPICS[topicIdx].candidateId;
+      if (cid === 'both') return { text: '→ beide', color: '#9ca3af' };
+      const toward = weight > 0 ? cid : (cid === 'krause' ? 'reiter' : 'krause');
+      const name = toward === 'krause' ? 'Krause' : 'Reiter';
+      const color = toward === 'krause' ? '#66bb6a' : '#e57373';
+      return { text: '→ ' + name, color };
     },
 
     // === Priority Quadrant ===

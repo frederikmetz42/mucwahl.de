@@ -1,5 +1,14 @@
 # Changelog
 
+## v4.20d - 2026-03-15 - Kano-Asymmetrie-Fix + Krause-Digital
+- **Fixed:** Kano negQ: 6 von 8 negQ um "auch wenn"-Trade-off ergänzt (Verkehr, Klima, Amtserfahrung komplett neu; Wohnen, Sicherheit, Kultur ergänzt)
+- **Fixed:** Amtserfahrung posQ: Trade-off "Seilschaften" ergänzt (vorher nur positiv)
+- **Fixed:** Krause-Digitalisierung: "—" → "Digitales Bürgerkonto, Open Source, digitale Souveränität" im Programm-Tab
+- **Added:** Kano-Randomisierung: Fisher-Yates-Shuffle (kanoOrder) + pos/neg-Flip (kanoFlip) pro Thema
+- **Changed:** Kano-Farben: grün/rot → neutral (stone-50/stone-200), Labels "Wenn umgesetzt:" / "Wenn nicht umgesetzt:"
+- **Added:** 8 Kano posQ mit Trade-off-Formulierungen ("auch wenn..."-Klauseln)
+- **Research:** 3 Parallel-Studien zu Kano-Asymmetrie (Audit, Wähler-Simulation, Reformulierung)
+
 ## v4.20b - 2026-03-14 - Bugfixes + Impressum + Quellenbereinigung
 - **Fixed:** Mobile Pill-Overflow: `white-space: nowrap` aus `.pq-pill` entfernt, lange Labels wrappen jetzt korrekt
 - **Fixed:** Share-Image Footer: light gray bar → dark stone-800 Banner (passend zur Homepage-Nav)

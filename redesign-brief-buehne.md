@@ -17,6 +17,8 @@
 | `--ease` | `cubic-bezier(.16, 1, .3, 1)` |
 | `--stage-shadow` | `0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 2px 6px rgba(255, 67, 50, 0.05), 0 14px 30px rgba(255, 67, 50, 0.09), 0 40px 70px rgba(255, 67, 50, 0.10), 0 1px 0 rgba(17, 17, 20, 0.04)` |
 
+Die Akzentrollen sind seit v5.3 wählbar. `palette-init.js` setzt vor dem CSS-Laden eines der fünf geprüften Token-Sets Coral, Mineralblau, Graphit und Eis, Iris oder Oxid; Mineralblau ist der Default für neue Nutzer. Die Auswahl liegt ausschließlich lokal unter `mucwahl_palette`, weshalb eine bereits gespeicherte Entscheidung erhalten bleibt. Partei-, Zustimmungs-, Ablehnungs- und Warnfarben sind semantische Datenfarben und werden nicht umgefärbt. Auf Desktop öffnet ein einzelnes Farbwelt-Icon den beschrifteten Fünfer-Picker; Mobile führt dieselben fünf Farben erst im Drei-Punkte-Menü. Der Hero-Master wird per CSS-Filter angepasst, während Civic Pulse und Canvas-Ausgaben die RGB-Tokens direkt lesen.
+
 ## CSP-Diff
 
 Vorher:

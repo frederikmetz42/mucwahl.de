@@ -1,5 +1,16 @@
 # Changelog
 
+## v5.3 - 2026-07-13 - Wählbare Farbwelten
+
+- **Added:** Fünf persistente Farbwelten: Coral, Mineralblau, Graphit und Eis, Iris sowie Oxid
+- **Added:** Ein kompaktes Farbwelt-Icon in der Desktop-Navigation öffnet den beschrifteten Fünfer-Picker; Mobile zeigt dieselben Farben erst im Drei-Punkte-Menü
+- **Changed:** Mineralblau ist der Standard für neue Nutzer; bereits gespeicherte Farbentscheidungen bleiben erhalten
+- **Changed:** Akzentfarben steuern zentral CTA, Fortschritt, Prioritätskarten, Fokuszustände, Civic Pulse, Hero-Farbton und Canvas-Export
+- **Changed:** Die gewählte Farbwelt bleibt nach Reload und auf Embed-, Methodik-, Schnellcheck-, Datenschutz- und Impressumsseiten erhalten
+- **Unchanged:** Partei-, Zustimmungs-, Ablehnungs- und sonstige semantische Farben bleiben unverändert
+- **Unchanged:** Quiz-, Gewichtungs-, Ergebnis-, Share- und Civic-Pulse-Logik bleiben erhalten
+- **Status:** Lokal implementiert und vollständig verifiziert; noch nicht committed oder deployed
+
 ## v5.2 - 2026-07-13 - Integrierte Prioritätsduelle
 
 - **Changed:** Die separate Gewichtungsseite im vollständigen Quiz wurde durch sechs kurze Entweder-oder-Duelle nach den Thesen 4, 8, 12, 16, 20 und 24 ersetzt

@@ -12,6 +12,14 @@
     let frameId = 0;
     let visible = false;
     let startedAt = 0;
+    let accentRgb = '255,67,50';
+
+    function readAccent() {
+        const raw = getComputedStyle(document.documentElement).getPropertyValue('--accent-rgb').trim();
+        accentRgb = raw ? raw.replace(/\s+/g, ',') : '255,67,50';
+    }
+
+    readAccent();
 
     function resize() {
         const rect = canvas.getBoundingClientRect();
@@ -59,9 +67,9 @@
             if (index === 0) context.moveTo(screen[0], screen[1]);
             else context.lineTo(screen[0], screen[1]);
         });
-        context.strokeStyle = `rgba(255,67,50,${0.05 + intensity * 0.36})`;
+        context.strokeStyle = `rgba(${accentRgb},${0.05 + intensity * 0.36})`;
         context.lineWidth = 0.8 + intensity * 1.5;
-        context.shadowColor = `rgba(255,67,50,${intensity * 0.42})`;
+        context.shadowColor = `rgba(${accentRgb},${intensity * 0.42})`;
         context.shadowBlur = 3 + intensity * 7;
         context.stroke();
     }
@@ -90,9 +98,9 @@
         const center = toScreen(map.anchor, cameraState, zoom);
         context.beginPath();
         context.arc(center[0], center[1], radius * cameraState.scale, 0, Math.PI * 2);
-        context.strokeStyle = `rgba(255,67,50,${Math.sin(Math.PI * cycle) * 0.13})`;
+        context.strokeStyle = `rgba(${accentRgb},${Math.sin(Math.PI * cycle) * 0.13})`;
         context.lineWidth = 1.2;
-        context.shadowColor = 'rgba(255,67,50,.24)';
+        context.shadowColor = `rgba(${accentRgb},.24)`;
         context.shadowBlur = 10;
         context.stroke();
         context.restore();
@@ -121,6 +129,10 @@
     }, { threshold: 0.08 }).observe(stage);
 
     window.addEventListener('resize', schedule, { passive: true });
+    window.addEventListener('mucwahl:palette-change', function () {
+        readAccent();
+        schedule();
+    });
     motionQuery.addEventListener('change', function () {
         if (motionQuery.matches) stop();
         else schedule();

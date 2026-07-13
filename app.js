@@ -46,6 +46,14 @@ function wahlomatApp() {
         activePriorityIndex: null,
         priorityReviewMode: false,
         selectedPriority: null,
+        palettes: window.MUCWAHL_PALETTES || [
+            { id: 'coral', name: 'Coral', color: '#FF4332' },
+            { id: 'mineral', name: 'Mineralblau', color: '#78A7B8' },
+            { id: 'graphite', name: 'Graphit + Eis', color: '#27313A' },
+            { id: 'iris', name: 'Iris', color: '#A99BDD' },
+            { id: 'oxide', name: 'Oxid', color: '#D98268' }
+        ],
+        selectedPalette: document.documentElement.dataset.palette || 'mineral',
         priorityTopicMeta: {
             'Wohnen & Mietmarkt': {
                 label: 'Bezahlbares Wohnen',
@@ -237,6 +245,21 @@ function wahlomatApp() {
         },
         get isElectionDay() { return this.daysUntilElection === 0; },
         get isElectionSeason() { return this.daysUntilElection !== null && this.daysUntilElection <= 30; },
+
+        setPalette(paletteId) {
+            const palette = this.palettes.find(option => option.id === paletteId);
+            if (!palette) return;
+            this.selectedPalette = palette.id;
+            document.documentElement.dataset.palette = palette.id;
+            try {
+                localStorage.setItem('mucwahl_palette', palette.id);
+            } catch (error) {
+                // The visual change still works when storage is unavailable.
+            }
+            window.dispatchEvent(new CustomEvent('mucwahl:palette-change', { detail: palette }));
+            const liveRegion = document.getElementById('aria-live-region');
+            if (liveRegion) liveRegion.textContent = `Farbwelt ${palette.name} ausgewählt`;
+        },
 
         goToStimmzettel() {
             this.step = 97;
@@ -1344,7 +1367,7 @@ function wahlomatApp() {
             // User dot
             const ux = cx + this.userCoords.x * range * scale;
             const uy = cy - this.userCoords.y * range * scale;
-            ctx.fillStyle = '#FF4332';
+            ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#FF4332';
             ctx.beginPath(); ctx.arc(ux, uy, 10 * s, 0, Math.PI * 2); ctx.fill();
             ctx.fillStyle = '#ffffff';
             ctx.beginPath(); ctx.arc(ux, uy, 4 * s, 0, Math.PI * 2); ctx.fill();

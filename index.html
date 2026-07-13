@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MUCwahl – Kommunalwahl München 2026: Welche Partei passt zu mir?</title>
-    <meta name="version" content="5.0">
+    <meta name="version" content="5.3">
     <meta name="description" content="Kommunalwahl München 2026: 25 Thesen, 14 Parteien. Finde in 5 Minuten heraus, welche Partei zu dir passt. Kostenloser Wahlchecker, unabhängig, ohne Tracking.">
     <meta name="theme-color" content="#FBFAF7">
     <meta property="og:title" content="MUCwahl – Kommunalwahl München 2026: Welche Partei passt zu mir?">
@@ -18,7 +18,8 @@
     <meta property="og:locale" content="de_DE">
     <meta name="twitter:card" content="summary_large_image">
     <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-eval' 'sha256-Qe5XWnhPLpmh0d4ZsNLi/q/sLp7Of5469hRlXoESQ2A='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; media-src 'self'; connect-src https://mucwahl.goatcounter.com; base-uri 'self'; form-action 'none';">
-    <link rel="stylesheet" href="styles.css?v=5.2">
+    <script src="palette-init.js?v=5.3"></script>
+    <link rel="stylesheet" href="styles.css?v=5.3">
     <link rel="preload" href="fonts/plus-jakarta-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/plus-jakarta-sans-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/plus-jakarta-sans-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
@@ -143,27 +144,69 @@
                     <div class="text-[10px] uppercase font-bold text-stone-600 tracking-wider">Kommunalwahl München 2026</div>
                 </div>
             </button>
-            <div class="relative" x-data="{ navOpen: false }" x-show="step === 0 || step === 99" x-cloak>
-                <button @click="navOpen = !navOpen" class="text-stone-500 hover:text-stone-900 transition-colors p-2 rounded-lg hover:bg-stone-100" aria-label="Menü">
-                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><circle cx="4" cy="10" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="16" cy="10" r="1.5"/></svg>
-                </button>
-                <div x-show="navOpen" @click.away="navOpen = false" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                     class="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-stone-200 py-1 z-50">
-                    <button @click="goToStimmzettel(); navOpen = false" class="w-full text-left px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors">Wahl-Info</button>
-                    <a href="methodik.html" class="block px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors">Offene Karten</a>
-                    <template x-if="step === 99">
-                        <div class="border-t border-stone-100">
-                            <button @click="startPriorityReview(); navOpen = false" class="w-full text-left px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors">Prioritäten neu wählen</button>
-                            <button @click="reset($event); navOpen = false" class="w-full text-left px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors">Neu starten</button>
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div class="relative hidden md:block" x-data="{ paletteOpen: false }" @keydown.window="$event.key === 'Escape' && (paletteOpen = false, $nextTick(() => $refs.paletteTrigger.focus()))">
+                    <button x-ref="paletteTrigger" type="button" class="palette-trigger" @click="paletteOpen = !paletteOpen" aria-label="Farbwelt ändern" :aria-expanded="paletteOpen ? 'true' : 'false'" aria-haspopup="true">
+                        <svg aria-hidden="true" class="h-5 w-5" viewBox="0 0 24 24" fill="none">
+                            <circle cx="8" cy="9" r="4" stroke="currentColor" stroke-width="1.5" opacity=".45"/>
+                            <circle cx="16" cy="9" r="4" stroke="currentColor" stroke-width="1.5" opacity=".45"/>
+                            <circle class="palette-trigger-accent" cx="12" cy="15" r="4" stroke="currentColor" stroke-width="1.5"/>
+                        </svg>
+                    </button>
+                    <div x-show="paletteOpen" x-cloak @click.away="paletteOpen = false" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 translate-y-1 scale-95" x-transition:enter-end="opacity-100 translate-y-0 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 translate-y-0 scale-100" x-transition:leave-end="opacity-0 translate-y-1 scale-95" class="palette-picker-popover">
+                        <div class="flex items-center justify-between gap-3 px-3 pb-1.5 pt-2">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-stone-500">Farbwelt</span>
+                            <span class="text-[10px] font-semibold text-stone-600" x-text="palettes.find(palette => palette.id === selectedPalette).name"></span>
                         </div>
-                    </template>
+                        <div role="group" aria-label="Farbwelt wählen">
+                            <template x-for="palette in palettes" :key="'desktop-palette-' + palette.id">
+                                <button type="button" class="palette-picker-option" :class="selectedPalette === palette.id && 'is-selected'" :style="'--palette-color:' + palette.color" @click="setPalette(palette.id); paletteOpen = false" :aria-pressed="selectedPalette === palette.id ? 'true' : 'false'">
+                                    <span class="palette-picker-swatch" aria-hidden="true"></span>
+                                    <span class="flex-1" x-text="palette.name"></span>
+                                    <svg x-show="selectedPalette === palette.id" x-cloak aria-hidden="true" class="h-4 w-4 text-stone-700" viewBox="0 0 20 20" fill="none"><path d="m5 10 3 3 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="text-xs text-stone-600 font-mono" x-show="step > 0 && step <= totalTheses && !activePriorityDuel">
-                <span class="text-stone-900 font-bold" x-text="step"></span> / <span x-text="totalTheses"></span>
-            </div>
-            <div class="text-xs font-bold text-coral-text" x-show="activePriorityDuel" x-cloak>
-                Priorität <span x-text="activePriorityIndex + 1"></span> / <span x-text="priorityDuels.length"></span>
+                <div class="text-xs text-stone-600 font-mono" x-show="step > 0 && step <= totalTheses && !activePriorityDuel">
+                    <span class="text-stone-900 font-bold" x-text="step"></span> / <span x-text="totalTheses"></span>
+                </div>
+                <div class="text-xs font-bold text-coral-text" x-show="activePriorityDuel" x-cloak>
+                    Priorität <span x-text="activePriorityIndex + 1"></span> / <span x-text="priorityDuels.length"></span>
+                </div>
+                <div class="relative" x-data="{ navOpen: false }">
+                    <button @click="navOpen = !navOpen" class="flex md:hidden text-stone-500 hover:text-stone-900 transition-colors p-2 rounded-lg hover:bg-stone-100" aria-label="Menü" :aria-expanded="navOpen ? 'true' : 'false'">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><circle cx="4" cy="10" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="16" cy="10" r="1.5"/></svg>
+                    </button>
+                    <button x-show="step === 0 || step === 99" x-cloak @click="navOpen = !navOpen" class="hidden md:flex text-stone-500 hover:text-stone-900 transition-colors p-2 rounded-lg hover:bg-stone-100" aria-label="Menü" :aria-expanded="navOpen ? 'true' : 'false'">
+                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><circle cx="4" cy="10" r="1.5"/><circle cx="10" cy="10" r="1.5"/><circle cx="16" cy="10" r="1.5"/></svg>
+                    </button>
+                    <div x-show="navOpen" x-cloak @click.away="navOpen = false" x-transition:enter="transition ease-out duration-150" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                         class="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-stone-200 py-1 z-50">
+                        <div class="px-3 py-2 md:hidden">
+                            <div class="flex items-center justify-between gap-3 px-1 pb-1.5">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-stone-500">Farbwelt</span>
+                                <span class="text-[10px] font-semibold text-stone-600" x-text="palettes.find(palette => palette.id === selectedPalette).name"></span>
+                            </div>
+                            <div class="flex gap-1" role="group" aria-label="Farbwelt wählen">
+                                <template x-for="palette in palettes" :key="'mobile-palette-' + palette.id">
+                                    <button type="button" class="palette-menu-dot" :class="selectedPalette === palette.id && 'is-selected'" :style="'--palette-color:' + palette.color" @click="setPalette(palette.id); navOpen = false" :aria-label="'Farbwelt ' + palette.name" :aria-pressed="selectedPalette === palette.id ? 'true' : 'false'"></button>
+                                </template>
+                            </div>
+                        </div>
+                        <div x-show="step === 0 || step === 99" class="border-t border-stone-100 md:border-t-0">
+                            <button @click="goToStimmzettel(); navOpen = false" class="w-full text-left px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors">Wahl-Info</button>
+                            <a href="methodik.html" class="block px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors">Offene Karten</a>
+                            <template x-if="step === 99">
+                                <div class="border-t border-stone-100">
+                                    <button @click="startPriorityReview(); navOpen = false" class="w-full text-left px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors">Prioritäten neu wählen</button>
+                                    <button @click="reset($event); navOpen = false" class="w-full text-left px-4 py-2.5 text-sm text-stone-700 hover:bg-stone-50 transition-colors">Neu starten</button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="h-1 bg-stone-100 w-full overflow-hidden" role="progressbar" :aria-valuenow="step" aria-valuemin="0" :aria-valuemax="totalTheses" aria-label="Fortschritt">
@@ -178,7 +221,7 @@
             <div class="bg-coral/10 border border-coral/40 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
                     <svg aria-hidden="true" class="w-6 h-6 text-coral-text flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
-                    <span class="text-sm text-[#C2270F] font-bold">Heute wird gewählt!</span>
+                    <span class="text-sm text-coral-text font-bold">Heute wird gewählt!</span>
                 </div>
                 <button @click="goToStimmzettel()" class="text-sm px-5 py-2 bg-coral text-ink rounded-lg font-medium hover:bg-coral-hover transition-colors whitespace-nowrap">Finde dein Wahllokal</button>
             </div>
@@ -189,7 +232,7 @@
             <div class="bg-coral/10 border border-coral/30 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
                     <svg aria-hidden="true" class="w-5 h-5 text-coral-text flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span class="text-sm text-[#C2270F] font-medium">Du siehst das Ergebnis einer anderen Person.</span>
+                    <span class="text-sm text-coral-text font-medium">Du siehst das Ergebnis einer anderen Person.</span>
                 </div>
                 <button @click="startOwnQuiz()" class="btn btn-primary text-sm px-5 py-2 whitespace-nowrap">Selbst mitmachen</button>
             </div>
@@ -200,7 +243,7 @@
             <div class="bg-coral/10 border border-coral/30 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
                     <svg aria-hidden="true" class="w-5 h-5 text-coral-text flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    <span class="text-sm text-[#C2270F] font-medium">Du hast noch offene Antworten, weitermachen?</span>
+                    <span class="text-sm text-coral-text font-medium">Du hast noch offene Antworten, weitermachen?</span>
                 </div>
                 <div class="flex gap-2">
                     <button @click="resumeQuiz()" class="btn btn-primary text-sm px-5 py-2 whitespace-nowrap">Weitermachen</button>
@@ -238,7 +281,7 @@
                         <p class="text-[13px] font-semibold text-stone-soft">These 1 von 25 &middot; 5 Minuten</p>
                         <div class="my-4 flex flex-wrap gap-2">
                             <span class="stage-pill bg-ink/[0.055] text-stone-600" x-text="theses[0]?.topic"></span>
-                            <span class="stage-pill bg-coral/10 text-[#C2270F]" x-text="theses[0]?.tradeoff"></span>
+                            <span class="stage-pill bg-coral/10 text-coral-text" x-text="theses[0]?.tradeoff"></span>
                         </div>
                         <p class="text-xl font-semibold leading-snug tracking-[-0.015em] text-ink sm:text-2xl" x-text="theses[0]?.statement"></p>
                         <button @click="previewBackground = !previewBackground" class="background-toggle" :aria-expanded="previewBackground">
@@ -267,7 +310,7 @@
                 <ul class="valueprops text-left">
                     <li><h2 class="font-bold text-ink">Mehr als Prozente</h2><p class="text-sm font-medium text-stone-600">Kompass, Radar und Überraschungstreffer zeigen dir, warum eine Partei zu dir passt.</p></li>
                     <li><h2 class="font-bold text-ink">Trade-off-Transparenz</h2><p class="text-sm font-medium text-stone-600">Jede These zeigt, was auf dem Spiel steht. Für Entscheidungen, die du wirklich verstehst.</p></li>
-                    <li><h2 class="font-bold text-ink">Open Source</h2><p class="text-sm font-medium text-stone-600">Quellcode offen auf <a href="https://github.com/frederikmetz42/mucwahl.de" target="_blank" rel="noopener noreferrer" class="text-[#C2270F] underline underline-offset-2 hover:text-coral-text">GitHub</a>. Transparent und nachprüfbar.</p></li>
+                    <li><h2 class="font-bold text-ink">Open Source</h2><p class="text-sm font-medium text-stone-600">Quellcode offen auf <a href="https://github.com/frederikmetz42/mucwahl.de" target="_blank" rel="noopener noreferrer" class="text-coral-text underline underline-offset-2 hover:text-coral-text">GitHub</a>. Transparent und nachprüfbar.</p></li>
                 </ul>
                 <section class="mt-10" aria-labelledby="topics-heading">
                     <h2 id="topics-heading" class="mb-3 text-xs font-bold uppercase tracking-[0.08em] text-stone-soft">Die fünf Themen</h2>
@@ -428,17 +471,17 @@
                     </div>
                 </div>
                 <div class="bg-coral/10 rounded-lg p-4 mt-2">
-                    <p class="text-xs text-[#C2270F]"><strong>Kombinierbar:</strong> Du kannst eine Parteiliste ankreuzen und trotzdem einzelne Kandidaten kumulieren oder panaschieren. Deine individuellen Stimmen zählen zuerst, die restlichen Stimmen werden von der Liste aufgefüllt. Insgesamt nie mehr als 80 Stimmen.</p>
+                    <p class="text-xs text-coral-text"><strong>Kombinierbar:</strong> Du kannst eine Parteiliste ankreuzen und trotzdem einzelne Kandidaten kumulieren oder panaschieren. Deine individuellen Stimmen zählen zuerst, die restlichen Stimmen werden von der Liste aufgefüllt. Insgesamt nie mehr als 80 Stimmen.</p>
                 </div>
             </div>
 
             <!-- Section 2: Wahllokal -->
             <div class="bg-coral/10 border border-coral/30 rounded-xl p-6 md:p-8 space-y-4">
-                <h3 class="font-bold text-lg text-[#C2270F] flex items-center gap-2">
+                <h3 class="font-bold text-lg text-coral-text flex items-center gap-2">
                     <svg aria-hidden="true" class="w-5 h-5 text-coral-text" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                     Finde dein Wahllokal
                 </h3>
-                <p class="text-sm text-[#C2270F]">Am 8. März 2026 kannst du von 8:00 bis 18:00 Uhr wählen.</p>
+                <p class="text-sm text-coral-text">Am 8. März 2026 kannst du von 8:00 bis 18:00 Uhr wählen.</p>
                 <a href="https://www.muenchen.de/wahlraumfinder" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-6 py-3 bg-coral text-ink rounded-lg font-medium text-sm hover:bg-coral-hover transition-colors">
                     Wahllokal suchen
                     <svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
@@ -621,7 +664,7 @@
                      x-transition:enter="transition ease-out duration-500 delay-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
                     <div class="inline-flex items-center gap-2 text-sm text-stone-500">
                         <span x-text="daysUntilElection === 0 ? 'Heute wird gewählt!' : (daysUntilElection === 1 ? 'Morgen ist Wahl!' : 'Noch ' + daysUntilElection + ' Tage bis zur Wahl!')"></span>
-                        <a @click.prevent="step = 97; window.scrollTo(0,0)" href="#" class="text-coral-text hover:text-[#C2270F] font-medium" style="min-height:44px;display:inline-flex;align-items:center">→ So wählst du richtig</a>
+                        <a @click.prevent="step = 97; window.scrollTo(0,0)" href="#" class="text-coral-text hover:text-coral-text font-medium" style="min-height:44px;display:inline-flex;align-items:center">→ So wählst du richtig</a>
                     </div>
                 </div>
                 <!-- Inline Feedback -->
@@ -733,7 +776,7 @@
                     <p class="text-xs text-stone-400 mt-3 text-center leading-relaxed">Nähe im Kompass bedeutet inhaltliche Übereinstimmung, keine politische Empfehlung. Basiert auf deinen Antworten zu 25 Thesen.</p>
                     <p class="text-xs text-stone-400 mt-1 text-center leading-relaxed">Die meisten Parteien liegen auf einer Diagonale (links-progressiv bis rechts-konservativ). Das ist typisch für westliche Parteiensysteme, nicht ein Fehler der Darstellung.</p>
                     <p class="text-xs text-stone-400 mt-1 text-center leading-relaxed">Der Kompass zeigt deine politische Grundrichtung auf zwei Achsen. Die Prozentzahl in der Rangliste misst dagegen, wie oft du bei konkreten Thesen mit einer Partei übereinstimmst, deshalb können Reihenfolge und Kompass-Nähe voneinander abweichen.</p>
-                    <p class="text-[10px] text-center mt-2"><a href="methodik.html" class="text-coral-text hover:text-[#C2270F] hover:underline transition-colors">Wie wird das berechnet? →</a></p>
+                    <p class="text-[10px] text-center mt-2"><a href="methodik.html" class="text-coral-text hover:text-coral-text hover:underline transition-colors">Wie wird das berechnet? →</a></p>
                 </div>
             </div>
 
@@ -1114,10 +1157,10 @@
     </div>
 
     <script src="wahlomat_data.js?v=5.0"></script>
-    <script src="app.js?v=5.2"></script>
+    <script src="app.js?v=5.3"></script>
     <script src="assets/map/munich-roads.js?v=5.1"></script>
     <script src="hero-motion.js?v=5.1" defer></script>
-    <script src="hero-pulse.js?v=5.1" defer></script>
+    <script src="hero-pulse.js?v=5.3" defer></script>
     <script defer src="vendor/alpine.min.js"></script>
     <script data-goatcounter="https://mucwahl.goatcounter.com/count" async src="vendor/count.js"></script>
 </body>

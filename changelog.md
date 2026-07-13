@@ -4,12 +4,13 @@
 
 - **Added:** Fünf persistente Farbwelten: Coral, Mineralblau, Graphit und Eis, Iris sowie Oxid
 - **Added:** Ein kompaktes Farbwelt-Icon in der Desktop-Navigation öffnet den beschrifteten Fünfer-Picker; Mobile zeigt dieselben Farben erst im Drei-Punkte-Menü
+- **Changed:** Das Desktop-Icon ist ein cleaner Kreis mit drei gleich großen Segmenten in Coral, Mineralblau und Iris
 - **Changed:** Mineralblau ist der Standard für neue Nutzer; bereits gespeicherte Farbentscheidungen bleiben erhalten
 - **Changed:** Akzentfarben steuern zentral CTA, Fortschritt, Prioritätskarten, Fokuszustände, Civic Pulse, Hero-Farbton und Canvas-Export
 - **Changed:** Die gewählte Farbwelt bleibt nach Reload und auf Embed-, Methodik-, Schnellcheck-, Datenschutz- und Impressumsseiten erhalten
 - **Unchanged:** Partei-, Zustimmungs-, Ablehnungs- und sonstige semantische Farben bleiben unverändert
 - **Unchanged:** Quiz-, Gewichtungs-, Ergebnis-, Share- und Civic-Pulse-Logik bleiben erhalten
-- **Status:** Als Commit `ba90dfd` deployed; GitHub Pages und Live-QA auf Desktop und Mobile erfolgreich
+- **Status:** Dreifarb-Kreis am 2026-07-14 für Produktion ausgerollt; GitHub Pages und Live-QA erfolgreich
 
 ## v5.2 - 2026-07-13 - Integrierte Prioritätsduelle
 

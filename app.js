@@ -40,6 +40,42 @@ function wahlomatApp() {
         feedbackGiven: false,
         bannerDismissed: false,
         exitIntentShown: false,
+        leaveQuizOpen: false,
+        _leaveQuizTrigger: null,
+        priorityAnswers: {},
+        activePriorityIndex: null,
+        priorityReviewMode: false,
+        selectedPriority: null,
+        priorityTopicMeta: {
+            'Wohnen & Mietmarkt': {
+                label: 'Bezahlbares Wohnen',
+                detail: 'Mieten, Wohnungsbau und Schutz vor Verdrängung'
+            },
+            'Mobilität & Verkehr': {
+                label: 'Bessere Mobilität',
+                detail: 'ÖPNV, Radwege und ein verlässlicher Verkehrsfluss'
+            },
+            'Bauen, Klima & Stadtplanung': {
+                label: 'Klima & Stadtentwicklung',
+                detail: 'Grünflächen, Klimaschutz und eine lebenswerte Stadt'
+            },
+            'Wirtschaft & Finanzen': {
+                label: 'Starke Stadtfinanzen',
+                detail: 'Arbeitsplätze, Investitionen und ein stabiler Haushalt'
+            },
+            'Gesellschaft, Migration & Sicherheit': {
+                label: 'Zusammenhalt & Sicherheit',
+                detail: 'Teilhabe, Integration und ein sicheres München'
+            }
+        },
+        priorityDuels: [
+            { afterThesis: 4, left: 'Wohnen & Mietmarkt', right: 'Mobilität & Verkehr' },
+            { afterThesis: 8, left: 'Bauen, Klima & Stadtplanung', right: 'Wirtschaft & Finanzen' },
+            { afterThesis: 12, left: 'Gesellschaft, Migration & Sicherheit', right: 'Wohnen & Mietmarkt' },
+            { afterThesis: 16, left: 'Mobilität & Verkehr', right: 'Bauen, Klima & Stadtplanung' },
+            { afterThesis: 20, left: 'Wirtschaft & Finanzen', right: 'Gesellschaft, Migration & Sicherheit' },
+            { afterThesis: 24, left: 'Wohnen & Mietmarkt', right: 'Wirtschaft & Finanzen' }
+        ],
         selectedAnswer: null,
         swipeStartX: 0,
         swipeStartY: 0,
@@ -84,6 +120,12 @@ function wahlomatApp() {
                 }
             }, { deep: true });
 
+            this.$watch('priorityAnswers', val => {
+                if (!this.isSharedView && !this.isEmbedMode) {
+                    localStorage.setItem('wn_priorities', JSON.stringify(val));
+                }
+            }, { deep: true });
+
             // Check URL for shared results: fragment first (#r=), query-params as fallback (?r= for old links)
             const hash = window.location.hash;
             let r, w;
@@ -117,7 +159,8 @@ function wahlomatApp() {
 
             const savedStep = localStorage.getItem('wn_step');
             if (savedStep) {
-                this.savedStep = parseInt(savedStep, 10) || 0;
+                const parsedStep = parseInt(savedStep, 10);
+                this.savedStep = parsedStep >= 1 && parsedStep <= this.totalTheses ? parsedStep : 0;
             }
 
             const savedWeights = localStorage.getItem('wn_weights');
@@ -136,6 +179,28 @@ function wahlomatApp() {
                     }
                 } catch(e) { /* ignore */ }
             }
+
+            const savedPriorities = localStorage.getItem('wn_priorities');
+            if (savedPriorities) {
+                try {
+                    const priorities = JSON.parse(savedPriorities);
+                    if (priorities && typeof priorities === 'object') {
+                        Object.entries(priorities).forEach(([index, choice]) => {
+                            const parsedIndex = parseInt(index, 10);
+                            if (
+                                parsedIndex >= 0 &&
+                                parsedIndex < this.priorityDuels.length &&
+                                ['left', 'equal', 'right'].includes(choice)
+                            ) {
+                                this.priorityAnswers[parsedIndex] = choice;
+                            }
+                        });
+                        if (Object.keys(this.priorityAnswers).length > 0) {
+                            this.recalculatePriorityWeights();
+                        }
+                    }
+                } catch(e) { /* ignore */ }
+            }
         },
 
         get currentThesis() {
@@ -143,12 +208,25 @@ function wahlomatApp() {
             return this.theses[this.step - 1];
         },
 
-        get budgetUsed() {
-            return this.topics.reduce((sum, t) => sum + (this.topicWeights[t] || 0), 0);
+        get activePriorityDuel() {
+            if (this.activePriorityIndex === null) return null;
+            const duel = this.priorityDuels[this.activePriorityIndex];
+            if (!duel) return null;
+            const leftMeta = this.priorityTopicMeta[duel.left];
+            const rightMeta = this.priorityTopicMeta[duel.right];
+            return {
+                ...duel,
+                leftTopic: duel.left,
+                leftLabel: leftMeta.label,
+                leftDetail: leftMeta.detail,
+                rightTopic: duel.right,
+                rightLabel: rightMeta.label,
+                rightDetail: rightMeta.detail
+            };
         },
 
-        get budgetRemaining() {
-            return 10 - this.budgetUsed;
+        get completedPriorityCount() {
+            return Object.keys(this.priorityAnswers).length;
         },
 
         get daysUntilElection() {
@@ -160,18 +238,6 @@ function wahlomatApp() {
         get isElectionDay() { return this.daysUntilElection === 0; },
         get isElectionSeason() { return this.daysUntilElection !== null && this.daysUntilElection <= 30; },
 
-        incrementWeight(topic) {
-            if (this.topicWeights[topic] < 4 && this.budgetRemaining > 0) {
-                this.topicWeights[topic]++;
-            }
-        },
-
-        decrementWeight(topic) {
-            if (this.topicWeights[topic] > 0) {
-                this.topicWeights[topic]--;
-            }
-        },
-
         goToStimmzettel() {
             this.step = 97;
             window.scrollTo(0, 0);
@@ -179,14 +245,143 @@ function wahlomatApp() {
 
         start() {
             this.savedStep = 0;
-            this.step = 98;
+            this.activePriorityIndex = null;
+            this.priorityReviewMode = false;
+            this.step = this.isEmbedMode ? 98 : 1;
             window.scrollTo(0,0);
         },
 
         resumeQuiz() {
             this.step = this.savedStep;
             this.savedStep = 0;
+            const duelIndex = this.priorityDuels.findIndex(duel => duel.afterThesis === this.step);
+            const resumedThesis = this.theses[this.step - 1];
+            if (
+                duelIndex >= 0 &&
+                resumedThesis &&
+                this.answers[resumedThesis.id] !== undefined &&
+                this.priorityAnswers[duelIndex] === undefined
+            ) {
+                this.activePriorityIndex = duelIndex;
+            }
             window.scrollTo(0,0);
+        },
+
+        answerPriority(choice) {
+            if (
+                this.activePriorityIndex === null ||
+                this.selectedPriority !== null ||
+                !['left', 'equal', 'right'].includes(choice)
+            ) return;
+
+            const answeredIndex = this.activePriorityIndex;
+            this.selectedPriority = choice;
+            this.priorityAnswers = {
+                ...this.priorityAnswers,
+                [answeredIndex]: choice
+            };
+            this.recalculatePriorityWeights();
+            document.activeElement?.blur();
+
+            setTimeout(() => {
+                this.selectedPriority = null;
+                if (this.priorityReviewMode) {
+                    if (answeredIndex < this.priorityDuels.length - 1) {
+                        this.activePriorityIndex = answeredIndex + 1;
+                        window.scrollTo(0, 0);
+                    } else {
+                        this.activePriorityIndex = null;
+                        this.priorityReviewMode = false;
+                        this.showResults();
+                    }
+                    return;
+                }
+
+                this.activePriorityIndex = null;
+                if (this.step < this.totalTheses) {
+                    this.step++;
+                    this.checkMilestone();
+                    window.scrollTo(0, 0);
+                } else {
+                    this.showResults();
+                }
+            }, 180);
+        },
+
+        recalculatePriorityWeights() {
+            const stats = {};
+            this.topics.forEach(topic => {
+                stats[topic] = { points: 0, appearances: 0 };
+            });
+
+            Object.entries(this.priorityAnswers).forEach(([index, choice]) => {
+                const duel = this.priorityDuels[parseInt(index, 10)];
+                if (!duel || !stats[duel.left] || !stats[duel.right]) return;
+                stats[duel.left].appearances++;
+                stats[duel.right].appearances++;
+                if (choice === 'left') stats[duel.left].points += 1;
+                else if (choice === 'right') stats[duel.right].points += 1;
+                else {
+                    stats[duel.left].points += 0.5;
+                    stats[duel.right].points += 0.5;
+                }
+            });
+
+            const strengths = this.topics.map((topic, order) => ({
+                topic,
+                order,
+                value: (stats[topic].points + 1) / (stats[topic].appearances + 2)
+            }));
+            const totalStrength = strengths.reduce((sum, item) => sum + item.value, 0);
+            const allocations = strengths.map(item => {
+                const raw = totalStrength > 0 ? (item.value / totalStrength) * 5 : 1;
+                return {
+                    ...item,
+                    bonus: Math.floor(raw),
+                    remainder: raw - Math.floor(raw)
+                };
+            });
+            let remaining = 5 - allocations.reduce((sum, item) => sum + item.bonus, 0);
+            allocations
+                .slice()
+                .sort((a, b) => b.remainder - a.remainder || a.order - b.order)
+                .forEach(item => {
+                    if (remaining <= 0) return;
+                    const target = allocations.find(allocation => allocation.topic === item.topic);
+                    if (target.bonus < 3) {
+                        target.bonus++;
+                        remaining--;
+                    }
+                });
+
+            // Hamilton rounding can flatten a real preference signal into five
+            // identical bonuses. Preserve the ranking with the smallest possible
+            // adjustment while keeping the fixed ten-point total.
+            const strengthValues = allocations.map(item => item.value);
+            const bonusValues = allocations.map(item => item.bonus);
+            const hasPreferenceSignal = Math.max(...strengthValues) - Math.min(...strengthValues) > 1e-9;
+            const roundedFlat = new Set(bonusValues).size === 1;
+            if (hasPreferenceSignal && roundedFlat) {
+                const strongest = allocations.reduce((best, item) => item.value > best.value ? item : best);
+                const weakest = allocations.reduce((worst, item) => item.value < worst.value ? item : worst);
+                if (strongest.bonus < 3 && weakest.bonus > 0) {
+                    strongest.bonus++;
+                    weakest.bonus--;
+                }
+            }
+
+            allocations.forEach(item => {
+                this.topicWeights[item.topic] = 1 + item.bonus;
+            });
+        },
+
+        startPriorityReview() {
+            this.priorityAnswers = {};
+            this.topics.forEach(topic => { this.topicWeights[topic] = 1; });
+            this.priorityReviewMode = true;
+            this.activePriorityIndex = 0;
+            this.step = 98;
+            window.scrollTo(0, 0);
         },
 
         answer(value) {
@@ -306,6 +501,21 @@ function wahlomatApp() {
         },
 
         nextStep() {
+            const duelIndex = this.priorityDuels.findIndex(duel => duel.afterThesis === this.step);
+            if (
+                duelIndex >= 0 &&
+                this.priorityAnswers[duelIndex] === undefined &&
+                !this.isSharedView &&
+                !this.isEmbedMode
+            ) {
+                this.activePriorityIndex = duelIndex;
+                window.scrollTo(0, 0);
+                const liveRegion = document.getElementById('aria-live-region');
+                if (liveRegion) {
+                    liveRegion.textContent = `Prioritätsduell ${duelIndex + 1} von ${this.priorityDuels.length}`;
+                }
+                return;
+            }
             if (this.step < this.totalTheses) {
                 this.step++;
                 this.checkMilestone();
@@ -676,23 +886,62 @@ function wahlomatApp() {
             this.compassDisplayScale = Math.min(36 / maxAbs, 42);
         },
 
-        reset() {
-            if(confirm("Möchtest du wirklich neu starten? Deine Antworten werden gelöscht.")) {
-                this.step = 0;
-                this.answers = {};
-                this.results = [];
-                this.topMatch = null;
-                this.selectedPartyId = null;
-                this.modalOpen = false;
-                this.isSharedView = false;
-                this.savedStep = 0;
-                this.revisedAnswers = [];
-                document.body.style.overflow = '';
-                localStorage.removeItem('wahlomat_answers');
-                localStorage.removeItem('wn_step');
-                localStorage.removeItem('wn_weights');
-                this.topics.forEach(t => { this.topicWeights[t] = 1; });
+        reset(event) {
+            if (this.step === 0) {
+                window.scrollTo(0, 0);
+                return;
             }
+            const requestedTrigger = event?.currentTarget || document.activeElement;
+            this._leaveQuizTrigger = requestedTrigger?.getAttribute?.('aria-label') === 'Zur MUCwahl-Homepage'
+                ? requestedTrigger
+                : document.querySelector('[aria-label="Zur MUCwahl-Homepage"]');
+            this.leaveQuizOpen = true;
+            document.body.style.overflow = 'hidden';
+            this.$nextTick(() => {
+                window.requestAnimationFrame(() => {
+                    const stayButton = document.getElementById('leave-quiz-stay');
+                    if (stayButton) stayButton.focus();
+                });
+            });
+        },
+
+        closeLeaveQuiz() {
+            const trigger = this._leaveQuizTrigger;
+            this.leaveQuizOpen = false;
+            document.body.style.overflow = '';
+            this._leaveQuizTrigger = null;
+            if (trigger) {
+                this.$nextTick(() => {
+                    window.requestAnimationFrame(() => trigger.focus());
+                });
+            }
+        },
+
+        confirmReset() {
+            this.leaveQuizOpen = false;
+            this.step = 0;
+            this.answers = {};
+            this.results = [];
+            this.topMatch = null;
+            this.selectedPartyId = null;
+            this.modalOpen = false;
+            this.isSharedView = false;
+            this.savedStep = 0;
+            this.revisedAnswers = [];
+            this.activePriorityIndex = null;
+            this.priorityReviewMode = false;
+            this.priorityAnswers = {};
+            this._leaveQuizTrigger = null;
+            document.body.style.overflow = '';
+            this.topics.forEach(t => { this.topicWeights[t] = 1; });
+            this.$nextTick(() => this.clearStoredQuiz());
+            window.scrollTo(0, 0);
+        },
+
+        clearStoredQuiz() {
+            ['wahlomat_answers', 'wn_step', 'wn_weights', 'wn_priorities'].forEach(key => {
+                localStorage.removeItem(key);
+            });
         },
 
         // --- URL-Encoded Sharing ---
@@ -748,10 +997,11 @@ function wahlomatApp() {
             this.topMatch = null;
             this.savedStep = 0;
             this.revisedAnswers = [];
+            this.priorityAnswers = {};
+            this.activePriorityIndex = null;
+            this.priorityReviewMode = false;
             this.topics.forEach(t => { this.topicWeights[t] = 1; });
-            localStorage.removeItem('wahlomat_answers');
-            localStorage.removeItem('wn_step');
-            localStorage.removeItem('wn_weights');
+            this.$nextTick(() => this.clearStoredQuiz());
         },
 
         // --- Modal with Focus Management ---
@@ -801,6 +1051,13 @@ function wahlomatApp() {
         // --- Keyboard Navigation ---
 
         handleKeydown(event) {
+            if (this.leaveQuizOpen) {
+                if (event.key === 'Escape') {
+                    this.closeLeaveQuiz();
+                    event.preventDefault();
+                }
+                return;
+            }
             if (this.shareSheetOpen) {
                 if (event.key === 'Escape') { this.closeShareSheet(); event.preventDefault(); }
                 return;
@@ -809,20 +1066,21 @@ function wahlomatApp() {
                 if (event.key === 'Escape') { this.closeModal(); event.preventDefault(); }
                 return;
             }
+            if (this.activePriorityDuel) {
+                if (event.key === '1') { this.answerPriority('left'); event.preventDefault(); }
+                else if (event.key === '2') { this.answerPriority('equal'); event.preventDefault(); }
+                else if (event.key === '3') { this.answerPriority('right'); event.preventDefault(); }
+                return;
+            }
             if (this.step > 0 && this.step <= this.totalTheses) {
                 if (event.key === '1') { this.answer(1); event.preventDefault(); }
                 else if (event.key === '2') { this.answer(0); event.preventDefault(); }
                 else if (event.key === '3') { this.answer(-1); event.preventDefault(); }
                 else if (event.key === 'i' || event.key === 'I') { this.showBackground = !this.showBackground; event.preventDefault(); }
-                else if (event.key === 'Backspace') { this.showBackground = false; if (this.step > 1) { this.step--; } else { this.step = 98; window.scrollTo(0, 0); } event.preventDefault(); }
+                else if (event.key === 'Backspace') { this.showBackground = false; if (this.step > 1) { this.step--; } else { this.step = 0; window.scrollTo(0, 0); } event.preventDefault(); }
                 return;
             }
             if (this.step === 0 && event.key === 'Enter') { this.start(); event.preventDefault(); }
-            if (this.step === 98 && event.key === 'Enter') {
-                if (Object.keys(this.answers).length === 0) { this.step = 1; window.scrollTo(0, 0); }
-                else { this.showResults(); }
-                event.preventDefault();
-            }
         },
 
         // --- PDF Export ---

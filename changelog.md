@@ -1,5 +1,18 @@
 # Changelog
 
+## v5.2 - 2026-07-13 - Integrierte Prioritätsduelle
+
+- **Changed:** Die separate Gewichtungsseite im vollständigen Quiz wurde durch sechs kurze Entweder-oder-Duelle nach den Thesen 4, 8, 12, 16, 20 und 24 ersetzt
+- **Added:** Deutlich abgehobene Prioritätskarten mit eigener Coral-Fläche, Fortschrittsanzeige, erklärendem Text und den Tastenkürzeln 1, 2 und 3
+- **Added:** Aus den sechs Duellen wird eine geglättete Themengewichtung mit insgesamt zehn Gewichtungspunkten berechnet
+- **Changed:** Die Ergebnisaktion „Gewichtung anpassen“ führt nun durch eine reine Wiederholung der sechs Prioritätsduelle
+- **Changed:** Der Browser-Dialog beim Klick auf die Homepage wurde durch eine barrierearme MUCwahl-Box mit Fortschritt, Fokusfalle, Escape-Unterstützung und sicherer Fokus-Rückgabe ersetzt
+- **Fixed:** Ein unterbrochenes Quiz setzt nach dem Neuladen ein fälliges Prioritätsduell auch bei nicht fortlaufenden Thesen-IDs korrekt fort
+- **Changed:** Das originale MUCwahl-Logo wird in Navigation, Startbereich und Embed konsistent verwendet
+- **Unchanged:** Der kompakte Embed behält seinen bisherigen Gewichtungsschritt und überspringt die neuen Vollseiten-Duelle
+- **Unchanged:** 25 Thesen, Partei- und Ergebnislogik, Civic Pulse, Smooth-Zoom-Hero, Fortress Zero und Mirror-Parität bleiben erhalten
+- **Status:** Produktionsfreigabe durch Frederik; Smoke-, vollständige Quiz-, Reload-, Fokus-, Embed-, Desktop- und Mobile-QA bestanden
+
 ## v5.1 - 2026-07-13 - Redesign "Bühne" mit Civic Pulse (OPE-18)
 
 - **Added:** Zweispaltiges Stage-Intro mit echter These-1-Vorschau, Statistikzeile, Value-Props und Themenliste

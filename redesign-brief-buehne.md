@@ -88,14 +88,14 @@ Der lokale Picker enthält drei interaktive Motion-Studien: Variante 9 verschieb
 | --- | --- |
 | `_build/tailwind.config.js`, `_build/input.css` | Bühne-Tokens, Stage-Schatten, Coral-Wash, Komponenten und Motion-Fallbacks |
 | `index.html`, Step 0 | Zweispaltiges Bühne-Intro, originale MUCwahl-Navmarke, echte These-1-Vorschau, Statistiken, Value-Props und Themenliste |
-| `index.html`, Steps 1 bis 25 | Coral-Retint der dynamischen Thesenkarte und ruhiges Hintergrund-Disclosure |
+| `index.html`, Steps 1 bis 25 | Coral-Retint der dynamischen Thesenkarte; sechs eigenständige Prioritätsduelle nach den Thesen 4, 8, 12, 16, 20 und 24 |
 | `index.html`, Step 97 | Ausschließlich Farb-Retint der Wahl-Info |
-| `index.html`, Step 98 | Ausschließlich Farb-Retint der Gewichtung |
+| `index.html`, Step 98 | Interner Zustand für die reine Wiederholung der sechs Prioritätsduelle aus dem Ergebnis-Menü; keine separate Gewichtungsseite im vollständigen Quiz |
 | `index.html`, Step 99 | Ausschließlich Farb-Retint der Ergebnis-Tabs und Coral-DU-Punkt |
 | `kommunalwahl.html` | Spiegel von `index.html`, abgesehen von `canonical` und `og:url` |
-| `embed.html` | Kompass-Rosette und Coral-Retint, ohne Hero-Video |
+| `embed.html` | Originales MUCwahl-Logo und Coral-Retint, ohne Hero-Video; der kompakte Embed behält die bisherige Gewichtungsseite |
 | `methodik.html`, `methodik-check.html`, `schnellcheck.html`, `datenschutz.html`, `impressum.html`, `404.html` | Mechanischer Coral-Retint ohne Strukturänderung |
-| `app.js` | Canvas-Palette auf Ink, Stone-Soft und Line-Töne; Coral-DU-Punkt |
+| `app.js` | Canvas-Palette, Coral-DU-Punkt, Duell-basierte Themengewichtung, Reload-Fortsetzung und eigene Quiz-Verlassen-Box |
 | `hero-motion.js` | Gemeinsame Video- und Canvas-Sichtbarkeits- und Bewegungssteuerung |
 | `hero-pulse.js`, `assets/map/munich-roads.js` | Produktiver Civic Pulse mit vereinfachten, self-hosted Hauptstraßen |
 

@@ -5,7 +5,7 @@ window.WAHLOMAT_DATA = {
       "topic": "Mobilität & Verkehr",
       "short_title": "Straßentunnel",
       "statement": "Die Stadt München soll neue Straßentunnel (z.B. am Englischen Garten oder der Landshuter Allee) bauen, auch wenn dies hohe Baukosten verursacht.",
-      "background": "Gemeint sind v.a. der Englischer-Garten-Tunnel (ca. 240 Mio. Euro laut Machbarkeitsstudie 2024) und ein möglicher Tunnel an der Landshuter Allee. Der E-Garten-Tunnel würde 4 Autospuren und 2 Tramgleise mit 3 neuen Haltestellen unterirdisch führen; an der Oberfläche entstünden neue Grünflächen und die Dietlindenstraße würde zur Sackgasse für Autos. Befürworter sehen Entlastung für Anwohner und ÖPNV-Ausbau in einem Projekt. Kritiker verweisen auf 578–900 Baumfällungen, jahrelange Bauzeiten und Kostenexplosionen (Luise-Kiesselbach-Tunnel wurde deutlich teurer als geplant) und bevorzugen die fertig geplante oberirdische Tram-Nordtangente als günstigere Alternative.",
+      "background": "Gemeint sind v.a. der Englischer-Garten-Tunnel (ca. 240 Mio. Euro laut Machbarkeitsstudie 2024) und ein möglicher Tunnel an der Landshuter Allee. Der E-Garten-Tunnel würde 4 Autospuren und 2 Tramgleise mit 3 neuen Haltestellen unterirdisch führen; an der Oberfläche entstünden neue Grünflächen und die Dietlindenstraße würde zur Sackgasse für Autos. Befürworter sehen Entlastung für Anwohner und ÖPNV-Ausbau in einem Projekt. Kritiker verweisen auf 578 bis 900 Baumfällungen, jahrelange Bauzeiten und Kostenexplosionen (Luise-Kiesselbach-Tunnel wurde deutlich teurer als geplant) und bevorzugen die fertig geplante oberirdische Tram-Nordtangente als günstigere Alternative.",
       "axes": {
         "x": 0,
         "y": 0.8
@@ -17,7 +17,7 @@ window.WAHLOMAT_DATA = {
       "topic": "Gesellschaft, Migration & Sicherheit",
       "short_title": "Gendersprache",
       "statement": "Die Stadtverwaltung soll geschlechtergerechte Sprache nutzen, auch wenn diese von den amtlichen Rechtschreibregeln abweicht.",
-      "background": "München verwendet seit 1991 geschlechtergerechte Sprache in der Verwaltung. 2024 verbot Bayern Sonderzeichen (Gender-Stern, Doppelpunkt) in Landesbehörden und Schulen — das Verbot gilt aber nicht für Kommunen. München gendert bewusst weiter. Befürworter sehen darin ein Zeichen für Gleichberechtigung und Sichtbarkeit. Kritiker verweisen auf den Rat für deutsche Rechtschreibung, der Sonderzeichen im amtlichen Gebrauch nicht empfiehlt.",
+      "background": "München verwendet seit 1991 geschlechtergerechte Sprache in der Verwaltung. 2024 verbot Bayern Sonderzeichen (Gender-Stern, Doppelpunkt) in Landesbehörden und Schulen, das Verbot gilt aber nicht für Kommunen. München gendert bewusst weiter. Befürworter sehen darin ein Zeichen für Gleichberechtigung und Sichtbarkeit. Kritiker verweisen auf den Rat für deutsche Rechtschreibung, der Sonderzeichen im amtlichen Gebrauch nicht empfiehlt.",
       "axes": {
         "x": 0,
         "y": -1

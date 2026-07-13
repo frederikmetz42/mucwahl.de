@@ -329,7 +329,7 @@ function wahlomatApp() {
                 };
                 const msg = messages[hit] || `${hit}% geschafft!`;
                 const toast = document.createElement('div');
-                toast.className = 'fixed bottom-[env(safe-area-inset-bottom,24px)] left-1/2 -translate-x-1/2 z-[200] bg-slate-900 text-white px-5 py-3 rounded-full text-sm font-bold shadow-lg animate-toast-in';
+                toast.className = 'fixed bottom-[env(safe-area-inset-bottom,24px)] left-1/2 -translate-x-1/2 z-[200] bg-stone-900 text-white px-5 py-3 rounded-full text-sm font-bold shadow-lg animate-toast-in';
                 toast.textContent = msg;
                 document.body.appendChild(toast);
                 const liveRegion = document.getElementById('aria-live-region');
@@ -496,7 +496,7 @@ function wahlomatApp() {
                 summary = 'Dein Profil: ' + econText + ' und ' + socialText;
             }
 
-            // Strongest topic — based on user's OWN highest-scoring topic across all parties
+            // Strongest topic: based on user's OWN highest-scoring topic across all parties
             let bestTopic = null;
             let bestPct = 0;
             Object.entries(this.topicScores).forEach(([topic, data]) => {
@@ -562,13 +562,13 @@ function wahlomatApp() {
             let svg = '<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style="width:100%">';
             // Grid rings with % labels
             [0.25, 0.5, 0.75, 1.0].forEach(frac => {
-                svg += `<polygon points="${this.radarGridRingPoints(frac, r)}" fill="none" stroke="#e2e8f0" stroke-width="1"/>`;
-                svg += `<text x="153" y="${150 - frac * r + 3}" fill="#94a3b8" font-size="7" font-weight="400">${Math.round(frac * 100)}%</text>`;
+                svg += `<polygon points="${this.radarGridRingPoints(frac, r)}" fill="none" stroke="rgba(17, 17, 20, 0.10)" stroke-width="1"/>`;
+                svg += `<text x="153" y="${150 - frac * r + 3}" fill="#6C665F" font-size="7" font-weight="400">${Math.round(frac * 100)}%</text>`;
             });
             // Axis lines + labels
             this.getRadarAxisEndpoints(r).forEach(a => {
-                svg += `<line x1="${a.x1}" y1="${a.y1}" x2="${a.x2}" y2="${a.y2}" stroke="#cbd5e1" stroke-width="1"/>`;
-                svg += `<text x="${a.labelX}" y="${a.labelY}" text-anchor="middle" dominant-baseline="central" fill="#64748b" font-size="9" font-weight="500">${a.topic.split(/[\s,&]+/)[0]}</text>`;
+                svg += `<line x1="${a.x1}" y1="${a.y1}" x2="${a.x2}" y2="${a.y2}" stroke="rgba(17, 17, 20, 0.14)" stroke-width="1"/>`;
+                svg += `<text x="${a.labelX}" y="${a.labelY}" text-anchor="middle" dominant-baseline="central" fill="#6C665F" font-size="9" font-weight="500">${a.topic.split(/[\s,&]+/)[0]}</text>`;
             });
             // Top match polygon
             const color = this.getPartyColor(this.topMatch.id);
@@ -836,7 +836,7 @@ function wahlomatApp() {
         shareResults() {
             if (!this.topMatch) return;
             // Check font readiness
-            const fontReady = document.fonts ? document.fonts.check('bold 32px Inter') : true;
+            const fontReady = document.fonts ? document.fonts.check('bold 32px "Plus Jakarta Sans"') : true;
             if (!fontReady) {
                 // Fallback to text share if font not ready
                 this._shareTextFallback();
@@ -850,18 +850,18 @@ function wahlomatApp() {
             const ctx = canvas.getContext('2d');
 
             // Background
-            ctx.fillStyle = '#f8fafc';
+            ctx.fillStyle = '#FBFAF7';
             ctx.fillRect(0, 0, W, H);
 
             // Header bar
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = '#111114';
             ctx.fillRect(0, 0, W, 120);
             ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 36px Inter, system-ui, sans-serif';
+            ctx.font = 'bold 36px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'left';
             ctx.fillText('MUCwahl München 2026', 48, 76);
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '24px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = '24px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'right';
             ctx.fillText('mucwahl.de', W - 48, 76);
 
@@ -869,7 +869,7 @@ function wahlomatApp() {
             const matchColor = this.getPartyColor(this.topMatch.id);
             ctx.fillStyle = '#ffffff';
             this._roundRectFill(ctx, 48, 168, W - 96, 240, 24);
-            ctx.strokeStyle = '#e2e8f0';
+            ctx.strokeStyle = 'rgba(17, 17, 20, 0.10)';
             ctx.lineWidth = 2;
             this._roundRect(ctx, 48, 168, W - 96, 240, 24);
             ctx.stroke();
@@ -878,20 +878,20 @@ function wahlomatApp() {
             ctx.fillStyle = matchColor;
             ctx.fillRect(48, 168, 8, 240);
 
-            ctx.fillStyle = '#64748b';
-            ctx.font = '22px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = '22px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'left';
             ctx.fillText('Höchste Übereinstimmung', 96, 220);
 
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 56px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#111114';
+            ctx.font = 'bold 56px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText(this.topMatch.name, 96, 295);
 
             // Percentage circle
             const circleX = W - 168, circleY = 288, circleR = 72;
             ctx.beginPath();
             ctx.arc(circleX, circleY, circleR, 0, Math.PI * 2);
-            ctx.fillStyle = '#f1f5f9';
+            ctx.fillStyle = '#F5F5F4';
             ctx.fill();
             const pct = this.topMatch.matchPercentage / 100;
             ctx.beginPath();
@@ -900,14 +900,14 @@ function wahlomatApp() {
             ctx.lineWidth = 10;
             ctx.lineCap = 'round';
             ctx.stroke();
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 40px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#111114';
+            ctx.font = 'bold 40px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText(Math.round(this.topMatch.matchPercentage) + '%', circleX, circleY + 14);
 
             // Top 3 bars
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 28px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#111114';
+            ctx.font = 'bold 28px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'left';
             ctx.fillText('Top 3', 48, 476);
 
@@ -917,17 +917,17 @@ function wahlomatApp() {
                 const barW = W - 96;
                 const color = this.getPartyColor(party.id);
 
-                ctx.fillStyle = '#0f172a';
-                ctx.font = '24px Inter, system-ui, sans-serif';
+                ctx.fillStyle = '#111114';
+                ctx.font = '24px "Plus Jakarta Sans", system-ui, sans-serif';
                 ctx.textAlign = 'left';
                 ctx.fillText(party.name, 48, y + 28);
 
-                ctx.font = 'bold 24px Inter, system-ui, sans-serif';
+                ctx.font = 'bold 24px "Plus Jakarta Sans", system-ui, sans-serif';
                 ctx.textAlign = 'right';
                 ctx.fillText(Math.round(party.matchPercentage) + '%', W - 48, y + 28);
 
                 // Bar background
-                ctx.fillStyle = '#f1f5f9';
+                ctx.fillStyle = '#F5F5F4';
                 this._roundRectFill(ctx, 48, y + 42, barW, 24, 12);
                 // Bar fill
                 ctx.fillStyle = color;
@@ -941,7 +941,7 @@ function wahlomatApp() {
                 const n = this.topics.length;
 
                 // Grid rings
-                ctx.strokeStyle = '#e2e8f0';
+                ctx.strokeStyle = 'rgba(17, 17, 20, 0.10)';
                 ctx.lineWidth = 1;
                 [0.25, 0.5, 0.75, 1.0].forEach(frac => {
                     ctx.beginPath();
@@ -957,13 +957,13 @@ function wahlomatApp() {
                 });
 
                 // Axes + labels
-                ctx.fillStyle = '#64748b';
-                ctx.font = '18px Inter, system-ui, sans-serif';
+                ctx.fillStyle = '#6C665F';
+                ctx.font = '18px "Plus Jakarta Sans", system-ui, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 this.topics.forEach((topic, i) => {
                     const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
-                    ctx.strokeStyle = '#cbd5e1';
+                    ctx.strokeStyle = 'rgba(17, 17, 20, 0.14)';
                     ctx.lineWidth = 1;
                     ctx.beginPath();
                     ctx.moveTo(radarCx, radarCy);
@@ -992,8 +992,8 @@ function wahlomatApp() {
             }
 
             // Watermark
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '20px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = '20px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'alphabetic';
             ctx.fillText('mucwahl.de · Kommunalwahl München 2026', W / 2, H - 36);
@@ -1042,7 +1042,7 @@ function wahlomatApp() {
             const ctx = canvas.getContext('2d');
 
             // Background
-            ctx.fillStyle = '#f8fafc';
+            ctx.fillStyle = '#FBFAF7';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             // Quadrant tints
@@ -1055,14 +1055,14 @@ function wahlomatApp() {
             ctx.globalAlpha = 1;
 
             // Grid lines
-            ctx.strokeStyle = '#cbd5e1';
+            ctx.strokeStyle = 'rgba(17, 17, 20, 0.14)';
             ctx.lineWidth = 2 * s;
             ctx.beginPath(); ctx.moveTo(pad, cy); ctx.lineTo(size - pad, cy); ctx.stroke();
             ctx.beginPath(); ctx.moveTo(cx, pad); ctx.lineTo(cx, size - pad); ctx.stroke();
 
             // Axis labels
-            ctx.fillStyle = '#64748b';
-            ctx.font = `bold ${14 * s}px Inter, system-ui, sans-serif`;
+            ctx.fillStyle = '#6C665F';
+            ctx.font = `bold ${14 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
             ctx.textAlign = 'center';
             ctx.fillText('GESELLSCHAFTLICH KONSERVATIV', cx, pad - 10 * s);
             ctx.fillText('GESELLSCHAFTLICH PROGRESSIV', cx, size - pad + 22 * s);
@@ -1073,7 +1073,7 @@ function wahlomatApp() {
             const scale = (this.compassDisplayScale / 100) / 0.5; // match dynamic CSS scale
 
             // Party dots with names
-            ctx.font = `bold ${12 * s}px Inter, system-ui, sans-serif`;
+            ctx.font = `bold ${12 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
             ctx.textAlign = 'center';
             this.compassParties.forEach(party => {
                 const px = cx + party.x * range * scale;
@@ -1086,37 +1086,37 @@ function wahlomatApp() {
             // User dot
             const ux = cx + this.userCoords.x * range * scale;
             const uy = cy - this.userCoords.y * range * scale;
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = '#FF4332';
             ctx.beginPath(); ctx.arc(ux, uy, 10 * s, 0, Math.PI * 2); ctx.fill();
             ctx.fillStyle = '#ffffff';
             ctx.beginPath(); ctx.arc(ux, uy, 4 * s, 0, Math.PI * 2); ctx.fill();
-            ctx.fillStyle = '#0f172a';
-            ctx.font = `bold ${13 * s}px Inter, system-ui, sans-serif`;
+            ctx.fillStyle = '#111114';
+            ctx.font = `bold ${13 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
             ctx.fillText('DU', ux, uy + 24 * s);
 
             // Title bar
             const barY = size;
-            ctx.fillStyle = '#0f172a';
-            ctx.font = `bold ${20 * s}px Inter, system-ui, sans-serif`;
+            ctx.fillStyle = '#111114';
+            ctx.font = `bold ${20 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
             ctx.textAlign = 'left';
             ctx.fillText('Politischer Kompass', 20 * s, barY + 36 * s);
 
             // Top match
             if (this.topMatch) {
-                ctx.fillStyle = '#64748b';
-                ctx.font = `${13 * s}px Inter, system-ui, sans-serif`;
+                ctx.fillStyle = '#6C665F';
+                ctx.font = `${13 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
                 ctx.fillText(`Top-Match: ${this.topMatch.name} (${Math.round(this.topMatch.matchPercentage)}%)`, 20 * s, barY + 58 * s);
             }
 
             // Caveat
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = `${11 * s}px Inter, system-ui, sans-serif`;
+            ctx.fillStyle = '#6C665F';
+            ctx.font = `${11 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
             ctx.textAlign = 'left';
             ctx.fillText('Basiert auf 25 Thesen zur Münchner Kommunalwahl 2026', 20 * s, barY + 74 * s);
 
             // Watermark
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = `${14 * s}px Inter, system-ui, sans-serif`;
+            ctx.fillStyle = '#6C665F';
+            ctx.font = `${14 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
             ctx.textAlign = 'right';
             ctx.fillText('mucwahl.de', size - 20 * s, barY + 36 * s);
 
@@ -1136,10 +1136,10 @@ function wahlomatApp() {
             const r = 110 * s;
             const n = this.topics.length;
 
-            ctx.fillStyle = '#f8fafc';
+            ctx.fillStyle = '#FBFAF7';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            ctx.strokeStyle = '#e2e8f0';
+            ctx.strokeStyle = 'rgba(17, 17, 20, 0.10)';
             ctx.lineWidth = 1 * s;
             [0.25, 0.5, 0.75, 1.0].forEach(frac => {
                 ctx.beginPath();
@@ -1154,13 +1154,13 @@ function wahlomatApp() {
                 ctx.stroke();
             });
 
-            ctx.fillStyle = '#64748b';
-            ctx.font = `${9 * s}px Inter, system-ui, sans-serif`;
+            ctx.fillStyle = '#6C665F';
+            ctx.font = `${9 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             this.topics.forEach((topic, i) => {
                 const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
-                ctx.strokeStyle = '#cbd5e1';
+                ctx.strokeStyle = 'rgba(17, 17, 20, 0.14)';
                 ctx.lineWidth = 1 * s;
                 ctx.beginPath();
                 ctx.moveTo(cx, cy);
@@ -1188,20 +1188,20 @@ function wahlomatApp() {
             ctx.stroke();
 
             const barY = svgSize;
-            ctx.fillStyle = '#0f172a';
-            ctx.font = `bold ${20 * s}px Inter, system-ui, sans-serif`;
+            ctx.fillStyle = '#111114';
+            ctx.font = `bold ${20 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'alphabetic';
             ctx.fillText('Themen-Radar', 20 * s, barY + 36 * s);
             if (this.topMatch) {
-                ctx.fillStyle = '#64748b';
-                ctx.font = `${13 * s}px Inter, system-ui, sans-serif`;
+                ctx.fillStyle = '#6C665F';
+                ctx.font = `${13 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
                 ctx.fillText(`Top-Match: ${this.topMatch.name} (${Math.round(this.topMatch.matchPercentage)}%)`, 20 * s, barY + 58 * s);
             }
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = `${11 * s}px Inter, system-ui, sans-serif`;
+            ctx.fillStyle = '#6C665F';
+            ctx.font = `${11 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
             ctx.fillText('Dein politisches Profil nach Themengebieten', 20 * s, barY + 74 * s);
-            ctx.font = `${14 * s}px Inter, system-ui, sans-serif`;
+            ctx.font = `${14 * s}px "Plus Jakarta Sans", system-ui, sans-serif`;
             ctx.textAlign = 'right';
             ctx.fillText('mucwahl.de', svgSize - 20 * s, barY + 36 * s);
 
@@ -1229,7 +1229,7 @@ function wahlomatApp() {
 
         shareResultsStory() {
             if (!this.topMatch) return;
-            const fontReady = document.fonts ? document.fonts.check('bold 32px Inter') : true;
+            const fontReady = document.fonts ? document.fonts.check('bold 32px "Plus Jakarta Sans"') : true;
             if (!fontReady) { this._shareTextFallback(); return; }
 
             const W = 1080, H = 1920;
@@ -1239,26 +1239,26 @@ function wahlomatApp() {
             const matchColor = this.getPartyColor(this.topMatch.id);
 
             // Dark background
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = '#111114';
             ctx.fillRect(0, 0, W, H);
 
             // Header
             ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 36px Inter, system-ui, sans-serif';
+            ctx.font = 'bold 36px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'left';
             ctx.fillText('MUCwahl München 2026', 60, 100);
-            ctx.fillStyle = '#64748b';
-            ctx.font = '24px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = '24px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText('Kommunalwahl · Mein Ergebnis', 60, 140);
 
             // Top match - oversized
             ctx.fillStyle = matchColor;
             this._roundRectFill(ctx, 60, 200, W - 120, 380, 32);
             ctx.fillStyle = '#ffffff';
-            ctx.font = '28px Inter, system-ui, sans-serif';
+            ctx.font = '28px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'left';
             ctx.fillText('Höchste Übereinstimmung', 100, 260);
-            ctx.font = 'bold 72px Inter, system-ui, sans-serif';
+            ctx.font = 'bold 72px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText(this.topMatch.name, 100, 360);
 
             // Percentage ring
@@ -1269,13 +1269,13 @@ function wahlomatApp() {
             ctx.beginPath(); ctx.arc(circX, circY, circR, -Math.PI / 2, -Math.PI / 2 + pct * Math.PI * 2);
             ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 12; ctx.lineCap = 'round'; ctx.stroke();
             ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 52px Inter, system-ui, sans-serif';
+            ctx.font = 'bold 52px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText(Math.round(this.topMatch.matchPercentage) + '%', circX, circY + 18);
 
             // Top 3 bars
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = 'bold 26px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = 'bold 26px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'left';
             ctx.fillText('TOP 3', 60, 660);
 
@@ -1285,15 +1285,15 @@ function wahlomatApp() {
                 const barW = W - 120;
                 const color = this.getPartyColor(party.id);
 
-                ctx.fillStyle = '#e2e8f0';
-                ctx.font = '26px Inter, system-ui, sans-serif';
+                ctx.fillStyle = 'rgba(17, 17, 20, 0.10)';
+                ctx.font = '26px "Plus Jakarta Sans", system-ui, sans-serif';
                 ctx.textAlign = 'left';
                 ctx.fillText(party.name, 60, y + 30);
-                ctx.font = 'bold 26px Inter, system-ui, sans-serif';
+                ctx.font = 'bold 26px "Plus Jakarta Sans", system-ui, sans-serif';
                 ctx.textAlign = 'right';
                 ctx.fillText(Math.round(party.matchPercentage) + '%', W - 60, y + 30);
 
-                ctx.fillStyle = '#1e293b';
+                ctx.fillStyle = '#292524';
                 this._roundRectFill(ctx, 60, y + 46, barW, 28, 14);
                 ctx.fillStyle = color;
                 this._roundRectFill(ctx, 60, y + 46, Math.max(28, (party.matchPercentage / 100) * barW), 28, 14);
@@ -1304,7 +1304,7 @@ function wahlomatApp() {
                 const radarCx = W / 2, radarCy = 1300, radarR = 220;
                 const n = this.topics.length;
 
-                ctx.strokeStyle = '#334155';
+                ctx.strokeStyle = '#44403C';
                 ctx.lineWidth = 1;
                 [0.25, 0.5, 0.75, 1.0].forEach(frac => {
                     ctx.beginPath();
@@ -1318,13 +1318,13 @@ function wahlomatApp() {
                     ctx.closePath(); ctx.stroke();
                 });
 
-                ctx.fillStyle = '#94a3b8';
-                ctx.font = '20px Inter, system-ui, sans-serif';
+                ctx.fillStyle = '#6C665F';
+                ctx.font = '20px "Plus Jakarta Sans", system-ui, sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 this.topics.forEach((topic, i) => {
                     const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
-                    ctx.strokeStyle = '#475569'; ctx.lineWidth = 1;
+                    ctx.strokeStyle = '#57534E'; ctx.lineWidth = 1;
                     ctx.beginPath(); ctx.moveTo(radarCx, radarCy);
                     ctx.lineTo(radarCx + radarR * Math.cos(angle), radarCy + radarR * Math.sin(angle)); ctx.stroke();
                     const labelR = radarR + 32;
@@ -1346,8 +1346,8 @@ function wahlomatApp() {
             }
 
             // Watermark
-            ctx.fillStyle = '#64748b';
-            ctx.font = '22px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = '22px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'alphabetic';
             ctx.fillText('mucwahl.de · Kommunalwahl München 2026', W / 2, H - 50);
@@ -1365,7 +1365,7 @@ function wahlomatApp() {
             const matchColor = this.getPartyColor(this.topMatch.id);
 
             // Background
-            ctx.fillStyle = '#0f172a';
+            ctx.fillStyle = '#111114';
             ctx.fillRect(0, 0, W, H);
 
             // Color accent bar
@@ -1373,32 +1373,32 @@ function wahlomatApp() {
             ctx.fillRect(0, 0, W, 8);
 
             // Label
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = 'bold 28px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = 'bold 28px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText('MEIN TOP-MATCH', W / 2, 200);
 
             // Party name
             ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 80px Inter, system-ui, sans-serif';
+            ctx.font = 'bold 80px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText(this.topMatch.name, W / 2, 440);
 
             // Percentage
             ctx.fillStyle = matchColor;
-            ctx.font = 'bold 160px Inter, system-ui, sans-serif';
+            ctx.font = 'bold 160px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText(Math.round(this.topMatch.matchPercentage) + '%', W / 2, 640);
 
             // Subtitle
-            ctx.fillStyle = '#64748b';
-            ctx.font = '26px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = '26px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText('Übereinstimmung', W / 2, 700);
 
             // Branding
-            ctx.fillStyle = '#475569';
-            ctx.font = '24px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#57534E';
+            ctx.font = '24px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText('MUCwahl · Kommunalwahl München 2026', W / 2, H - 60);
-            ctx.fillStyle = '#64748b';
-            ctx.font = '20px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = '20px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText('mucwahl.de', W / 2, H - 30);
 
             this._shareCanvas(canvas, 'mucwahl-topmatch.png', 'Mein Top-Match',
@@ -1416,20 +1416,20 @@ function wahlomatApp() {
             const cx = W / 2, cy = 480, r = 300;
 
             // Background
-            ctx.fillStyle = '#f8fafc';
+            ctx.fillStyle = '#FBFAF7';
             ctx.fillRect(0, 0, W, H);
 
             // Title
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 40px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#111114';
+            ctx.font = 'bold 40px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText('Themen-Radar', W / 2, 70);
-            ctx.fillStyle = '#64748b';
-            ctx.font = '24px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = '24px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText('Dein politisches Profil nach Themengebieten', W / 2, 110);
 
             // Grid rings
-            ctx.strokeStyle = '#e2e8f0'; ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(17, 17, 20, 0.10)'; ctx.lineWidth = 1;
             [0.25, 0.5, 0.75, 1.0].forEach(frac => {
                 ctx.beginPath();
                 for (let i = 0; i <= n; i++) {
@@ -1443,12 +1443,12 @@ function wahlomatApp() {
             });
 
             // Axes + labels
-            ctx.fillStyle = '#64748b';
-            ctx.font = '22px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = '22px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
             this.topics.forEach((topic, i) => {
                 const angle = (Math.PI * 2 * i / n) - Math.PI / 2;
-                ctx.strokeStyle = '#cbd5e1'; ctx.lineWidth = 1;
+                ctx.strokeStyle = 'rgba(17, 17, 20, 0.14)'; ctx.lineWidth = 1;
                 ctx.beginPath(); ctx.moveTo(cx, cy);
                 ctx.lineTo(cx + r * Math.cos(angle), cy + r * Math.sin(angle)); ctx.stroke();
                 const labelR = r + 36;
@@ -1472,14 +1472,14 @@ function wahlomatApp() {
             // Legend
             ctx.fillStyle = matchColor;
             this._roundRectFill(ctx, W / 2 - 100, 840, 16, 16, 4);
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 22px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#111114';
+            ctx.font = 'bold 22px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
             ctx.fillText(this.topMatch.name + ' · ' + Math.round(this.topMatch.matchPercentage) + '%', W / 2 - 76, 849);
 
             // Watermark
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '20px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#6C665F';
+            ctx.font = '20px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
             ctx.fillText('mucwahl.de · Kommunalwahl München 2026', W / 2, H - 30);
 
@@ -1504,7 +1504,7 @@ function wahlomatApp() {
             ctx.fillStyle = '#f59e0b';
             ctx.fillRect(0, 0, W, 8);
 
-            // Lightbulb icon area — drawn as star shape (avoids platform-dependent emoji rendering)
+            // Lightbulb icon area, drawn as star shape (avoids platform-dependent emoji rendering)
             ctx.fillStyle = '#fbbf24';
             ctx.textAlign = 'center';
             ctx.save();
@@ -1520,27 +1520,27 @@ function wahlomatApp() {
 
             // Title
             ctx.fillStyle = '#92400e';
-            ctx.font = 'bold 36px Inter, system-ui, sans-serif';
+            ctx.font = 'bold 36px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText('Unerwartetes Match', W / 2, 360);
 
             // Party name
-            ctx.fillStyle = '#0f172a';
-            ctx.font = 'bold 72px Inter, system-ui, sans-serif';
+            ctx.fillStyle = '#111114';
+            ctx.font = 'bold 72px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText(surprise.name, W / 2, 520);
 
             // Percentage
             ctx.fillStyle = matchColor;
-            ctx.font = 'bold 140px Inter, system-ui, sans-serif';
+            ctx.font = 'bold 140px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText(Math.round(surprise.matchPercentage) + '%', W / 2, 720);
 
             // Subtitle
             ctx.fillStyle = '#92400e';
-            ctx.font = '26px Inter, system-ui, sans-serif';
+            ctx.font = '26px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText('Übereinstimmung', W / 2, 780);
 
             // Branding
             ctx.fillStyle = '#b45309';
-            ctx.font = '22px Inter, system-ui, sans-serif';
+            ctx.font = '22px "Plus Jakarta Sans", system-ui, sans-serif';
             ctx.fillText('mucwahl.de · Kommunalwahl München 2026', W / 2, H - 40);
 
             this._shareCanvas(canvas, 'mucwahl-surprise.png', 'Mein Überraschungstreffer',
@@ -1698,17 +1698,17 @@ function wahlomatApp() {
         getIconSimple(value) {
             if (value === 1) return '<span class="text-emerald-600"><svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></span>';
             if (value === -1) return '<span class="text-rose-600"><svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></span>';
-            return '<span class="text-slate-400"><svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></span>';
+            return '<span class="text-stone-400"><svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></span>';
         },
 
         getIcon(value) {
             if (value === 1) return '<span class="text-emerald-600 font-bold flex items-center gap-1"><svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Zustimmung</span>';
             if (value === -1) return '<span class="text-rose-600 font-bold flex items-center gap-1"><svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg> Ablehnung</span>';
-            return '<span class="text-slate-500 font-bold flex items-center gap-1"><svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg> Neutral</span>';
+            return '<span class="text-stone-500 font-bold flex items-center gap-1"><svg aria-hidden="true" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg> Neutral</span>';
         },
 
         getPositionMatchClass(userVal, partyVal) {
-            if (partyVal === null) return 'border-slate-200 opacity-50';
+            if (partyVal === null) return 'border-stone-200 opacity-50';
             const diff = Math.abs(userVal - partyVal);
             if (diff === 0) return 'border-emerald-400 bg-emerald-50/30';
             if (diff === 1) return 'border-yellow-400';
@@ -1722,7 +1722,7 @@ function wahlomatApp() {
                 'partei': '#334155', 'rosa_liste': '#ec4899', 'muenchen_liste': '#0f766e',
                 'bp': '#1e3a8a', 'bk': '#be185d', 'fw': '#f59e0b'
             };
-            return colors[id] || '#64748b';
+            return colors[id] || '#6C665F';
         },
 
         getPartySlogan(id) {

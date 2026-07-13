@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Offene Karten – MUCwahl München</title>
     <meta name="description" content="Wer hinter MUCwahl steckt, wie die 25 Thesen ausgewählt wurden, woher die Partei-Positionen stammen und was das Tool nicht kann. Offen und nachprüfbar.">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#FBFAF7">
     <meta property="og:title" content="Offene Karten – MUCwahl München">
     <meta property="og:description" content="Wer hinter MUCwahl steckt, wie die 25 Thesen ausgewählt wurden, woher die Partei-Positionen stammen und was das Tool nicht kann.">
     <meta property="og:type" content="website">
@@ -16,8 +16,8 @@
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'self'; form-action 'none';">
-    <link rel="stylesheet" href="styles.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-eval' 'sha256-qkOmO0hWAzxWSMWVXvl7Rac4gG8TowLWyuaIGebvGdY='; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'none'; base-uri 'self'; form-action 'none';">
+    <link rel="stylesheet" href="styles.css?v=5.0">
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="apple-touch-icon" href="assets/icon.png">
     <link rel="canonical" href="https://mucwahl.de/methodik.html">
@@ -36,25 +36,25 @@
 }
 </script>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col" x-data="{ expandCalc: false, expandTheses: false, expandSources: false, expandAllTheses: false, expandedThesis: null, get theses() { return window.WAHLOMAT_DATA ? window.WAHLOMAT_DATA.theses : [] } }">
+<body class="text-stone-900 min-h-screen flex flex-col" x-data="{ expandCalc: false, expandTheses: false, expandSources: false, expandAllTheses: false, expandedThesis: null, get theses() { return window.WAHLOMAT_DATA ? window.WAHLOMAT_DATA.theses : [] } }">
 
-    <nav class="bg-white border-b border-slate-200" role="navigation" aria-label="Zurück-Navigation">
+    <nav class="bg-white border-b border-stone-200" role="navigation" aria-label="Zurück-Navigation">
         <div class="max-w-3xl mx-auto px-6 h-16 flex items-center">
-            <a href="index.html" class="flex items-center gap-2 font-bold text-slate-900 hover:opacity-70 transition-opacity">
+            <a href="index.html" class="flex items-center gap-2 font-bold text-stone-900 hover:opacity-70 transition-opacity">
                 <svg aria-hidden="true" class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                Zurück zum Stichwahl-Guide
+                Zurück zum Wahlchecker
             </a>
         </div>
     </nav>
 
     <main class="max-w-3xl mx-auto px-6 py-12 flex-grow w-full" role="main">
         <h1 class="text-3xl font-bold mb-2">Offene Karten</h1>
-        <p class="text-slate-500 mb-10">Wer dahintersteckt, wie es funktioniert, und was es nicht kann</p>
+        <p class="text-stone-500 mb-10">Wer dahintersteckt, wie es funktioniert, und was es nicht kann</p>
 
         <div class="space-y-6">
 
             <!-- Section 1: Trust Summary + About -->
-            <div class="bg-white p-6 md:p-8 rounded-xl border border-slate-200 shadow-sm space-y-4 leading-relaxed text-slate-800">
+            <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm space-y-4 leading-relaxed text-stone-800">
                 <p>
                     Mein Name ist Frederik Metz. MUCwahl ist ein unabhängiges 1-Mann-Projekt. Keine Partei, kein Medienhaus, keine Stiftung steht dahinter. Kein Geld fließt, keine Daten werden erhoben.
                 </p>
@@ -67,8 +67,8 @@
             </div>
 
             <!-- Section 2: How your result works -->
-            <div class="bg-white p-6 md:p-8 rounded-xl border border-slate-200 shadow-sm leading-relaxed text-slate-800">
-                <h2 class="text-lg font-bold text-slate-900 mb-4">So funktioniert dein Ergebnis</h2>
+            <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm leading-relaxed text-stone-800">
+                <h2 class="text-lg font-bold text-stone-900 mb-4">So funktioniert dein Ergebnis</h2>
                 <div class="space-y-3">
                     <p>Du beantwortest 25 Thesen mit Zustimmung, Neutral oder Ablehnung. Deine Antworten werden mit den offiziellen Positionen der 14 Parteien verglichen. Je mehr Übereinstimmung, desto höher der Prozentwert.</p>
                     <p>Zusätzlich kannst du Themen gewichten: 10 Punkte auf 5 Themenfelder verteilen. Themen mit mehr Punkten zählen stärker in deinem Ergebnis.</p>
@@ -76,22 +76,22 @@
                 </div>
 
                 <!-- Expandable detail -->
-                <button @click="expandCalc = !expandCalc" class="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 mt-4 font-medium transition-colors">
+                <button @click="expandCalc = !expandCalc" class="flex items-center gap-2 text-sm text-coral-text hover:text-[#C2270F] mt-4 font-medium transition-colors">
                     <svg aria-hidden="true" class="w-4 h-4 transition-transform" :class="expandCalc ? 'rotate-90' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     <span x-text="expandCalc ? 'Weniger anzeigen' : 'Technische Details'"></span>
                 </button>
-                <div x-show="expandCalc" x-transition.opacity class="mt-4 bg-slate-50 rounded-lg p-5 text-sm text-slate-700 space-y-3 border border-slate-100">
+                <div x-show="expandCalc" x-transition.opacity class="mt-4 bg-stone-50 rounded-lg p-5 text-sm text-stone-700 space-y-3 border border-stone-100">
                     <p><strong>Scoring:</strong> Für jede These wird die Differenz zwischen deiner Antwort und der Parteiposition berechnet. Volle Übereinstimmung ergibt den maximalen Punktwert, multipliziert mit dem Gewicht des Themenfeldes. „Neutral" wird als halbe Übereinstimmung gewertet.</p>
                     <p><strong>Kompass-Achsen:</strong> Jede These hat vordefinierte Gewichte auf der wirtschaftlichen (x) und gesellschaftlichen (y) Achse. Diese sind handkodiert, nicht algorithmisch abgeleitet. Das ist eine bewusste Entscheidung: automatische Dimensionsreduktion (wie PCA) würde die Achsen für Nutzer uninterpretierbar machen.</p>
                     <p><strong>Normalisierung:</strong> Parteien werden auf derselben Gesamtskala verglichen (Total-Weight-Normalisierung), nicht pro Partei. Dadurch wird keine Partei bevorzugt, die zu mehr Thesen eine Position hat.</p>
                     <p><strong>Kantenkompression:</strong> Positionen im Kompass werden mit einer Potenzfunktion (Exponent 0.7) komprimiert. Das verhindert, dass sich alle Punkte an den Rändern klumpen, und ergibt eine lesbarere Verteilung.</p>
-                    <p class="text-slate-500">Die vollständige Berechnung ist in <a href="https://github.com/frederikmetz42/mucwahl.de/blob/main/app.js" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">app.js</a> einsehbar.</p>
+                    <p class="text-stone-500">Die vollständige Berechnung ist in <a href="https://github.com/frederikmetz42/mucwahl.de/blob/main/app.js" target="_blank" rel="noopener noreferrer" class="text-coral-text hover:underline">app.js</a> einsehbar.</p>
                 </div>
             </div>
 
             <!-- Section 3: Thesis selection -->
-            <div class="bg-white p-6 md:p-8 rounded-xl border border-slate-200 shadow-sm leading-relaxed text-slate-800">
-                <h2 class="text-lg font-bold text-slate-900 mb-4">Wie die 25 Thesen ausgewählt wurden</h2>
+            <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm leading-relaxed text-stone-800">
+                <h2 class="text-lg font-bold text-stone-900 mb-4">Wie die 25 Thesen ausgewählt wurden</h2>
                 <div class="space-y-3">
                     <p>Die Auswahl folgt vier Kriterien: <strong>Lokaler Bezug</strong> (Münchner Kommunalpolitik, nicht Bundesthemen), <strong>Trennschärfe</strong> (Thesen, bei denen die Parteien unterschiedlicher Meinung sind), <strong>Themenbreite</strong> (Abdeckung von 5 Politikfeldern) und <strong>echte Zielkonflikte</strong> (keine „Wir wollen alles"-Aussagen).</p>
                     <p>Die Thesen wurden in mehreren Runden validiert: KI-gestützte Delphi-Panels mit simulierten Wählerprofilen über alle Parteien hinweg haben jede These auf Verständlichkeit, Neutralität und Trennschärfe geprüft. Schwache Thesen (geringe politische Differenzierung über alle 14 Parteien) wurden systematisch durch trennschärfere ersetzt.</p>
@@ -99,174 +99,160 @@
                 </div>
 
                 <!-- Expandable: Neutrality measures -->
-                <button @click="expandTheses = !expandTheses" class="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 mt-4 font-medium transition-colors">
+                <button @click="expandTheses = !expandTheses" class="flex items-center gap-2 text-sm text-coral-text hover:text-[#C2270F] mt-4 font-medium transition-colors">
                     <svg aria-hidden="true" class="w-4 h-4 transition-transform" :class="expandTheses ? 'rotate-90' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     <span x-text="expandTheses ? 'Weniger anzeigen' : 'Neutralitätsmaßnahmen im Detail'"></span>
                 </button>
-                <div x-show="expandTheses" x-transition.opacity class="mt-4 bg-slate-50 rounded-lg p-5 text-sm text-slate-700 space-y-4 border border-slate-100">
+                <div x-show="expandTheses" x-transition.opacity class="mt-4 bg-stone-50 rounded-lg p-5 text-sm text-stone-700 space-y-4 border border-stone-100">
                     <div>
-                        <h3 class="font-bold text-slate-900 mb-1">Zustimmungs-Balance (progressiv vs. konservativ)</h3>
+                        <h3 class="font-bold text-stone-900 mb-1">Zustimmungs-Balance (progressiv vs. konservativ)</h3>
                         <p>Bei naiven Umfragen stimmen Menschen Aussagen tendenziell eher zu als ab (Acquiescence Bias). Wenn „Zustimmung" überwiegend progressive Positionen abbildet, entsteht eine systematische Verzerrung. Deshalb wurde die Polarität der Thesen aktiv optimiert.</p>
                         <p class="mt-2">Aktuell führt „Zustimmung" bei etwa 11 Thesen zu einer progressiven Position, bei 10 zu einer konservativen, und bei 4 ist die Zuordnung ambivalent. Dieses Gleichgewicht wurde durch zwei Maßnahmen erreicht:</p>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-900 mb-1">Polarity Flips</h3>
+                        <h3 class="font-bold text-stone-900 mb-1">Polarity Flips</h3>
                         <p>Mehrere Thesen wurden bewusst so formuliert, dass die konservative oder marktliberale Position die Zustimmung ist. Beispiel: Die Radwege-These fragt nicht „Soll München mehr Radwege bauen?", sondern „Sollen Fahrspuren erhalten bleiben, auch wenn weniger Platz für Radwege ist?" Ebenso wurde die Solarpflicht-These umgedreht: „Soll die Solarpflicht abgeschafft werden?" Zustimmung bedeutet hier jeweils: Status quo beibehalten oder Regulierung zurücknehmen.</p>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-900 mb-1">Spektrum-Abdeckung</h3>
+                        <h3 class="font-bold text-stone-900 mb-1">Spektrum-Abdeckung</h3>
                         <p>Thesen wie Sparkurs, Gewerbesteuer senken, Integrationskosten begrenzen und Referate abschaffen wurden gezielt aufgenommen, um das konservative und wirtschaftsliberale Spektrum angemessen abzudecken. Ohne sie wäre die Thesenauswahl einseitig zugunsten progressiver Positionen.</p>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-900 mb-1">„Auch wenn"-Klauseln</h3>
+                        <h3 class="font-bold text-stone-900 mb-1">„Auch wenn"-Klauseln</h3>
                         <p>Alle 25 Thesen enthalten eine explizite „auch wenn"-Klausel, die den Preis der Zustimmung benennt (z.B. „auch wenn dies Milliarden kostet", „auch wenn dafür an anderer Stelle gespart werden muss"). Das zwingt zur Abwägung statt zur reflexhaften Zustimmung.</p>
                         <p class="mt-2">Eine Einschränkung: Jede „auch wenn"-Klausel benennt einen bestimmten Preis, und welcher Preis benannt wird, ist selbst eine Entscheidung. Bei These 20 (Gendersprache) lautet der Preis „widerspricht den amtlichen Rechtschreibregeln", nicht „obwohl ein erheblicher Teil der Bevölkerung das ablehnt". Bei These 5 (ÖPNV-Preise) bleibt der Preis vage („an anderer Stelle gespart werden muss"), statt konkret zu benennen, wo gespart würde. Die Klauseln reduzieren Zustimmungs-Bias, ersetzen ihn aber nicht durch neutrale Formulierungen, sie verschieben ihn auf eine subtilere Ebene. Wer das prüfen will: Alle Thesen sind im Detail unten einsehbar.</p>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-900 mb-1">Delphi-Panels</h3>
+                        <h3 class="font-bold text-stone-900 mb-1">Delphi-Panels</h3>
                         <p>Jede These wurde KI-gestützt mit simulierten Wählerprofilen über das gesamte Parteienspektrum geprüft. Die Panels bewerteten vier Kriterien: Neutralität (keine wertende Sprache), Klarheit (eindeutig, was Zustimmung/Ablehnung bedeutet), sichtbarer Trade-off und keine Suggestivwirkung. Thesen, die über alle 14 Parteien hinweg zu wenig differenzierten, wurden durch trennschärfere ersetzt.</p>
                     </div>
                     <div>
-                        <h3 class="font-bold text-slate-900 mb-1">Trade-off-Labels</h3>
+                        <h3 class="font-bold text-stone-900 mb-1">Trade-off-Labels</h3>
                         <p>Jede These hat ein Label, das den Kernkonflikt benennt (z.B. „Inklusion vs. Tradition"). Das sind Vereinfachungen, keine absoluten Dichotomien. Sie sollen den Zielkonflikt sichtbar machen, nicht suggerieren, dass es nur zwei Seiten gibt.</p>
                     </div>
                 </div>
             </div>
 
             <!-- Section 4: Party positions -->
-            <div class="bg-white p-6 md:p-8 rounded-xl border border-slate-200 shadow-sm leading-relaxed text-slate-800">
-                <h2 class="text-lg font-bold text-slate-900 mb-4">Woher die Partei-Positionen stammen</h2>
+            <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm leading-relaxed text-stone-800">
+                <h2 class="text-lg font-bold text-stone-900 mb-4">Woher die Partei-Positionen stammen</h2>
                 <div class="space-y-3">
                     <p>Alle Positionen stammen aus den offiziellen Wahlprogrammen der 14 Parteien und Listen zur Münchner Kommunalwahl 2026. Jede Zuordnung (Zustimmung / Neutral / Ablehnung) ist mit einem direkten Zitat aus dem jeweiligen Programm belegt.</p>
                     <p>Beispiel: Zur These „Autofreie Altstadt" schreiben die Grünen in ihrem Programm: <em>„Wir wollen den motorisierten Individualverkehr innerhalb des Mittleren Rings deutlich reduzieren."</em> → Zuordnung: Zustimmung.</p>
                 </div>
 
                 <!-- Expandable detail -->
-                <button @click="expandSources = !expandSources" class="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 mt-4 font-medium transition-colors">
+                <button @click="expandSources = !expandSources" class="flex items-center gap-2 text-sm text-coral-text hover:text-[#C2270F] mt-4 font-medium transition-colors">
                     <svg aria-hidden="true" class="w-4 h-4 transition-transform" :class="expandSources ? 'rotate-90' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     <span x-text="expandSources ? 'Weniger anzeigen' : 'Quellen und Umgang mit Lücken'"></span>
                 </button>
-                <div x-show="expandSources" x-transition.opacity class="mt-4 bg-slate-50 rounded-lg p-5 text-sm text-slate-700 space-y-3 border border-slate-100">
+                <div x-show="expandSources" x-transition.opacity class="mt-4 bg-stone-50 rounded-lg p-5 text-sm text-stone-700 space-y-3 border border-stone-100">
                     <p><strong>Wenn eine Partei schweigt:</strong> Hat ein Wahlprogramm keine klare Position zu einer These, wird die Position als „Neutral" kodiert. „Neutral" bedeutet hier „keine klare Aussage", nicht „Enthaltung". Diese Neutralwertung geht in den Match-Score ein (als halbe Übereinstimmung). Die Alternative wäre, die These für diese Partei komplett zu überspringen, das würde aber den Score zugunsten von Parteien mit wenig Programm verzerren (weniger Thesen = weniger Chancen, danebenzuliegen).</p>
                     <p><strong>Keine Interpretation:</strong> Ich leite keine Positionen aus dem allgemeinen Parteiprofil ab. Wenn das Programm nichts dazu sagt, bleibt es offen.</p>
                     <p><strong>Nur Programme, nicht Verhalten:</strong> Die Positionen basieren ausschließlich auf Wahlprogrammen, nicht auf Abstimmungen im Stadtrat oder Medienaussagen. Das ist eine bewusste Vereinfachung. Was eine Partei verspricht und wie sie handelt, kann voneinander abweichen.</p>
-                    <p class="text-slate-500">Der vollständige Datensatz mit allen Zitaten ist in <a href="https://github.com/frederikmetz42/mucwahl.de/blob/main/wahlomat_data.js" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">wahlomat_data.js</a> maschinenlesbar einsehbar.</p>
+                    <p class="text-stone-500">Der vollständige Datensatz mit allen Zitaten ist in <a href="https://github.com/frederikmetz42/mucwahl.de/blob/main/wahlomat_data.js" target="_blank" rel="noopener noreferrer" class="text-coral-text hover:underline">wahlomat_data.js</a> maschinenlesbar einsehbar.</p>
                 </div>
             </div>
 
             <!-- Section 5: Limitations - always visible, non-collapsible -->
-            <div class="bg-slate-100 p-6 md:p-8 rounded-xl border border-slate-200 leading-relaxed text-slate-800">
-                <h2 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
-                    <svg aria-hidden="true" class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>
+            <div class="bg-stone-100 p-6 md:p-8 rounded-xl border border-stone-200 leading-relaxed text-stone-800">
+                <h2 class="text-lg font-bold text-stone-900 mb-4 flex items-center gap-2">
+                    <svg aria-hidden="true" class="w-5 h-5 text-stone-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"></path></svg>
                     Was MUCwahl nicht kann
                 </h2>
                 <ul class="space-y-3 text-sm">
                     <li class="flex items-start gap-3">
-                        <span class="text-slate-400 mt-0.5 flex-shrink-0">&bull;</span>
+                        <span class="text-stone-400 mt-0.5 flex-shrink-0">&bull;</span>
                         <span><strong>25 aus hunderten.</strong> Die Thesenauswahl bildet nicht alle politischen Positionen ab. Wichtige Themen können fehlen.</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <span class="text-slate-400 mt-0.5 flex-shrink-0">&bull;</span>
+                        <span class="text-stone-400 mt-0.5 flex-shrink-0">&bull;</span>
                         <span><strong>Keine Kandidaten.</strong> MUCwahl bewertet Parteilisten, nicht Einzelpersonen. Wer auf Platz 1 einer Liste steht, kann andere Positionen vertreten als das Programm.</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <span class="text-slate-400 mt-0.5 flex-shrink-0">&bull;</span>
+                        <span class="text-stone-400 mt-0.5 flex-shrink-0">&bull;</span>
                         <span><strong>Versprechen, nicht Handeln.</strong> Die Positionen basieren auf Wahlprogrammen. Was eine Partei nach der Wahl tatsächlich umsetzt, kann davon abweichen.</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <span class="text-slate-400 mt-0.5 flex-shrink-0">&bull;</span>
+                        <span class="text-stone-400 mt-0.5 flex-shrink-0">&bull;</span>
                         <span><strong>Vereinfachung auf drei Antworten.</strong> Zustimmung / Neutral / Ablehnung bildet keine Nuancen ab. Manche Positionen sind komplexer als Ja oder Nein.</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <span class="text-slate-400 mt-0.5 flex-shrink-0">&bull;</span>
+                        <span class="text-stone-400 mt-0.5 flex-shrink-0">&bull;</span>
                         <span><strong>Kompass als Modell.</strong> Zwei Achsen können die politische Landschaft nicht vollständig abbilden. Die Achsendefinitionen sind meine Einschätzung, keine objektive Vermessung.</span>
                     </li>
                     <li class="flex items-start gap-3">
-                        <span class="text-slate-400 mt-0.5 flex-shrink-0">&bull;</span>
+                        <span class="text-stone-400 mt-0.5 flex-shrink-0">&bull;</span>
                         <span><strong>Ein-Personen-Projekt.</strong> Ich habe die Thesen ausgewählt und die Partei-Positionen zugeordnet. KI-gestützte Delphi-Panels haben die Formulierungen validiert, aber kein institutionelles Gremium steht dahinter. Meine eigenen Blind Spots sind unvermeidlich.</span>
                     </li>
                 </ul>
             </div>
 
             <!-- Section 6: Privacy & Tech -->
-            <div class="bg-white p-6 md:p-8 rounded-xl border border-slate-200 shadow-sm leading-relaxed text-slate-800">
-                <h2 class="text-lg font-bold text-slate-900 mb-4">Datenschutz & Technik</h2>
+            <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm leading-relaxed text-stone-800">
+                <h2 class="text-lg font-bold text-stone-900 mb-4">Datenschutz & Technik</h2>
                 <p>Kein Tracking. Keine Cookies. Keine Daten verlassen deinen Browser. Deine Antworten werden nur lokal auf deinem Gerät gespeichert (localStorage). Kein Backend, kein Google Analytics, keine externen Requests.</p>
                 <p class="mt-3">Quellcode offen auf GitHub. Gebaut mit Alpine.js und TailwindCSS, gehostet auf GitHub Pages. Keine externen Schriftarten, keine CDNs.</p>
                 <div class="flex flex-wrap gap-4 mt-4 text-sm">
-                    <a href="datenschutz.html" class="text-blue-600 hover:underline">Vollständige Datenschutzerklärung →</a>
-                    <a href="https://github.com/frederikmetz42/mucwahl.de" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">Quellcode auf GitHub →</a>
+                    <a href="datenschutz.html" class="text-coral-text hover:underline">Vollständige Datenschutzerklärung →</a>
+                    <a href="https://github.com/frederikmetz42/mucwahl.de" target="_blank" rel="noopener noreferrer" class="text-coral-text hover:underline">Quellcode auf GitHub →</a>
                 </div>
             </div>
 
             <!-- Section 7: All 25 theses -->
-            <div class="bg-white p-6 md:p-8 rounded-xl border border-slate-200 shadow-sm leading-relaxed text-slate-800">
-                <h2 class="text-lg font-bold text-slate-900 mb-2">Alle 25 Thesen im Detail</h2>
-                <p class="text-sm text-slate-500 mb-4">Jede These mit Themenfeld, Trade-off und Hintergrund.</p>
+            <div class="bg-white p-6 md:p-8 rounded-xl border border-stone-200 shadow-sm leading-relaxed text-stone-800">
+                <h2 class="text-lg font-bold text-stone-900 mb-2">Alle 25 Thesen im Detail</h2>
+                <p class="text-sm text-stone-500 mb-4">Jede These mit Themenfeld, Trade-off und Hintergrund.</p>
 
-                <button @click="expandAllTheses = !expandAllTheses" class="flex items-center gap-2 px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-sm font-medium transition-colors">
+                <button @click="expandAllTheses = !expandAllTheses" class="flex items-center gap-2 px-5 py-2.5 bg-stone-100 hover:bg-stone-200 text-stone-700 rounded-lg text-sm font-medium transition-colors">
                     <svg aria-hidden="true" class="w-4 h-4 transition-transform" :class="expandAllTheses ? 'rotate-90' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     <span x-text="expandAllTheses ? 'Thesen ausblenden' : 'Alle 25 Thesen anzeigen'"></span>
                 </button>
 
                 <div x-show="expandAllTheses" x-transition.opacity class="mt-6 space-y-3">
                     <template x-for="thesis in theses" :key="thesis.id">
-                        <div class="border border-slate-200 rounded-lg overflow-hidden">
-                            <button @click="expandedThesis = expandedThesis === thesis.id ? null : thesis.id" class="w-full text-left p-4 flex items-start gap-3 hover:bg-slate-50 transition-colors">
-                                <span class="text-xs font-bold text-slate-400 mt-0.5 flex-shrink-0 w-5" x-text="thesis.id"></span>
+                        <div class="border border-stone-200 rounded-lg overflow-hidden">
+                            <button @click="expandedThesis = expandedThesis === thesis.id ? null : thesis.id" class="w-full text-left p-4 flex items-start gap-3 hover:bg-stone-50 transition-colors">
+                                <span class="text-xs font-bold text-stone-400 mt-0.5 flex-shrink-0 w-5" x-text="thesis.id"></span>
                                 <div class="flex-1 min-w-0">
-                                    <div class="font-bold text-sm text-slate-900" x-text="thesis.short_title"></div>
+                                    <div class="font-bold text-sm text-stone-900" x-text="thesis.short_title"></div>
                                     <div class="flex flex-wrap gap-1.5 mt-1.5">
-                                        <span class="px-2 py-0.5 bg-blue-50 text-blue-700 text-[10px] font-semibold rounded" x-text="thesis.topic"></span>
-                                        <span class="px-2 py-0.5 bg-orange-50 text-orange-700 text-[10px] font-bold rounded border border-orange-100" x-text="thesis.tradeoff"></span>
+                                        <span class="px-2 py-0.5 bg-stone-100 text-stone-600 text-[10px] font-semibold rounded" x-text="thesis.topic"></span>
+                                        <span class="px-2 py-0.5 bg-coral/10 text-coral-text text-[10px] font-bold rounded border border-coral/20" x-text="thesis.tradeoff"></span>
                                     </div>
                                 </div>
-                                <svg aria-hidden="true" class="w-4 h-4 text-slate-400 flex-shrink-0 mt-1 transition-transform" :class="expandedThesis === thesis.id ? 'rotate-90' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                <svg aria-hidden="true" class="w-4 h-4 text-stone-400 flex-shrink-0 mt-1 transition-transform" :class="expandedThesis === thesis.id ? 'rotate-90' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                             </button>
-                            <div x-show="expandedThesis === thesis.id" x-transition.opacity class="px-4 pb-4 pt-0 ml-8 space-y-2 text-sm text-slate-600">
-                                <p class="font-medium text-slate-800" x-text="thesis.statement"></p>
-                                <p class="text-slate-500 leading-relaxed" x-text="thesis.background"></p>
+                            <div x-show="expandedThesis === thesis.id" x-transition.opacity class="px-4 pb-4 pt-0 ml-8 space-y-2 text-sm text-stone-600">
+                                <p class="font-medium text-stone-800" x-text="thesis.statement"></p>
+                                <p class="text-stone-500 leading-relaxed" x-text="thesis.background"></p>
                             </div>
                         </div>
                     </template>
                 </div>
             </div>
 
-            <!-- Section 8: Stichwahl-Guide -->
-            <div class="bg-orange-50 border border-orange-200 p-6 md:p-8 rounded-xl leading-relaxed text-slate-800">
-                <h2 class="text-lg font-bold text-slate-900 mb-2 flex items-center gap-2">
-                    <svg aria-hidden="true" class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    Stichwahl am 22. März
-                </h2>
-                <p class="text-sm text-slate-600 mb-4">Reiter oder Krause? Ein Guide in 4 Schritten: Kandidaten kennenlernen, Bilanz prüfen, Prioritäten setzen, Ergebnis sehen.</p>
-                <a href="index.html" class="flex items-center gap-3 bg-white border border-orange-200 rounded-lg px-4 py-3 hover:border-orange-400 hover:shadow-sm transition-all group">
-                    <span class="text-orange-500 group-hover:text-orange-600 flex-shrink-0">
-                        <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
-                    </span>
-                    <div>
-                        <div class="text-sm font-bold text-slate-900">Dein Stichwahl-Guide</div>
-                        <div class="text-xs text-slate-500">4 Schritte, ~12 Minuten, kein Tracking</div>
-                    </div>
-                </a>
-                <div class="mt-3 text-xs text-slate-500">
-                    <a href="methodik-check.html" class="text-blue-600 hover:underline">Methodik des München-Checks (Kano-Analyse) →</a>
-                </div>
+            <!-- Section 8: Archiv -->
+            <div class="card p-6 md:p-8 leading-relaxed text-stone-800">
+                <h2 class="text-lg font-bold text-stone-900 mb-2">Archiv: OB-Stichwahl 2026</h2>
+                <p class="text-sm text-stone-600 mb-3">Zur Stichwahl am 22. März 2026 gab es einen eigenen Prioritäten-Check. Die Methodik bleibt aus Transparenzgründen dokumentiert.</p>
+                <a href="methodik-check.html" class="text-sm text-coral-text hover:underline font-medium">Methodik des München-Checks (Kano-Analyse) →</a>
             </div>
 
             <!-- Section 9: Footer meta -->
-            <div class="text-center text-xs text-slate-400 pt-4">
+            <div class="text-center text-xs text-stone-400 pt-4">
                 Methodik zuletzt aktualisiert: 13. März 2026
             </div>
 
         </div>
     </main>
 
-    <footer class="text-center py-8 text-slate-400 text-sm" role="contentinfo">
+    <footer class="text-center py-8 text-stone-400 text-sm" role="contentinfo">
         <div class="flex items-center justify-center gap-4 flex-wrap">
-            <a href="impressum.html" class="hover:text-slate-600 transition-colors">Impressum</a>
-            <a href="datenschutz.html" class="hover:text-slate-600 transition-colors">Datenschutz</a>
-            <a href="https://paypal.me/frederikmetz" target="_blank" rel="noopener noreferrer" class="hover:text-slate-600 transition-colors">Unterstützen</a>
-            <a href="https://github.com/frederikmetz42/mucwahl.de" target="_blank" rel="noopener noreferrer" class="hover:text-slate-600 transition-colors" title="GitHub"><svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a>
+            <a href="impressum.html" class="hover:text-stone-600 transition-colors">Impressum</a>
+            <a href="datenschutz.html" class="hover:text-stone-600 transition-colors">Datenschutz</a>
+            <a href="https://paypal.me/frederikmetz" target="_blank" rel="noopener noreferrer" class="hover:text-stone-600 transition-colors">Unterstützen</a>
+            <a href="https://github.com/frederikmetz42/mucwahl.de" target="_blank" rel="noopener noreferrer" class="hover:text-stone-600 transition-colors" title="GitHub"><svg aria-hidden="true" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a>
         </div>
     </footer>
 

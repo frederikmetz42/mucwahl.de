@@ -9,7 +9,7 @@
 - **Changed:** Die gewählte Farbwelt bleibt nach Reload und auf Embed-, Methodik-, Schnellcheck-, Datenschutz- und Impressumsseiten erhalten
 - **Unchanged:** Partei-, Zustimmungs-, Ablehnungs- und sonstige semantische Farben bleiben unverändert
 - **Unchanged:** Quiz-, Gewichtungs-, Ergebnis-, Share- und Civic-Pulse-Logik bleiben erhalten
-- **Status:** Lokal implementiert und vollständig verifiziert; noch nicht committed oder deployed
+- **Status:** Als Commit `ba90dfd` deployed; GitHub Pages und Live-QA auf Desktop und Mobile erfolgreich
 
 ## v5.2 - 2026-07-13 - Integrierte Prioritätsduelle
 

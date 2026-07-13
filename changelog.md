@@ -1,5 +1,12 @@
 # Changelog
 
+## v5.3.1 - 2026-07-14 - Safari-Cache-Hotfix
+
+- **Fixed:** Neuer CSS-Cache-Key `v5.3.1` auf allen acht öffentlichen Seiten verhindert, dass Safari neues Icon-Markup mit dem alten v5.3-Stylesheet kombiniert und nur eine weiße Schaltfläche zeigt
+- **Changed:** Release-Metadaten von Hauptseite, Mirror und Embed auf v5.3.1 angehoben
+- **Unchanged:** Dreifarb-Kreis, Fünfer-Picker, Mineralblau-Default, Mobile-Menü, Persistenz und Quizlogik bleiben unverändert
+- **Status:** Hotfix für Produktion ausgerollt; deterministischer Cache-Repro und Live-QA erfolgreich
+
 ## v5.3 - 2026-07-13 - Wählbare Farbwelten
 
 - **Added:** Fünf persistente Farbwelten: Coral, Mineralblau, Graphit und Eis, Iris sowie Oxid
